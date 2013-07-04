@@ -3,6 +3,7 @@ goog.require('lime.Label');
 
 chemistry.RollerCounter = function() {
 	lime.Label.call(this);
+	this.setFontSize(50);
 	this.setText('0');
 	this.targetScore = 0;
 	this.currentScore = 0;
