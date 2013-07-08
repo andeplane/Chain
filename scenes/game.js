@@ -89,7 +89,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 		if(this.nextMolecule != null) {
 			lane.addMolecule(this.nextMolecule);
 			var x = lane.getPosition().x + lane.getSize().width / 2.0;
-			this.nextMolecule.setPosition(x, 0);
+			this.nextMolecule.setPosition(x, this.getSize().height / 8);
 			
 			this.addMolecule(this.nextMolecule);
 

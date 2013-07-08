@@ -11,7 +11,6 @@ chemistry.NextMolecule = function(width, height) {
 	this.addBackground(width, height);
 	this.addTimeLeftBar(width, height);
 	this.addMoleculeSprite(width, height);
-	
 }
 goog.inherits(chemistry.NextMolecule, lime.Node);
 
@@ -35,6 +34,7 @@ chemistry.NextMolecule.prototype.addTimeLeftBar = function(width, height) {
 chemistry.NextMolecule.prototype.addMoleculeSprite = function(width, height) {
 	this.moleculeSprite = new lime.Sprite();
 	this.moleculeSprite.setFill("#fff");
+	this.moleculeSprite.setSize(250,250);
 	this.moleculeSprite.setPosition(-width/2.0,height/2.0);
 	this.appendChild(this.moleculeSprite);
 }
