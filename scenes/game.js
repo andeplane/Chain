@@ -65,7 +65,11 @@ chemistry.Game.prototype.addLanes = function(width, height, numLanes) {
 	}
 }
 
-var data = {chainLength: 4, numBranches: 1, numFunctionalGroups: 0, imageFile: "images/molecules/test.png?"+goog.math.randomInt(10000)};
+var molecules = [{chainLength: 4, numBranches: 1, numFunctionalGroups: 0, imageFile: "images/molecules/test.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 3, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test2.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test3.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test4.png?"+goog.math.randomInt(10000)}
+				];
 
 chemistry.Game.prototype.updateNextMolecule = function(dt) {
 	this.timeToNextMolecule -= dt;
@@ -106,6 +110,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
             });
         }
 
+		var data = molecules[goog.math.randomInt(molecules.length)];
 		this.nextMolecule = new chemistry.Molecule(data);
 		this.nextMolecule.velocity = 0.2*this.difficulty;
 		var size = this.nextMolecule.getSize();
