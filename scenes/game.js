@@ -85,7 +85,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 				var currentLane = self.getLaneFromPosition(target.getPosition());
 				currentLane.increaseHighlight();
 
-				var xDiff = e.screenPosition.x-target.getPosition().x;
+                var xDiff = e.screenPosition.x-target.getPosition().x;
 				//listen for end event
 		        e.swallow(['mouseup','touchend'],function(){
 		        	currentLane.decreaseHighlight();
@@ -95,7 +95,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 		        e.swallow(['mousemove','touchmove'],function(ev){
 		        	target.setPosition(ev.screenPosition.x - xDiff, target.getPosition().y);
 		        	var newLane = self.getLaneFromPosition(target.getPosition());
-		        	if(newLane != currentLane) {
+                    if(newLane !== currentLane) {
 		        		currentLane.removeMolecule(target);
 		        		currentLane.decreaseHighlight();
 		        		newLane.addMolecule(target);
@@ -103,8 +103,8 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 		        		currentLane = newLane;
 		        	}
 		        });
-		    });
-		}
+            });
+        }
 
 		this.nextMolecule = new chemistry.Molecule(data);
 		this.nextMolecule.velocity = 0.2*this.difficulty;
