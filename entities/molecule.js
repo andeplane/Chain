@@ -5,6 +5,7 @@ goog.require('goog.math');
 chemistry.Molecule = function(data) {
 	lime.Sprite.call(this);
 
+	this.data = data;
 	this.setFill(data.imageFile);
 	// setScale(-1,1) works as flipY
 	if(goog.math.randomInt(2) % 2 == 0) this.setScale(-1,1);
