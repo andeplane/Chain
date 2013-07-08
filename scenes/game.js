@@ -14,6 +14,7 @@ chemistry.Game = function(width, height, difficulty) {
 	lime.Scene.call(this);
 	this.setSize(width, height);
 
+	this.t 	   = 0;
 	this.score = 0;
 	this.hp    = 50;
 	this.difficulty = difficulty;
@@ -123,12 +124,12 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 
 		var data = molecules[goog.math.randomInt(molecules.length)];
 		this.nextMolecule = new chemistry.Molecule(data);
-		this.nextMolecule.velocity = 0.2*this.difficulty;
+		this.nextMolecule.velocity = 0.2*this.difficulty*Math.log(0.0001*this.t+Math.exp(1));
 		var size = this.nextMolecule.getSize();
 		var maxSize = Math.max(size.width, size.height);
 		var scale = lane.getSize().width / maxSize * 0.9;
 		this.nextMolecule.setScale(scale,scale)
-        this.timeToNextMolecule = 2000/(this.difficulty*0.7);
+        this.timeToNextMolecule = 2000/(this.difficulty*0.7*Math.log(0.0001*this.t+Math.exp(1)));
 		this.hud.nextMolecule.newMolecule(this.nextMolecule, this.timeToNextMolecule);
 	}	
 };
@@ -158,6 +159,7 @@ chemistry.Game.prototype.tick = function(dt) {
 	this.hud.tick(dt);
 	this.updateNextMolecule(dt);
 	if(this.hp <= 0) this.end();
+	this.t += dt;
 };
 
 chemistry.Game.prototype.addScore = function(value) {
@@ -179,17 +181,20 @@ chemistry.Game.prototype.end = function() {
 }
 
 chemistry.Game.prototype.clickedTargetBox = function(boxIndex) {
+	var molecule;
 	if(this.molecules.length == 0) {
-		this.addHP(-10);
-		return false;
+		molecule = this.nextMolecule;
+		this.timeToNextMolecule = 0;
+		this.nextMolecule = null;
+	} else {
+		molecule = this.molecules[0];
+		var currentLane = this.getLaneFromPosition(molecule.getPosition());
+
+		currentLane.removeMolecule(molecule);
+		this.removeMolecule(molecule);
 	}
 
-	var molecule = this.molecules[0];
 	var clickedLane = this.lanes[boxIndex];
-	var currentLane = this.getLaneFromPosition(molecule.getPosition());
-
-	currentLane.removeMolecule(molecule);
-	this.removeMolecule(molecule);
 
 	if(clickedLane.chainLength == molecule.chainLength) {
 		var multiplier = (clickedLane.targetBox.getPosition().y - molecule.getPosition().y)*3 / clickedLane.getSize().height;
