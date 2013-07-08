@@ -128,7 +128,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 		var maxSize = Math.max(size.width, size.height);
 		var scale = lane.getSize().width / maxSize * 0.9;
 		this.nextMolecule.setScale(scale,scale)
-        this.timeToNextMolecule = 200;
+        this.timeToNextMolecule = 2000/(this.difficulty*0.7);
 		this.hud.nextMolecule.newMolecule(this.nextMolecule, this.timeToNextMolecule);
 	}	
 };
