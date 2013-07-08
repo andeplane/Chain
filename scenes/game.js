@@ -16,6 +16,8 @@ chemistry.Game = function(width, height, difficulty) {
 
 	this.score = 0;
 	this.hp    = 50;
+	this.difficulty = difficulty;
+	this.molecules = [];
 
 	this.addBackground(width, height);
 	this.addLanes(width, height, 4);
@@ -74,7 +76,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 			var x = lane.getPosition().x + lane.getSize().width / 2.0;
 			this.nextMolecule.setPosition(x, 0);
 			
-			this.moleculeLayer.appendChild(this.nextMolecule);
+			this.addMolecule(this.nextMolecule);
 
 			var target = this.nextMolecule;
 			var self = this;
@@ -105,7 +107,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 		}
 
 		this.nextMolecule = new chemistry.Molecule(data);
-		this.nextMolecule.velocity = 0.2;
+		this.nextMolecule.velocity = 0.2*this.difficulty;
 		var size = this.nextMolecule.getSize();
 		var maxSize = Math.max(size.width, size.height);
 		var scale = lane.getSize().width / maxSize * 0.9;
@@ -115,8 +117,15 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 	}	
 };
 
+chemistry.Game.prototype.addMolecule = function(molecule) {
+	this.moleculeLayer.appendChild(molecule);
+	this.molecules.push(molecule);
+}
+
 chemistry.Game.prototype.removeMolecule = function(molecule) {
 	this.moleculeLayer.removeChild(molecule);
+	var index = this.molecules.indexOf(molecule);
+	this.molecules.splice(index, 1);
 }
 
 chemistry.Game.prototype.getLaneFromPosition = function(position) {
@@ -132,10 +141,11 @@ chemistry.Game.prototype.tick = function(dt) {
 	}
 	this.hud.tick(dt);
 	this.updateNextMolecule(dt);
+	if(this.hp <= 0) this.end();
 };
 
 chemistry.Game.prototype.addScore = function(value) {
-	this.score += value;
+	this.score += value*this.difficulty;
 }
 
 chemistry.Game.prototype.addHP = function(value) {
@@ -145,5 +155,41 @@ chemistry.Game.prototype.addHP = function(value) {
 	console.log(this.hp);
 
 	this.hud.lifebar.setHP(this.hp);
-
 }
+
+chemistry.Game.prototype.end = function() {
+	lime.scheduleManager.unschedule(this.tick, this);
+	appObject.endGame();
+}
+
+chemistry.Game.prototype.clickedTargetBox = function(boxIndex) {
+	if(this.molecules.length == 0) {
+		this.addHP(-10);
+		return false;
+	}
+
+	var molecule = this.molecules[0];
+	var clickedLane = this.lanes[boxIndex];
+	var currentLane = this.getLaneFromPosition(molecule.getPosition());
+
+	currentLane.removeMolecule(molecule);
+	this.removeMolecule(molecule);
+
+	if(clickedLane.chainLength == molecule.chainLength) {
+		var multiplier = (clickedLane.targetBox.getPosition().y - molecule.getPosition().y)*3 / clickedLane.getSize().height;
+		multiplier = multiplier<0 ? 0 : multiplier;
+
+		var score = (1 + multiplier)*molecule.score;
+		this.addScore(score);
+		this.addHP(5);
+		return true;
+	} else {
+		// Wrong, decrease life
+		this.addHP(-10);
+		return false;
+	}
+}
+
+
+
+

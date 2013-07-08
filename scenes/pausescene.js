@@ -16,10 +16,14 @@ chemistry.scenes.PauseScene = function() {
 	this.appendChild(this.exitButton);
 
 	goog.events.listen(this.resumeButton, ['mousedown','touchstart'], this.resumeButtonClicked);
-	// goog.events.listen(this.exitButton, ['mousedown','touchstart'], appObject.game.end);
+	goog.events.listen(this.exitButton, ['mousedown','touchstart'], this.returnToMenuButtonClicked);
 };
 goog.inherits(chemistry.scenes.PauseScene, lime.helper.PauseScene);
 
 chemistry.scenes.PauseScene.prototype.resumeButtonClicked = function(e) {
 	appObject.unpause();
+}
+
+chemistry.scenes.PauseScene.prototype.returnToMenuButtonClicked = function(e) {
+	appObject.game.end();
 }

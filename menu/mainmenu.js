@@ -25,11 +25,11 @@ chemistry.MainMenu = function() {
 goog.inherits(chemistry.MainMenu, lime.Scene)
 
 chemistry.MainMenu.prototype.easyButtonClicked = function(e) {
-	appObject.newGame("easy");
+	appObject.newGame(1);
 }
 chemistry.MainMenu.prototype.mediumButtonClicked = function(e) {
-	appObject.newGame("medium");
+	appObject.newGame(2);
 }
 chemistry.MainMenu.prototype.hardButtonClicked = function(e) {
-	appObject.newGame("hard");
+	appObject.newGame(3);
 }

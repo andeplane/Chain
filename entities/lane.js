@@ -14,22 +14,36 @@ chemistry.Lane = function(width, height, number) {
 	this.number = number;
 	this.chainLength = number+3; // TODO REMOVE ME
 	this.numHighlight = 0;
+	this.currentAction = null;
+	this.setAnchorPoint(0,0);
 
+	this.addHighlightSprite(width, height);
+	this.addTargetBox(width, height);
+}
+goog.inherits(chemistry.Lane, lime.Node);
+
+chemistry.Lane.prototype.addHighlightSprite = function(width, height) {
 	this.highlightSprite = new lime.Sprite();
 	this.appendChild(this.highlightSprite);
 	this.highlightSprite.setSize(width,height);
 	this.highlightSprite.setAnchorPoint(0,0);
 	this.highlightSprite.setFill("#fff");
 	this.highlightSprite.setOpacity(0);
-	this.currentAction = null;
+}
 
+chemistry.Lane.prototype.addTargetBox = function(width, height) {
 	var goldenRatioInverse = 1/1.618;
-	this.targetBox = new chemistry.TargetBox(width, width*goldenRatioInverse, number);
-	this.setAnchorPoint(0,0);
+	this.targetBox = new chemistry.TargetBox(width, width*goldenRatioInverse, this.number);
+	this.targetBox.setAnchorPoint(0,0);
 	this.targetBox.setPosition(0,height-goldenRatioInverse*width);
 	this.appendChild(this.targetBox);
+
+	var self = this;
+	goog.events.listen(this.targetBox,['mousedown','touchstart'], function(e) {
+		var correctAnswer = appObject.game.clickedTargetBox(self.number);
+		self.targetBox.highlight(correctAnswer);
+    });
 }
-goog.inherits(chemistry.Lane, lime.Node);
 
 chemistry.Lane.prototype.addMolecule = function(molecule) {
 	this.molecules.push(molecule);
@@ -55,10 +69,8 @@ chemistry.Lane.prototype.processMolecules = function(dt) {
 		molecule.tick(dt);
 		if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
 			if(this.chainLength == molecule.chainLength) {
-				console.log("YES, SCORE!");
 				// Correct, give score and increase life
-				var multiplier = (this.targetBox.getPosition().y - molecule.getPosition().y)*3 / this.getSize().height;
-				multiplier = multiplier<0 ? 0 : multiplier;
+				multiplier = 0;
 
 				var score = (1 + multiplier)*molecule.score;
 				appObject.game.addScore(score);

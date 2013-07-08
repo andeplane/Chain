@@ -2,18 +2,39 @@ goog.provide('chemistry.TargetBox');
 
 goog.require('lime.Node');
 goog.require('lime.Sprite');
+goog.require('lime.animation.Sequence');
+goog.require('lime.animation.FadeTo');
 
 chemistry.TargetBox = function(width, height, number) {
 	lime.Node.call(this);
 	this.setSize(width, height);
 	this.number = number;
 
-	var colors = ["#fea", "#29f", "#00f", "#ab0"];
+	var colors = ["#eee", "#ddd", "#eee", "#ddd"];
+	
 	var colorLayer = new lime.Sprite();
 	colorLayer.setAnchorPoint(0,0);
-	colorLayer.setSize(this.getSize().width, this.getSize().height);
-	colorLayer.setAutoResize(lime.AutoResize.WIDTH | lime.AutoResize.HEIGHT);
+	colorLayer.setSize(width, height);
 	colorLayer.setFill(colors[number]);
 	this.appendChild(colorLayer);
+
+	this.highlightLayer = new lime.Sprite();
+	this.highlightLayer.setAnchorPoint(0,0);
+	this.highlightLayer.setSize(width, height);
+	this.highlightLayer.setFill("#fff");
+	this.highlightLayer.setOpacity(0);
+	this.appendChild(this.highlightLayer);
 }
 goog.inherits(chemistry.TargetBox, lime.Node);
+
+chemistry.TargetBox.prototype.highlight = function(correctAnswer) {
+	if(correctAnswer) {
+		this.highlightLayer.setFill("#0f0");
+	} else {
+		this.highlightLayer.setFill("#f00");
+	}
+	this.highlightLayer.runAction(new lime.animation.Sequence(
+		new lime.animation.FadeTo(0.3).setDuration(0.1),
+		new lime.animation.FadeTo(0).setDuration(0.3)
+		));
+}

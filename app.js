@@ -37,3 +37,9 @@ app.prototype.newGame = function(difficulty) {
 	this.game = new chemistry.Game(this.screenWidth, this.screenHeight, difficulty);
 	this.director.replaceScene(this.game);
 }
+
+app.prototype.endGame = function() {
+	this.director.replaceScene(this.mainMenu);
+	this.game = null;
+	lime.updateDirtyObjects();
+}
