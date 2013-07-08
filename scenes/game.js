@@ -68,7 +68,18 @@ chemistry.Game.prototype.addLanes = function(width, height, numLanes) {
 var molecules = [{chainLength: 4, numBranches: 1, numFunctionalGroups: 0, imageFile: "images/molecules/test.png?"+goog.math.randomInt(10000)},
 				 {chainLength: 3, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test2.png?"+goog.math.randomInt(10000)},
 				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test3.png?"+goog.math.randomInt(10000)},
-				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test4.png?"+goog.math.randomInt(10000)}
+				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test4.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 6, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test5.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 6, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test6.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 6, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test7.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test8.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test9.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 3, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test10.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 3, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test11.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 3, numBranches: 1, numFunctionalGroups: 0, imageFile: "images/molecules/test12.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 4, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test13.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 3, numBranches: 1, numFunctionalGroups: 0, imageFile: "images/molecules/test14.png?"+goog.math.randomInt(10000)},
+				 {chainLength: 4, numBranches: 0, numFunctionalGroups: 0, imageFile: "images/molecules/test15.png?"+goog.math.randomInt(10000)}
 				];
 
 chemistry.Game.prototype.updateNextMolecule = function(dt) {
