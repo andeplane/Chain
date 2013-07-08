@@ -33,7 +33,7 @@ chemistry.Lane.prototype.addHighlightSprite = function(width, height) {
 
 chemistry.Lane.prototype.addTargetBox = function(width, height) {
 	var goldenRatioInverse = 1/1.618;
-	this.targetBox = new chemistry.TargetBox(width, width*goldenRatioInverse, this.number);
+    this.targetBox = new chemistry.TargetBox(width, width*goldenRatioInverse, this.number, this.chainLength);
 	this.targetBox.setAnchorPoint(0,0);
 	this.targetBox.setPosition(0,height-goldenRatioInverse*width);
 	this.appendChild(this.targetBox);
