@@ -34,7 +34,7 @@ chemistry.NextMolecule.prototype.addTimeLeftBar = function(width, height) {
 
 chemistry.NextMolecule.prototype.addMoleculeSprite = function(width, height) {
 	this.moleculeSprite = new lime.Sprite();
-	this.moleculeSprite.setSize(width, height);
+	this.moleculeSprite.setFill("#fff");
 	this.moleculeSprite.setPosition(-width/2.0,height/2.0);
 	this.appendChild(this.moleculeSprite);
 }
@@ -43,10 +43,13 @@ chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
 	this.timeLeftBar.setScale(1,1);
 	var scaleAction = new lime.animation.ScaleTo(0,1).setDuration(timeToNext/1000.0).setEasing(lime.animation.Easing.EASEIN); // setDuration takes seconds as unit of time
 	this.timeLeftBar.runAction(scaleAction);
-
 	this.moleculeSprite.setFill(molecule.data.imageFile);
 	this.moleculeSprite.setRotation(molecule.getRotation());
-	this.moleculeSprite.setScale(molecule.getScale());
+
+	var size = this.moleculeSprite.getSize();
+	var maxSize = Math.max(size.width, size.height);
+	var scale = this.getSize().width / maxSize * 0.8;
+	this.moleculeSprite.setScale(scale,scale);
 }
 
 chemistry.NextMolecule.prototype.tick = function(dt) {

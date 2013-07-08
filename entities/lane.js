@@ -1,7 +1,10 @@
 goog.provide('chemistry.Lane');
 goog.require('chemistry.TargetBox');
 
+goog.require('lime.Sprite');
 goog.require('lime.Node');
+goog.require('lime.animation.FadeTo');
+goog.require('lime.animation.actionManager');
 
 chemistry.Lane = function(width, height, number) {
 	lime.Node.call(this);
@@ -9,11 +12,22 @@ chemistry.Lane = function(width, height, number) {
 
 	this.molecules = [];
 	this.number = number;
-	this.targetBox = new chemistry.TargetBox(width, width, number);
-	this.setAnchorPoint(0,0);
-	this.targetBox.setPosition(0,height-width);
-	this.appendChild(this.targetBox);
+	this.correctNumChains = number+3; // TODO REMOVE ME
+	this.numHighlight = 0;
 
+	this.highlightSprite = new lime.Sprite();
+	this.appendChild(this.highlightSprite);
+	this.highlightSprite.setSize(width,height);
+	this.highlightSprite.setAnchorPoint(0,0);
+	this.highlightSprite.setFill("#fff");
+	this.highlightSprite.setOpacity(0);
+	this.currentAction = null;
+
+	var goldenRatioInverse = 1/1.618;
+	this.targetBox = new chemistry.TargetBox(width, width*goldenRatioInverse, number);
+	this.setAnchorPoint(0,0);
+	this.targetBox.setPosition(0,height-goldenRatioInverse*width);
+	this.appendChild(this.targetBox);
 }
 goog.inherits(chemistry.Lane, lime.Node);
 
@@ -35,4 +49,22 @@ chemistry.Lane.prototype.tick = function(dt) {
 		var molecule = this.molecules[i];
 		molecule.tick(dt);
 	}
+}
+
+chemistry.Lane.prototype.increaseHighlight = function() {
+	this.numHighlight += 1;
+	this.refreshHighlight();
+}
+
+chemistry.Lane.prototype.decreaseHighlight = function() {
+	this.numHighlight -= 1;
+	this.refreshHighlight();
+}
+
+chemistry.Lane.prototype.refreshHighlight = function() {
+	if(this.currentAction) this.currentAction.stop();
+
+	this.currentAction = new lime.animation.FadeTo(0.2*this.numHighlight);
+	this.currentAction.setDuration(0.3);
+	this.highlightSprite.runAction(this.currentAction);
 }

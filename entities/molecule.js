@@ -6,10 +6,9 @@ chemistry.Molecule = function(data) {
 	lime.Sprite.call(this);
 
 	this.data = data;
+	this.setSize(250,250); // TODO REMOVE ME!!!
 	this.setFill(data.imageFile);
-	// setScale(-1,1) works as flipY
-	if(goog.math.randomInt(2) % 2 == 0) this.setScale(-1,1);
-	// Also rotate by n*90 degrees for more variations
+	// Rotate by n*90 degrees for more variations
 	var rnd = goog.math.randomInt(4);
 	this.setRotation(90*rnd);
 	
