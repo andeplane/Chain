@@ -11,7 +11,6 @@ chemistry.NextMolecule = function(width, height) {
 	colorLayer.setAnchorPoint(0,0);
 	colorLayer.setPosition(-width,0);
 	colorLayer.setSize(width, height);
-	colorLayer.setAutoResize(lime.AutoResize.WIDTH | lime.AutoResize.HEIGHT);
 	colorLayer.setFill("#afa");
 	this.appendChild(colorLayer);
 }

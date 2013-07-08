@@ -18,5 +18,19 @@ chemistry.MainMenu = function() {
 	this.appendChild(easy);
 	this.appendChild(medium);
 	this.appendChild(hard);
+
+	goog.events.listen(easy, ['mousedown','touchstart'], this.easyButtonClicked);
+	goog.events.listen(medium, ['mousedown','touchstart'], this.mediumButtonClicked);
+	goog.events.listen(hard, ['mousedown','touchstart'], this.hardButtonClicked);
 }
 goog.inherits(chemistry.MainMenu, lime.Scene)
+
+chemistry.MainMenu.prototype.easyButtonClicked = function(e) {
+	appObject.newGame("easy");
+}
+chemistry.MainMenu.prototype.mediumButtonClicked = function(e) {
+	appObject.newGame("medium");
+}
+chemistry.MainMenu.prototype.hardButtonClicked = function(e) {
+	appObject.newGame("hard");
+}
