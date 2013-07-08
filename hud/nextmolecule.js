@@ -15,3 +15,7 @@ chemistry.NextMolecule = function(width, height) {
 	this.appendChild(colorLayer);
 }
 goog.inherits(chemistry.NextMolecule, lime.Node);
+
+chemistry.NextMolecule.prototype.tick = function(dt) {
+	// TODO: Add things
+}

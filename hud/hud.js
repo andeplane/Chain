@@ -47,6 +47,11 @@ chemistry.Hud = function(width, height) {
 }
 goog.inherits(chemistry.Hud, lime.Layer);
 
+chemistry.Hud.prototype.tick = function(dt) {
+	this.rollerCounter.tick(dt);
+	this.nextMolecule.tick(dt);
+}
+
 chemistry.Hud.prototype.pauseButtonClicked = function(e) {
 	appObject.pause();
 };

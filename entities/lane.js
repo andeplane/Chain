@@ -1,4 +1,6 @@
 goog.provide('chemistry.Lane');
+goog.require('chemistry.TargetBox');
+
 goog.require('lime.Node');
 
 chemistry.Lane = function(width, height, number) {
@@ -7,6 +9,11 @@ chemistry.Lane = function(width, height, number) {
 
 	this.molecules = [];
 	this.number = number;
+	this.targetBox = new chemistry.TargetBox(width, width, number);
+	this.setAnchorPoint(0,0);
+	this.targetBox.setPosition(0,height-width);
+	this.appendChild(this.targetBox);
+
 }
 goog.inherits(chemistry.Lane, lime.Node);
 

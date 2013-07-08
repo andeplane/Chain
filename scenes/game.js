@@ -15,19 +15,19 @@ chemistry.Game = function(width, height, difficulty) {
 	colorLayer.setFill("#fbc");
 	this.appendChild(colorLayer);
 
+	var numLanes = 4;
 	this.lanes = [];
-	this.lanes.push(new chemistry.Lane(width/2.0, height, 0));
-	this.lanes[0].setAnchorPoint(0,0);
-	this.lanes[0].setPosition(0,0);
+	for(var i=0; i<numLanes; i++) {
+		var lane = new chemistry.Lane(width/numLanes, height, i);
+		lane.setAnchorPoint(0,0);
+		lane.setPosition(width/numLanes*i,0);
 
-	this.lanes.push(new chemistry.Lane(width/2.0, height, 1));
-	this.lanes[1].setAnchorPoint(0,0);
-	this.lanes[1].setPosition(width/2.0,0);
-
+		this.lanes.push(lane);
+		this.appendChild(lane);
+	}
+	
 	this.hud = new chemistry.Hud(appObject.screenWidth, appObject.screenWidth/4.0);
 	this.appendChild(this.hud);
-
-	
 
 	var data = {chainLength: 4, numBranches: 1, numFunctionalGroups: 0, imageFile: "images/molecules/test.png"};
 	var molecule = new chemistry.Molecule(data);
@@ -44,4 +44,5 @@ chemistry.Game.prototype.tick = function(dt) {
 		var lane = this.lanes[i];
 		lane.tick(dt);
 	}
+	this.hud.tick(dt);
 };
