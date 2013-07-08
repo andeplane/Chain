@@ -28,7 +28,7 @@ chemistry.Game = function(width, height, difficulty) {
 	this.hud.lifebar.setHP(this.hp);
 
 	this.nextMolecule = null;
-	this.timeToNextMolecule = 0;
+    this.timeToNextMolecule = 0;
 	
 	lime.scheduleManager.schedule(this.tick, this);
 }
