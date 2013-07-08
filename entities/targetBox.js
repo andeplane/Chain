@@ -5,7 +5,7 @@ goog.require('lime.Sprite');
 goog.require('lime.animation.Sequence');
 goog.require('lime.animation.FadeTo');
 
-chemistry.TargetBox = function(width, height, number) {
+chemistry.TargetBox = function(width, height, number, chainLength) {
 	lime.Node.call(this);
 	this.setSize(width, height);
 	this.number = number;
@@ -17,6 +17,11 @@ chemistry.TargetBox = function(width, height, number) {
 	colorLayer.setSize(width, height);
 	colorLayer.setFill(colors[number]);
 	this.appendChild(colorLayer);
+
+    var numberLabel = new lime.Label(chainLength);
+    numberLabel.setPosition(width/2, height/2);
+    numberLabel.setFontSize(width/6);
+    this.appendChild(numberLabel);
 
 	this.highlightLayer = new lime.Sprite();
 	this.highlightLayer.setAnchorPoint(0,0);
