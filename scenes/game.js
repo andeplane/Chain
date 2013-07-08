@@ -15,6 +15,7 @@ chemistry.Game = function(width, height, difficulty) {
 	this.setSize(width, height);
 
 	this.score = 0;
+	this.hp    = 50;
 
 	this.addBackground(width, height);
 	this.addLanes(width, height, 4);
@@ -22,6 +23,8 @@ chemistry.Game = function(width, height, difficulty) {
 
 	this.hud = new chemistry.Hud(appObject.screenWidth, appObject.screenWidth/4.0);
 	this.appendChild(this.hud,1000);
+	this.hud.lifebar.setHP(this.hp);
+
 	this.nextMolecule = null;
 	this.timeToNextMolecule = 0;
 	
@@ -77,20 +80,23 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 			var self = this;
 
 			goog.events.listen(target,['mousedown','touchstart'], function(e) {
-				var currentLane = self.getLaneFromPosition(e.target.getPosition());
+				var currentLane = self.getLaneFromPosition(target.getPosition());
 				currentLane.increaseHighlight();
 
-				var xDiff = e.screenPosition.x-e.target.getPosition().x;
+				var xDiff = e.screenPosition.x-target.getPosition().x;
 				//listen for end event
 		        e.swallow(['mouseup','touchend'],function(){
 		        	currentLane.decreaseHighlight();
+		        	target.setPosition(currentLane.getPosition().x + currentLane.getSize().width / 2.0, target.getPosition().y);
 		        });
 
 		        e.swallow(['mousemove','touchmove'],function(ev){
-		        	e.target.setPosition(ev.screenPosition.x - xDiff, e.target.getPosition().y);
-		        	var newLane = self.getLaneFromPosition(e.target.getPosition());
+		        	target.setPosition(ev.screenPosition.x - xDiff, target.getPosition().y);
+		        	var newLane = self.getLaneFromPosition(target.getPosition());
 		        	if(newLane != currentLane) {
+		        		currentLane.removeMolecule(target);
 		        		currentLane.decreaseHighlight();
+		        		newLane.addMolecule(target);
 		        		newLane.increaseHighlight();
 		        		currentLane = newLane;
 		        	}
@@ -99,7 +105,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 		}
 
 		this.nextMolecule = new chemistry.Molecule(data);
-		this.nextMolecule.velocity = 0.05;
+		this.nextMolecule.velocity = 0.2;
 		var size = this.nextMolecule.getSize();
 		var maxSize = Math.max(size.width, size.height);
 		var scale = lane.getSize().width / maxSize * 0.9;
@@ -109,9 +115,12 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 	}	
 };
 
+chemistry.Game.prototype.removeMolecule = function(molecule) {
+	this.moleculeLayer.removeChild(molecule);
+}
+
 chemistry.Game.prototype.getLaneFromPosition = function(position) {
 	var laneIndex = parseInt(position.x/this.getSize().width*this.lanes.length);
-	console.log("Index: "+laneIndex);
 	return this.lanes[laneIndex];
 }
 
@@ -124,3 +133,17 @@ chemistry.Game.prototype.tick = function(dt) {
 	this.hud.tick(dt);
 	this.updateNextMolecule(dt);
 };
+
+chemistry.Game.prototype.addScore = function(value) {
+	this.score += value;
+}
+
+chemistry.Game.prototype.addHP = function(value) {
+	this.hp += value;
+	this.hp = Math.min(this.hp,100);
+	this.hp = Math.max(this.hp,0);
+	console.log(this.hp);
+
+	this.hud.lifebar.setHP(this.hp);
+
+}

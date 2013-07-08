@@ -12,7 +12,7 @@ chemistry.Lane = function(width, height, number) {
 
 	this.molecules = [];
 	this.number = number;
-	this.correctNumChains = number+3; // TODO REMOVE ME
+	this.chainLength = number+3; // TODO REMOVE ME
 	this.numHighlight = 0;
 
 	this.highlightSprite = new lime.Sprite();
@@ -45,9 +45,37 @@ chemistry.Lane.prototype.removeMolecule = function(molecule) {
 }
 
 chemistry.Lane.prototype.tick = function(dt) {
+	this.processMolecules(dt);
+}
+
+chemistry.Lane.prototype.processMolecules = function(dt) {
+	var moleculesToBeRemoved = [];
 	for(var i in this.molecules) {
 		var molecule = this.molecules[i];
 		molecule.tick(dt);
+		if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
+			if(this.chainLength == molecule.chainLength) {
+				console.log("YES, SCORE!");
+				// Correct, give score and increase life
+				var multiplier = (this.targetBox.getPosition().y - molecule.getPosition().y)*3 / this.getSize().height;
+				multiplier = multiplier<0 ? 0 : multiplier;
+
+				var score = (1 + multiplier)*molecule.score;
+				appObject.game.addScore(score);
+				appObject.game.addHP(5);
+			} else {
+				// Wrong, decrease life
+				appObject.game.addHP(-10);
+			}
+
+			moleculesToBeRemoved.push(molecule);
+		}
+	}
+
+	for(var i in moleculesToBeRemoved) {
+		var molecule = moleculesToBeRemoved[i];
+		this.removeMolecule(molecule);
+		appObject.game.removeMolecule(molecule);
 	}
 }
 

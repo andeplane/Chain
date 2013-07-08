@@ -4,7 +4,6 @@ goog.require('lime.Node');
 goog.require('lime.Sprite');
 
 chemistry.TargetBox = function(width, height, number) {
-	console.log('balle'+number);
 	lime.Node.call(this);
 	this.setSize(width, height);
 	this.number = number;
