@@ -75,9 +75,11 @@ chemistry.Lane.prototype.processMolecules = function(dt) {
 				var score = (1 + multiplier)*molecule.score;
 				appObject.game.addScore(score);
 				appObject.game.addHP(5);
+                this.targetBox.highlight(true);
 			} else {
 				// Wrong, decrease life
 				appObject.game.addHP(-10);
+                this.targetBox.highlight(false);
 			}
 
 			moleculesToBeRemoved.push(molecule);
