@@ -12,6 +12,7 @@ chemistry.Molecule = function(data) {
 	var rnd = goog.math.randomInt(4);
 	this.setRotation(90*rnd);
 	this.currentAction = null;
+	this.isFalling	   = false;
 	
 	this.chainLength 		 = data.chainLength;
 	this.numBranches 		 = data.numBranches;

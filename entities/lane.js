@@ -40,8 +40,7 @@ chemistry.Lane.prototype.addTargetBox = function(width, height) {
 
 	var self = this;
 	goog.events.listen(this.targetBox,['mousedown','touchstart'], function(e) {
-		var correctAnswer = appObject.game.clickedTargetBox(self.number);
-		self.targetBox.highlight(correctAnswer);
+		appObject.game.clickedTargetBox(self.number);
     });
 }
 
@@ -68,20 +67,7 @@ chemistry.Lane.prototype.processMolecules = function(dt) {
 		var molecule = this.molecules[i];
 		molecule.tick(dt);
 		if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
-			if(this.chainLength == molecule.chainLength) {
-				// Correct, give score and increase life
-				multiplier = 0;
-
-				var score = (1 + multiplier)*molecule.score;
-				appObject.game.addScore(score);
-				appObject.game.addHP(5);
-                this.targetBox.highlight(true);
-			} else {
-				// Wrong, decrease life
-				appObject.game.addHP(-10);
-                this.targetBox.highlight(false);
-			}
-
+			appObject.game.finalizeMolecule(molecule, this);
 			moleculesToBeRemoved.push(molecule);
 		}
 	}
