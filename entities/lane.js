@@ -67,22 +67,9 @@ chemistry.Lane.prototype.processMolecules = function(dt) {
 	for(var i in this.molecules) {
 		var molecule = this.molecules[i];
 		molecule.tick(dt);
-		if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
-			if(this.chainLength == molecule.chainLength) {
-				// Correct, give score and increase life
-				multiplier = 0;
-
-				var score = (1 + multiplier)*molecule.score;
-				appObject.game.addScore(score);
-				appObject.game.addHP(5);
-                this.targetBox.highlight(true);
-			} else {
-				// Wrong, decrease life
-				appObject.game.addHP(-10);
-                this.targetBox.highlight(false);
-			}
-
-			moleculesToBeRemoved.push(molecule);
+        if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
+            goog.events.dispatchEvent(this, new chemistry.events.LaneEvent(chemistry.events.LaneEvent.MOLECULE_HIT_TARGET_BOX, this.number, molecule));
+            moleculesToBeRemoved.push(molecule);
 		}
 	}
 
