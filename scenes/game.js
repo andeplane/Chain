@@ -46,6 +46,8 @@ chemistry.Game.prototype.addHUD = function(width, height) {
     this.hud.lifebar.setHP(this.hp);
     goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.lifebar.enterFeverMode, false, this.hud.lifebar);
 	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.lifebar.exitFeverMode, false, this.hud.lifebar);
+	goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.rollerCounter.enterFeverMode, false, this.hud.rollerCounter);
+	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.rollerCounter.exitFeverMode, false, this.hud.rollerCounter);
 }
 
 chemistry.Game.prototype.addMarkerLayer = function(width, height) {
@@ -240,6 +242,7 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
 
     	for(var i=4; i>=2; i--) {
     		// Compare molecule position to multiplier marker i
+
     		var index = i-2; // The 2x multiplier is the 0th element in the array
     		var tmpMarker = this.markers[index];
     		if(y < tmpMarker.getPosition().y) {
@@ -259,9 +262,7 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
         lane.targetBox.highlight(true);
         this.addScore(score, molecule);
         this.addHP( this.level.getHP(true) );
-        if(marker) {
-        	marker.jump();
-        }
+        if(marker) { marker.jump(); }
     } else {
         // Wrong, decrease life
         lane.targetBox.highlight(false);
