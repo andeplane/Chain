@@ -39,9 +39,9 @@ chemistry.Lane.prototype.addTargetBox = function(width, height) {
 	this.appendChild(this.targetBox);
 
 	var self = this;
-	goog.events.listen(this.targetBox,['mousedown','touchstart'], function(e) {
-		appObject.game.clickedTargetBox(self.number);
-    });
+    goog.events.listen(this.targetBox,['mousedown','touchstart'], function(e) {
+        goog.events.dispatchEvent(this, new chemistry.events.LaneEvent(chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.number), null);
+    }, false, this);
 }
 
 chemistry.Lane.prototype.addMolecule = function(molecule) {

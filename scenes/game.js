@@ -73,6 +73,7 @@ chemistry.Game.prototype.addLanes = function(width, height, numLanes) {
         this.lanes.push(lane);
         this.appendChild(lane);
         goog.events.listen(lane, chemistry.events.LaneEvent.MOLECULE_HIT_TARGET_BOX, this.moleculeHitTargetBox, false, this);
+        goog.events.listen(lane, chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
     }
 }
 
@@ -80,6 +81,30 @@ chemistry.Game.prototype.moleculeHitTargetBox = function(event) {
     var lane = this.lanes[event.laneNumber];
     var molecule = event.molecule;
     this.finalizeMolecule(molecule, lane);
+}
+
+chemistry.Game.prototype.clickedTargetBox = function(event) {
+    var boxIndex = event.laneNumber;
+    var molecule;
+//    console.log(this.nextMolecule);
+    if(this.molecules.length == 0) {
+//        console.log("zero");
+        // No falling molecules, the current molecule is this.nextMolecule
+        molecule = this.nextMolecule;
+        this.timeToNextMolecule = 0;
+        this.nextMolecule = null;
+    } else {
+//        console.log("nonzero");
+        // We have falling molecules. Choose the lower most molecule as current
+        molecule = this.molecules[0];
+        var currentLane = this.getLaneFromPosition(molecule.getPosition());
+
+        currentLane.removeMolecule(molecule);
+        this.removeMolecule(molecule);
+    }
+
+    var clickedLane = this.lanes[boxIndex];
+    this.finalizeMolecule(molecule, clickedLane);
 }
 
 chemistry.Game.prototype.updateNextMolecule = function(dt) {
@@ -173,7 +198,7 @@ chemistry.Game.prototype.end = function() {
 }
 
 chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
-    if(lane.chainLength == molecule.chainLength) {
+    if(lane.chainLength === molecule.chainLength) {
         var multiplier = parseInt( (lane.targetBox.getPosition().y - molecule.getPosition().y)*3 / lane.getSize().height );
         multiplier = Math.max(multiplier, 0);
         if(!molecule.isFalling) { multiplier = 5; } // Give max multiplier if molecule is in nextMolecule box
@@ -187,28 +212,6 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
         lane.targetBox.highlight(false);
         this.addHP( this.level.getHP(false) );
     }
-}
-
-chemistry.Game.prototype.clickedTargetBox = function(boxIndex) {
-    var molecule;
-    var isFalling = true; // Is the molecule falling or is it still in the nextMolecule-box?
-    if(this.molecules.length == 0) {
-        // No falling molecules, the current molecule is this.nextMolecule
-        isFalling = false;
-        molecule = this.nextMolecule;
-        this.timeToNextMolecule = 0;
-        this.nextMolecule = null;
-    } else {
-        // We have falling molecules. Choose the lower most molecule as current
-        molecule = this.molecules[0];
-        var currentLane = this.getLaneFromPosition(molecule.getPosition());
-
-        currentLane.removeMolecule(molecule);
-        this.removeMolecule(molecule);
-    }
-
-    var clickedLane = this.lanes[boxIndex];
-    this.finalizeMolecule(molecule, clickedLane);
 }
 
 chemistry.Game.prototype.clickedMolecule = function(e) {
