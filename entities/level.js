@@ -49,5 +49,5 @@ chemistry.Level.prototype.getNextMolecule = function() {
 	this.numMolecules++;
 	if(this.numMolecules % 5 === 0) this.level++; // Increase level every 5th molecule
 
-	return molecule
+	return molecule;
 }
