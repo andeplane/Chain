@@ -241,9 +241,10 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
     	for(var i=4; i>=2; i--) {
     		// Compare molecule position to multiplier marker i
     		var index = i-2; // The 2x multiplier is the 0th element in the array
-    		marker = this.markers[index];
-    		if(y < marker.getPosition().y) {
+    		var tmpMarker = this.markers[index];
+    		if(y < tmpMarker.getPosition().y) {
     			multiplier = i;
+    			marker = tmpMarker;
     			break;
     		}
     	}
