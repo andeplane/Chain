@@ -20,7 +20,8 @@ chemistry.TargetBox = function(width, height, number, chainLength) {
 
     var numberLabel = new lime.Label(chainLength);
     numberLabel.setPosition(width/2, height/2);
-    numberLabel.setFontSize(width/6);
+    numberLabel.setFontSize(width/5);
+    numberLabel.setFontFamily("Pusab");
     this.appendChild(numberLabel);
 
 	this.highlightLayer = new lime.Sprite();

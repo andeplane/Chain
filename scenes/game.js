@@ -9,6 +9,7 @@ goog.require('chemistry.overlays.LevelUp');
 goog.require('chemistry.overlays.FeverMode');
 goog.require('chemistry.events.GameEvent');
 goog.require('chemistry.events.LaneEvent');
+goog.require('chemistry.MultiplierLabel');
 
 goog.require('lime.Layer');
 goog.require('lime.animation.MoveTo');
@@ -54,6 +55,8 @@ chemistry.Game.prototype.addHUD = function(width, height) {
     this.hud.lifebar.setHP(this.hp);
     goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.lifebar.enterFeverMode, false, this.hud.lifebar);
 	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.lifebar.exitFeverMode, false, this.hud.lifebar);
+	goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.rollerCounter.enterFeverMode, false, this.hud.rollerCounter);
+	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.rollerCounter.exitFeverMode, false, this.hud.rollerCounter);
 }
 
 chemistry.Game.prototype.addMarkerLayer = function(width, height) {
@@ -64,12 +67,9 @@ chemistry.Game.prototype.addMarkerLayer = function(width, height) {
 chemistry.Game.prototype.addMarkers = function(width, height) {
     this.markers = [];
     for(var i=2; i<=5; i++) {
-    	var multiplierLabel = new lime.Label().
-    		setFontSize(30).
-			setFontFamily('Pusab').
-			setFontColor('#fff').
-			setText(i+'x');
+    	var multiplierLabel = new chemistry.MultiplierLabel(i);
 		this.markers.push(multiplierLabel);
+
 		if(i < 5) {
 			multiplierLabel.setPosition(width / 15, height/6 + (5 - i)*height/6);
 			this.markerLayer.appendChild(multiplierLabel);
@@ -270,14 +270,34 @@ chemistry.Game.prototype.end = function() {
 
 chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
     if(lane.chainLength === molecule.chainLength) {
-        var multiplier = parseInt( (lane.targetBox.getPosition().y - molecule.getPosition().y)*3 / lane.getSize().height );
-        multiplier = Math.max(multiplier, 0);
-        if(!molecule.isFalling) { multiplier = 5; } // Give max multiplier if molecule is in nextMolecule box
+    	// First, calculate the multiplier by checking if the molecule is above the marker
+    	var multiplier = 1;
+    	var y = molecule.getPosition().y;
+    	var marker = null;
+
+    	for(var i=4; i>=2; i--) {
+    		// Compare molecule position to multiplier marker i
+
+    		var index = i-2; // The 2x multiplier is the 0th element in the array
+    		var tmpMarker = this.markers[index];
+    		if(y < tmpMarker.getPosition().y) {
+    			multiplier = i;
+    			marker = tmpMarker;
+    			break;
+    		}
+    	}
+
+        if(!molecule.isFalling) {
+        	// If we are not falling, the molecule is the nextMolecule
+        	marker = this.markers[5-2];
+        	multiplier = 5;
+        } // Give max multiplier if molecule is in nextMolecule box
 
         var score = (1 + multiplier + 4*this.fever)*molecule.score;
         lane.targetBox.highlight(true);
         this.addScore(score, molecule);
         this.addHP( this.level.getHP(true) );
+        if(marker) { marker.jump(); }
     } else {
         // Wrong, decrease life
         lane.targetBox.highlight(false);
