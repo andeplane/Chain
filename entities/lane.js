@@ -40,8 +40,7 @@ chemistry.Lane.prototype.addTargetBox = function(width, height) {
 
 	var self = this;
 	goog.events.listen(this.targetBox,['mousedown','touchstart'], function(e) {
-		var correctAnswer = appObject.game.clickedTargetBox(self.number);
-		self.targetBox.highlight(correctAnswer);
+		appObject.game.clickedTargetBox(self.number);
     });
 }
 
@@ -66,7 +65,7 @@ chemistry.Lane.prototype.processMolecules = function(dt) {
 	var moleculesToBeRemoved = [];
 	for(var i in this.molecules) {
 		var molecule = this.molecules[i];
-		molecule.tick(dt);
+        molecule.tick(dt);
         if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
             goog.events.dispatchEvent(this, new chemistry.events.LaneEvent(chemistry.events.LaneEvent.MOLECULE_HIT_TARGET_BOX, this.number, molecule));
             moleculesToBeRemoved.push(molecule);
@@ -96,4 +95,8 @@ chemistry.Lane.prototype.refreshHighlight = function() {
 	this.currentAction = new lime.animation.FadeTo(0.2*this.numHighlight);
 	this.currentAction.setDuration(0.3);
 	this.highlightSprite.runAction(this.currentAction);
+}
+
+chemistry.Lane.prototype.getXMiddle = function() {
+	return this.getPosition().x + this.getSize().width/2.0;
 }

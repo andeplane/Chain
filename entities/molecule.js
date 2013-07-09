@@ -12,6 +12,7 @@ chemistry.Molecule = function(data) {
 	var rnd = goog.math.randomInt(4);
 	this.setRotation(90*rnd);
 	this.currentAction = null;
+	this.isFalling	   = false;
 	
 	this.chainLength 		 = data.chainLength;
 	this.numBranches 		 = data.numBranches;
@@ -24,7 +25,7 @@ chemistry.Molecule = function(data) {
 goog.inherits(chemistry.Molecule, lime.Sprite);
 
 chemistry.Molecule.prototype.tick = function(dt) {
-	// TODO: Lane snapping?
+	// TODO: Smooth lane snapping?
 	this.velocity += this.acceleration*dt;
 	this.setPosition(this.getPosition().x, this.getPosition().y + this.velocity*dt);
 }
