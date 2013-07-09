@@ -13,3 +13,4 @@ chemistry.events.GameEvent.ENTER_FEVER_MODE = "ENTER_FEVER_MODE";
 chemistry.events.GameEvent.EXIT_FEVER_MODE = "EXIT_FEVER_MODE";
 
 chemistry.events.GameEvent.GAME_OVER = "GAME_OVER";
+chemistry.events.GameEvent.LEVEL_UP = "LEVEL_UP";

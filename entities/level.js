@@ -39,15 +39,21 @@ chemistry.Level.prototype.updateAvailableMoleculeData = function() {
 }
 
 chemistry.Level.prototype.getNextMolecule = function() {
-	// Choose a random new molecule
-    
+    // Choose a random new molecule
 	var moleculeData = this.availableMoleculeData[goog.math.randomInt(this.availableMoleculeData.length)];
 
 	// Create molecule object and scale it into lane size
 	var molecule = new chemistry.Molecule(moleculeData);
 
 	this.numMolecules++;
-	if(this.numMolecules % 5 === 0) this.level++; // Increase level every 5th molecule
+    if(this.numMolecules % 5 === 0) {
+        this.levelUp(); // Increase level every 5th molecule
+    }
 
 	return molecule
+}
+
+chemistry.Level.prototype.levelUp = function() {
+    this.level++;
+    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.LEVEL_UP));
 }
