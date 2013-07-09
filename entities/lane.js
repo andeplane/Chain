@@ -110,3 +110,7 @@ chemistry.Lane.prototype.refreshHighlight = function() {
 	this.currentAction.setDuration(0.3);
 	this.highlightSprite.runAction(this.currentAction);
 }
+
+chemistry.Lane.prototype.getXMiddle = function() {
+	return this.getPosition().x + this.getSize().width/2.0;
+}

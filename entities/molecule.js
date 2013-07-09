@@ -24,7 +24,7 @@ chemistry.Molecule = function(data) {
 goog.inherits(chemistry.Molecule, lime.Sprite);
 
 chemistry.Molecule.prototype.tick = function(dt) {
-	// TODO: Lane snapping?
+	// TODO: Smooth lane snapping?
 	this.velocity += this.acceleration*dt;
 	this.setPosition(this.getPosition().x, this.getPosition().y + this.velocity*dt);
 }

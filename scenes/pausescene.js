@@ -10,18 +10,27 @@ chemistry.scenes.PauseScene = function() {
 	var x = width/2.0;
 	var y = height/2.0;
 	
-	this.resumeButton = new lime.GlossyButton().setSize(sizeX,sizeY).setPosition(x,y - sizeY).setText('Resume').setColor('#00CD00').setFontSize(height/20.0);
-	this.exitButton = new lime.GlossyButton().setSize(sizeX,sizeY).setPosition(x,y + sizeY).setText('Return to menu').setColor('#00CD00').setFontSize(height/20.0);
+	this.resumeButton = new lime.GlossyButton().setSize(sizeX,sizeY).setPosition(x,y - sizeY-10).setText('Resume').setColor('#00CD00').setFontSize(height/20.0);
+	this.restartButton = new lime.GlossyButton().setSize(sizeX,sizeY).setPosition(x,y).setText('Restart').setColor('#00CD00').setFontSize(height/20.0);
+	this.exitButton = new lime.GlossyButton().setSize(sizeX,sizeY).setPosition(x,y + sizeY + 10).setText('Return to menu').setColor('#00CD00').setFontSize(height/20.0);
 	this.appendChild(this.resumeButton);
+	this.appendChild(this.restartButton);
 	this.appendChild(this.exitButton);
 
 	goog.events.listen(this.resumeButton, ['mousedown','touchstart'], this.resumeButtonClicked);
+	goog.events.listen(this.restartButton, ['mousedown','touchstart'], this.restartButtonClicked);
 	goog.events.listen(this.exitButton, ['mousedown','touchstart'], this.returnToMenuButtonClicked);
 };
 goog.inherits(chemistry.scenes.PauseScene, lime.helper.PauseScene);
 
 chemistry.scenes.PauseScene.prototype.resumeButtonClicked = function(e) {
 	appObject.unpause();
+}
+
+chemistry.scenes.PauseScene.prototype.restartButtonClicked = function(e) {
+	var difficulty = appObject.game.difficulty;
+	appObject.game.end();
+	appObject.newGame(difficulty);
 }
 
 chemistry.scenes.PauseScene.prototype.returnToMenuButtonClicked = function(e) {
