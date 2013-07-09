@@ -39,9 +39,9 @@ chemistry.Lane.prototype.addTargetBox = function(width, height) {
 	this.appendChild(this.targetBox);
 
 	var self = this;
-	goog.events.listen(this.targetBox,['mousedown','touchstart'], function(e) {
-		appObject.game.clickedTargetBox(self.number);
-    });
+    goog.events.listen(this.targetBox,['mousedown','touchstart'], function(e) {
+        goog.events.dispatchEvent(this, new chemistry.events.LaneEvent(chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.number), null);
+    }, false, this);
 }
 
 chemistry.Lane.prototype.addMolecule = function(molecule) {
@@ -65,10 +65,10 @@ chemistry.Lane.prototype.processMolecules = function(dt) {
 	var moleculesToBeRemoved = [];
 	for(var i in this.molecules) {
 		var molecule = this.molecules[i];
-		molecule.tick(dt);
-		if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
-			appObject.game.finalizeMolecule(molecule, this);
-			moleculesToBeRemoved.push(molecule);
+        molecule.tick(dt);
+        if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
+            goog.events.dispatchEvent(this, new chemistry.events.LaneEvent(chemistry.events.LaneEvent.MOLECULE_HIT_TARGET_BOX, this.number, molecule));
+            moleculesToBeRemoved.push(molecule);
 		}
 	}
 
