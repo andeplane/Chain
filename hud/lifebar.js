@@ -37,7 +37,6 @@ chemistry.Lifebar.prototype.enterFeverMode = function(e) {
 }
 
 chemistry.Lifebar.prototype.exitFeverMode = function(e) {
-	console.log(this);
 	if(this.currentAction) this.currentAction.stop();
 	this.currentAction = new lime.animation.ColorTo("#f00").setDuration(0.5);
 	this.sprite.runAction(this.currentAction);

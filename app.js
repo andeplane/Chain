@@ -34,7 +34,7 @@ app.prototype.unpause = function() {
 };
 
 app.prototype.newGame = function(difficulty) {
-	this.game = new chemistry.Game(this.screenWidth, this.screenHeight, difficulty);
+    this.game = new chemistry.Game(this.screenWidth, this.screenHeight, difficulty);
 	this.director.replaceScene(this.game);
 }
 

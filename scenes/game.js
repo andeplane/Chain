@@ -5,6 +5,8 @@ goog.require('chemistry.Hud');
 goog.require('chemistry.Molecule');
 goog.require('chemistry.Lane');
 goog.require('chemistry.Level');
+goog.require('chemistry.overlays.LevelUp');
+goog.require('chemistry.overlays.FeverMode');
 goog.require('chemistry.events.GameEvent');
 goog.require('chemistry.events.LaneEvent');
 
@@ -18,22 +20,31 @@ chemistry.Game = function(width, height, difficulty) {
 
 	this.t 	   = 0;
 	this.score = 0;
-	this.hp    = 50;
+    this.hp    = 99;
 	this.difficulty = difficulty;
-	this.level = new chemistry.Level(difficulty, this);
+    this.level = new chemistry.Level(difficulty, this);
+    goog.events.listen(this.level, chemistry.events.GameEvent.LEVEL_UP, this.levelUp, false, this);
 	this.fever = false;
 
 	this.molecules = [];
 
 	this.addBackground(width, height);
 	this.addLanes(width, height, this.level.numLanes);
+	this.addMarkerLayer(width, height);
 	this.addMoleculeLayer(width, height);
 	this.addHUD(width,height);
+    this.addMarkers(width, height);
+    this.addLevelUpOverlay(width, height);
+    this.addFeverModeOverlay(width, height);
 
 	this.nextMolecule = null;
 	this.timeToNextMolecule = 0;
 	
 	lime.scheduleManager.schedule(this.tick, this);
+
+    this.pauseButton = new lime.Sprite().setFill('images/pause.png').setSize(width/15.0,width/15.0).setAnchorPoint(0,0).setPosition(50,20);
+    goog.events.listen(this.pauseButton, ['mousedown','touchstart'], this.level.levelUp, false, this.level);
+    this.appendChild(this.pauseButton);
 }
 goog.inherits(chemistry.Game, lime.Scene);
 
@@ -43,6 +54,33 @@ chemistry.Game.prototype.addHUD = function(width, height) {
     this.hud.lifebar.setHP(this.hp);
     goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.lifebar.enterFeverMode, false, this.hud.lifebar);
 	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.lifebar.exitFeverMode, false, this.hud.lifebar);
+}
+
+chemistry.Game.prototype.addMarkerLayer = function(width, height) {
+	this.markerLayer = new lime.Layer().setSize(width,height);
+	this.appendChild(this.markerLayer);
+}
+
+chemistry.Game.prototype.addMarkers = function(width, height) {
+    this.markers = [];
+    for(var i=2; i<=5; i++) {
+    	var multiplierLabel = new lime.Label().
+    		setFontSize(30).
+			setFontFamily('Pusab').
+			setFontColor('#fff').
+			setText(i+'x');
+		this.markers.push(multiplierLabel);
+		if(i < 5) {
+			multiplierLabel.setPosition(width / 15, height/6 + (5 - i)*height/6);
+			this.markerLayer.appendChild(multiplierLabel);
+		} else {
+			var size = this.hud.nextMolecule.getSize();
+
+			multiplierLabel.setPosition(- (8*size.width / 10), size.width/10 );
+			this.hud.nextMolecule.appendChild(multiplierLabel);
+		}
+		
+    }
 }
 
 chemistry.Game.prototype.addBackground = function(width, height) {
@@ -78,6 +116,31 @@ chemistry.Game.prototype.addLanes = function(width, height, numLanes) {
     }
 }
 
+chemistry.Game.prototype.addLevelUpOverlay = function(width, height) {
+    this.levelUpOverlay = new chemistry.overlays.LevelUp(width, height);
+    this.levelUpOverlay.setAnchorPoint(0,0);
+    this.appendChild(this.levelUpOverlay);
+    this.levelUpOverlay.setHidden(true);
+}
+
+chemistry.Game.prototype.addFeverModeOverlay = function(width, height) {
+    this.feverModeOverlay = new chemistry.overlays.FeverMode(width, height);
+    this.feverModeOverlay.setAnchorPoint(0,0);
+    this.appendChild(this.feverModeOverlay);
+    this.feverModeOverlay.setHidden(true);
+}
+
+chemistry.Game.prototype.levelUp = function(event) {
+    for(var i in this.molecules) {
+        var molecule = this.molecules[i];
+        var lane = this.getLaneFromPosition(molecule.getPosition());
+        lane.removeMolecule(molecule);
+        this.removeMolecule(molecule);
+    }
+
+    this.levelUpOverlay.levelUp(this.level.level);
+}
+
 chemistry.Game.prototype.moleculeHitTargetBox = function(event) {
     var lane = this.lanes[event.laneNumber];
     var molecule = event.molecule;
@@ -87,15 +150,12 @@ chemistry.Game.prototype.moleculeHitTargetBox = function(event) {
 chemistry.Game.prototype.clickedTargetBox = function(event) {
     var boxIndex = event.laneNumber;
     var molecule;
-//    console.log(this.nextMolecule);
     if(this.molecules.length == 0) {
-//        console.log("zero");
         // No falling molecules, the current molecule is this.nextMolecule
         molecule = this.nextMolecule;
         this.timeToNextMolecule = 0;
         this.nextMolecule = null;
     } else {
-//        console.log("nonzero");
         // We have falling molecules. Choose the lower most molecule as current
         molecule = this.molecules[0];
         var currentLane = this.getLaneFromPosition(molecule.getPosition());
@@ -193,6 +253,7 @@ chemistry.Game.prototype.addHP = function(value) {
 
 chemistry.Game.prototype.enterFeverMode = function() {
 	this.fever = true;
+    this.feverModeOverlay.enterFeverMode();
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.ENTER_FEVER_MODE));
 }
 
@@ -233,9 +294,10 @@ chemistry.Game.prototype.clickedMolecule = function(e) {
 	e.target.isDragging = true;
     var currentLane = this.getLaneFromPosition(e.target.getPosition());
     currentLane.increaseHighlight();
+	var self = this;
 
-    var xDiff = e.screenPosition.x - e.target.getPosition().x;
-    var self = this;
+    var xDiff = self.screenToLocal(e.screenPosition).x - e.target.getPosition().x;
+    
     //listen for end event
     e.swallow(['mouseup','touchend'],function(){
     	e.target.isDragging = false;
@@ -243,9 +305,12 @@ chemistry.Game.prototype.clickedMolecule = function(e) {
         e.target.setPosition(currentLane.getXMiddle(), e.target.getPosition().y);
     });
 
-    e.swallow(['mousemove','touchmove'],function(ev){
-//        console.log(this);
-        e.target.setPosition(ev.screenPosition.x - xDiff, e.target.getPosition().y);
+    e.swallow(['mousemove','touchmove'],function(ev) {
+    	// Make sure the molecule is within the screen
+    	var newXPosition = self.screenToLocal(ev.screenPosition).x - xDiff;
+    	newXPosition = goog.math.clamp(newXPosition, 0, self.getSize().width - 1);
+
+        e.target.setPosition(newXPosition, e.target.getPosition().y);
         var newLane = self.getLaneFromPosition(e.target.getPosition());
         if(newLane !== currentLane) {
             currentLane.removeMolecule(e.target);
