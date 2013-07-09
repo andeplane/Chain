@@ -22,7 +22,7 @@ chemistry.Hud = function(width, height) {
 	this.appendChild(colorLayer);
 
 	this.rollerCounter = new chemistry.RollerCounter();
-	this.rollerCounter.setPosition(this.getSize().width/2, this.getSize().height/8);
+	this.rollerCounter.setPosition(this.getSize().width/2, this.getSize().height/2);
 	this.rollerCounter.setAutoResize(lime.AutoResize.WIDTH | lime.AutoResize.HEIGHT);
 	this.appendChild(this.rollerCounter);
 
@@ -31,10 +31,10 @@ chemistry.Hud = function(width, height) {
 	this.nextMolecule.setPosition(width,0);
 	this.appendChild(this.nextMolecule);
 
-	this.priority = new chemistry.Priority(width/5.0, width/10.0);
-	this.priority.setAnchorPoint(0.5,1);
-	this.priority.setPosition(width/2.0, height);
-	this.appendChild(this.priority);
+	// this.priority = new chemistry.Priority(width/5.0, width/10.0);
+	// this.priority.setAnchorPoint(0.5,1);
+	// this.priority.setPosition(width/2.0, height);
+	// this.appendChild(this.priority);
 
 	this.lifebar = new chemistry.Lifebar(width, 10);
 	this.lifebar.setAnchorPoint(0,1);
