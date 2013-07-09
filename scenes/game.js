@@ -161,6 +161,7 @@ chemistry.Game.prototype.getLaneFromPosition = function(position) {
 
 chemistry.Game.prototype.addScore = function(score, molecule) {
     this.score += score;
+    this.hud.rollerCounter.jump();
     if(molecule.isFalling) {
         var scoreLabel = new chemistry.ScoreLabel();
 
