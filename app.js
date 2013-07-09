@@ -1,10 +1,12 @@
 goog.provide('app');
 
+goog.require('chemistry.MainMenu');
+goog.require('chemistry.Game');
 goog.require('lime.Director');
 goog.require('lime.Scene');
 goog.require('lime.Sprite');
-goog.require('chemistry.MainMenu');
-goog.require('chemistry.Game');
+goog.require('lime.audio.Audio');
+
 
 app = function(body, screenWidth, screenHeight) {
 	this.director = new lime.Director(body, screenWidth, screenHeight);
@@ -17,6 +19,8 @@ app = function(body, screenWidth, screenHeight) {
 	this.verticalCenter = screenHeight/2;
 	this.horizontalCenter = screenWidth/2;
 	var scene = new lime.Scene();
+	// this.audio = new lime.audio.Audio("assets/EIVISSA_SALINAS_feat._DJ_HSERES_-_Belly_Rythm.mp3");
+	// this.audio.play();
 	
 	this.mainMenu = new chemistry.MainMenu();
 
