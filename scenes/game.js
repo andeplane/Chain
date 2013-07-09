@@ -282,6 +282,9 @@ chemistry.Game.prototype.removeAllMolecules = function() {
     for(var i in this.molecules) {
         var molecule = this.molecules[i];
         var lane = this.getLaneFromPosition(molecule.getPosition());
+        if(molecule.isDragging) {
+            lane.decreaseHighlight();
+        }
         lane.removeMolecule(molecule);
         this.removeMolecule(molecule);
     }
