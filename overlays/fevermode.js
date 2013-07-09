@@ -1,7 +1,10 @@
 goog.provide("chemistry.overlays.FeverMode");
 
 goog.require("lime.Layer");
+goog.require('lime.animation.Spawn');
 goog.require("lime.animation.FadeTo");
+goog.require("lime.animation.Loop");
+goog.require("lime.animation.Sequence");
 goog.require("lime.animation.ScaleTo");
 goog.require("lime.animation.RotateTo");
 
@@ -22,14 +25,46 @@ goog.inherits(chemistry.overlays.FeverMode, lime.Layer);
 
 chemistry.overlays.FeverMode.prototype.enterFeverMode = function() {
     this.setHidden(false);
-    var animation = new lime.animation.Loop(
-                new lime.animation.Sequence (
-                    new lime.animation.RotateTo(10).setDuration(0.05),
-                    new lime.animation.RotateTo(20).setDuration(0.05)
+    this.feverModeText.setOpacity(1);
+    this.feverModeText.setScale(1);
+    //    var loopAnimation = new lime.animation.Loop(
+    //                new lime.animation.Sequence (
+    //                    new lime.animation.RotateTo(10).setDuration(0.045),
+    //                    new lime.animation.RotateTo(20).setDuration(0.045)
+    //                    )
+    //                ).setLimit(10);
+    //    var animation = loopAnimation;
+    var animation =
+            new lime.animation.Sequence (
+                new lime.animation.RotateTo(10).setDuration(0.045),
+                new lime.animation.RotateTo(20).setDuration(0.045),
+                new lime.animation.RotateTo(10).setDuration(0.045),
+                new lime.animation.RotateTo(20).setDuration(0.045),
+                new lime.animation.Spawn(
+                    new lime.animation.Sequence (
+                        new lime.animation.RotateTo(10).setDuration(0.045),
+                        new lime.animation.RotateTo(20).setDuration(0.045),
+                        new lime.animation.RotateTo(10).setDuration(0.045),
+                        new lime.animation.RotateTo(20).setDuration(0.045),
+                        new lime.animation.RotateTo(10).setDuration(0.045),
+                        new lime.animation.RotateTo(20).setDuration(0.045),
+                        new lime.animation.RotateTo(10).setDuration(0.045),
+                        new lime.animation.RotateTo(20).setDuration(0.045),
+                        new lime.animation.RotateTo(10).setDuration(0.045),
+                        new lime.animation.RotateTo(20).setDuration(0.045),
+                        new lime.animation.RotateTo(10).setDuration(0.045),
+                        new lime.animation.RotateTo(20).setDuration(0.045),
+                        new lime.animation.RotateTo(10).setDuration(0.045),
+                        new lime.animation.RotateTo(20).setDuration(0.045),
+                        new lime.animation.RotateTo(10).setDuration(0.045),
+                        new lime.animation.RotateTo(20).setDuration(0.045)
+                        ),
+                    new lime.animation.FadeTo(0).setDuration(1.0),
+                    new lime.animation.ScaleTo(8).setDuration(2.0)
                     )
-                ).setLimit(50);
+                );
     this.feverModeText.runAction(animation);
-        goog.events.listen(animation, lime.animation.Event.STOP, this.endedAnimation, false, this);
+    goog.events.listen(animation, lime.animation.Event.STOP, this.endedAnimation, false, this);
 }
 
 chemistry.overlays.FeverMode.prototype.endedAnimation = function(event) {

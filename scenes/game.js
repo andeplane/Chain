@@ -21,7 +21,7 @@ chemistry.Game = function(width, height, difficulty) {
 
 	this.t 	   = 0;
 	this.score = 0;
-    this.hp    = 99;
+    this.hp    = 50;
 	this.difficulty = difficulty;
     this.level = new chemistry.Level(difficulty, this);
     goog.events.listen(this.level, chemistry.events.GameEvent.LEVEL_UP, this.levelUp, false, this);
@@ -41,11 +41,7 @@ chemistry.Game = function(width, height, difficulty) {
 	this.nextMolecule = null;
 	this.timeToNextMolecule = 0;
 	
-	lime.scheduleManager.schedule(this.tick, this);
-
-    this.pauseButton = new lime.Sprite().setFill('images/pause.png').setSize(width/15.0,width/15.0).setAnchorPoint(0,0).setPosition(50,20);
-    goog.events.listen(this.pauseButton, ['mousedown','touchstart'], this.level.levelUp, false, this.level);
-    this.appendChild(this.pauseButton);
+    lime.scheduleManager.schedule(this.tick, this);
 }
 goog.inherits(chemistry.Game, lime.Scene);
 
@@ -244,9 +240,9 @@ chemistry.Game.prototype.addHP = function(value) {
     this.hud.lifebar.setHP(this.hp);
 
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.HP_CHANGED));
-    if(this.hp === 100) {
+    if(this.hp === 100 && oldHP !== 100) {
     	this.enterFeverMode();
-    } else if(oldHP === 100) {
+    } else if(this.hp !== 100 && oldHP === 100) {
     	this.exitFeverMode();
     }
 }
