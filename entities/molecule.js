@@ -13,6 +13,7 @@ chemistry.Molecule = function(data) {
 	this.setRotation(90*rnd);
 	this.currentAction = null;
 	this.isFalling	   = false;
+	this.isDragging    = false;
 	
 	this.chainLength 		 = data.chainLength;
 	this.numBranches 		 = data.numBranches;

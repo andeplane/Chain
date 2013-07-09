@@ -20,7 +20,8 @@ chemistry.RollerCounter.prototype.tick = function() {
 	else if(diff > 50)  { this.currentScore += 9; }
 	else if(diff > 30)  { this.currentScore += 6; }
 	else if(diff > 10)  { this.currentScore += 3; }
-	else if(diff>0) 	{ this.currentScore += 1; }
+	else if(diff > 5)   { this.currentScore += 2; }
+	else if(diff > 0) 	{ this.currentScore += 1; }
 
 	this.setText(this.currentScore);
 }

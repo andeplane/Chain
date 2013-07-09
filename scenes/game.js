@@ -21,6 +21,7 @@ chemistry.Game = function(width, height, difficulty) {
 	this.hp    = 50;
 	this.difficulty = difficulty;
 	this.level = new chemistry.Level(difficulty, this);
+	this.fever = false;
 
 	this.molecules = [];
 
@@ -40,6 +41,8 @@ chemistry.Game.prototype.addHUD = function(width, height) {
     this.hud = new chemistry.Hud(appObject.screenWidth, appObject.screenWidth/4.0);
     this.appendChild(this.hud,1000);
     this.hud.lifebar.setHP(this.hp);
+    goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.lifebar.enterFeverMode, false, this.hud.lifebar);
+	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.lifebar.exitFeverMode, false, this.hud.lifebar);
 }
 
 chemistry.Game.prototype.addBackground = function(width, height) {
@@ -176,17 +179,26 @@ chemistry.Game.prototype.addScore = function(score, molecule) {
 chemistry.Game.prototype.addHP = function(value) {
     var oldHP = this.hp;
     this.hp += value;
-    this.hp = Math.min(this.hp,100);
-    this.hp = Math.max(this.hp,0);
+    this.hp = goog.math.clamp(this.hp, 0, 100);
 
     this.hud.lifebar.setHP(this.hp);
 
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.HP_CHANGED));
     if(this.hp === 100) {
-        goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.HP_FULL));
+    	this.enterFeverMode();
     } else if(oldHP === 100) {
-        goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.HP_DEFULL));
+    	this.exitFeverMode();
     }
+}
+
+chemistry.Game.prototype.enterFeverMode = function() {
+	this.fever = true;
+    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.ENTER_FEVER_MODE));
+}
+
+chemistry.Game.prototype.exitFeverMode = function() {
+	this.fever = false;
+    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.EXIT_FEVER_MODE));
 }
 
 chemistry.Game.prototype.end = function() {
@@ -201,7 +213,7 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
         multiplier = Math.max(multiplier, 0);
         if(!molecule.isFalling) { multiplier = 5; } // Give max multiplier if molecule is in nextMolecule box
 
-        var score = (1 + multiplier)*molecule.score;
+        var score = (1 + multiplier + 4*this.fever)*molecule.score;
         lane.targetBox.highlight(true);
         this.addScore(score, molecule);
         this.addHP( this.level.getHP(true) );
@@ -210,9 +222,15 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
         lane.targetBox.highlight(false);
         this.addHP( this.level.getHP(false) );
     }
+    if(molecule.isDragging) {
+    	var currentLane = this.getLaneFromPosition(molecule.getPosition());
+    	currentLane.decreaseHighlight();
+    }
 }
 
 chemistry.Game.prototype.clickedMolecule = function(e) {
+	if(e.target.isDragging) return;
+	e.target.isDragging = true;
     var currentLane = this.getLaneFromPosition(e.target.getPosition());
     currentLane.increaseHighlight();
 
@@ -220,8 +238,9 @@ chemistry.Game.prototype.clickedMolecule = function(e) {
     var self = this;
     //listen for end event
     e.swallow(['mouseup','touchend'],function(){
-        currentLane.decreaseHighlight();
-        e.target.setPosition(currentLane.getPosition().x + currentLane.getSize().width / 2.0, e.target.getPosition().y);
+    	e.target.isDragging = false;
+    	currentLane.decreaseHighlight();
+        e.target.setPosition(currentLane.getXMiddle(), e.target.getPosition().y);
     });
 
     e.swallow(['mousemove','touchmove'],function(ev){

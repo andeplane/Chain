@@ -9,7 +9,7 @@ chemistry.events.GameEvent = function(eventType, returnValue) {
 goog.inherits(chemistry.events.GameEvent, goog.events.Event);
 
 chemistry.events.GameEvent.HP_CHANGED = "HP_CHANGED";
-chemistry.events.GameEvent.HP_FULL = "HP_FULL";
-chemistry.events.GameEvent.HP_DEFULL = "HP_DEFULL";
+chemistry.events.GameEvent.ENTER_FEVER_MODE = "ENTER_FEVER_MODE";
+chemistry.events.GameEvent.EXIT_FEVER_MODE = "EXIT_FEVER_MODE";
 
 chemistry.events.GameEvent.GAME_OVER = "GAME_OVER";
