@@ -34,9 +34,11 @@ chemistry.Game = function(width, height, difficulty) {
 	this.addMarkerLayer(width, height);
 	this.addMoleculeLayer(width, height);
 	this.addHUD(width,height);
+	this.addMarkers(width, height);
     this.addMarkers(width, height);
     this.addLevelUpOverlay(width, height);
     this.addFeverModeOverlay(width, height);
+    this.addKeyboardEventListener();
 
 	this.nextMolecule = null;
 	this.timeToNextMolecule = 0;
@@ -45,7 +47,7 @@ chemistry.Game = function(width, height, difficulty) {
 }
 goog.inherits(chemistry.Game, lime.Scene);
 
-chemistry.Game.prototype.addKeyEventListener = function() {
+chemistry.Game.prototype.addKeyboardEventListener = function() {
 	goog.events.listen(goog.global, ['keydown'], function (e) {
 		var obj = {};
         switch (e.keyCode) {
