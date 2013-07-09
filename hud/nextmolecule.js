@@ -46,6 +46,10 @@ chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
 	this.moleculeSprite.setFill(molecule.data.imageFile);
 	this.moleculeSprite.setRotation(molecule.getRotation());
 
+    this.moleculeSprite.setOpacity(0);
+    var fadeMoleculeAction = new lime.animation.FadeTo(1).setDuration(timeToNext / (2*1000.0));
+    this.moleculeSprite.runAction(fadeMoleculeAction);
+
 	var size = this.moleculeSprite.getSize();
 	var maxSize = Math.max(size.width, size.height);
 	var scale = this.getSize().width / maxSize * 0.8;
