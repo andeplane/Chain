@@ -5,6 +5,8 @@ goog.require('chemistry.Hud');
 goog.require('chemistry.Molecule');
 goog.require('chemistry.Lane');
 goog.require('chemistry.Level');
+goog.require('chemistry.overlays.LevelUp');
+goog.require('chemistry.overlays.FeverMode');
 goog.require('chemistry.events.GameEvent');
 goog.require('chemistry.events.LaneEvent');
 goog.require('chemistry.MultiplierLabel');
@@ -19,9 +21,10 @@ chemistry.Game = function(width, height, difficulty) {
 
 	this.t 	   = 0;
 	this.score = 0;
-	this.hp    = 50;
+    this.hp    = 50;
 	this.difficulty = difficulty;
-	this.level = new chemistry.Level(difficulty, this);
+    this.level = new chemistry.Level(difficulty, this);
+    goog.events.listen(this.level, chemistry.events.GameEvent.LEVEL_UP, this.levelUp, false, this);
 	this.fever = false;
 
 	this.molecules = [];
@@ -31,13 +34,14 @@ chemistry.Game = function(width, height, difficulty) {
 	this.addMarkerLayer(width, height);
 	this.addMoleculeLayer(width, height);
 	this.addHUD(width,height);
-	this.addMarkers(width, height);
-	this.addKeyEventListener();
+    this.addMarkers(width, height);
+    this.addLevelUpOverlay(width, height);
+    this.addFeverModeOverlay(width, height);
 
 	this.nextMolecule = null;
 	this.timeToNextMolecule = 0;
 	
-	lime.scheduleManager.schedule(this.tick, this);
+    lime.scheduleManager.schedule(this.tick, this);
 }
 goog.inherits(chemistry.Game, lime.Scene);
 
@@ -131,6 +135,31 @@ chemistry.Game.prototype.addLanes = function(width, height, numLanes) {
         goog.events.listen(lane, chemistry.events.LaneEvent.MOLECULE_HIT_TARGET_BOX, this.moleculeHitTargetBox, false, this);
         goog.events.listen(lane, chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
     }
+}
+
+chemistry.Game.prototype.addLevelUpOverlay = function(width, height) {
+    this.levelUpOverlay = new chemistry.overlays.LevelUp(width, height);
+    this.levelUpOverlay.setAnchorPoint(0,0);
+    this.appendChild(this.levelUpOverlay);
+    this.levelUpOverlay.setHidden(true);
+}
+
+chemistry.Game.prototype.addFeverModeOverlay = function(width, height) {
+    this.feverModeOverlay = new chemistry.overlays.FeverMode(width, height);
+    this.feverModeOverlay.setAnchorPoint(0,0);
+    this.appendChild(this.feverModeOverlay);
+    this.feverModeOverlay.setHidden(true);
+}
+
+chemistry.Game.prototype.levelUp = function(event) {
+    for(var i in this.molecules) {
+        var molecule = this.molecules[i];
+        var lane = this.getLaneFromPosition(molecule.getPosition());
+        lane.removeMolecule(molecule);
+        this.removeMolecule(molecule);
+    }
+
+    this.levelUpOverlay.levelUp(this.level.level);
 }
 
 chemistry.Game.prototype.moleculeHitTargetBox = function(event) {
@@ -236,15 +265,16 @@ chemistry.Game.prototype.addHP = function(value) {
     this.hud.lifebar.setHP(this.hp);
 
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.HP_CHANGED));
-    if(this.hp === 100) {
+    if(this.hp === 100 && oldHP !== 100) {
     	this.enterFeverMode();
-    } else if(oldHP === 100) {
+    } else if(this.hp !== 100 && oldHP === 100) {
     	this.exitFeverMode();
     }
 }
 
 chemistry.Game.prototype.enterFeverMode = function() {
 	this.fever = true;
+    this.feverModeOverlay.enterFeverMode();
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.ENTER_FEVER_MODE));
 }
 

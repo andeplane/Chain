@@ -1,6 +1,7 @@
 goog.provide('chemistry.Level');
 
 goog.require('chemistry.MoleculeData');
+goog.require('chemistry.events.GameEvent');
 
 chemistry.Level = function(difficulty, game) {
 	this.difficulty    = difficulty;
@@ -12,6 +13,7 @@ chemistry.Level = function(difficulty, game) {
 	this.availableMoleculeData = [];
 	this.updateAvailableMoleculeData();
 }
+goog.inherits(chemistry.Level, goog.events.EventTarget);
 
 chemistry.Level.prototype.getVelocity = function() {
 	return 0.2*this.difficulty*Math.log(this.level + Math.exp(1));
@@ -39,15 +41,21 @@ chemistry.Level.prototype.updateAvailableMoleculeData = function() {
 }
 
 chemistry.Level.prototype.getNextMolecule = function() {
-	// Choose a random new molecule
-    
-	var moleculeData = this.availableMoleculeData[goog.math.randomInt(this.availableMoleculeData.length)];
+    this.numMolecules++;
+    if(this.numMolecules % 5 === 0) {
+        this.levelUp(); // Increase level every 5th molecule
+    }
+    // Choose a random new molecule
+    var moleculeData = this.availableMoleculeData[goog.math.randomInt(this.availableMoleculeData.length)];
 
-	// Create molecule object and scale it into lane size
-	var molecule = new chemistry.Molecule(moleculeData);
+    // Create molecule object and scale it into lane size
+    var molecule = new chemistry.Molecule(moleculeData);
 
-	this.numMolecules++;
-	if(this.numMolecules % 5 === 0) this.level++; // Increase level every 5th molecule
+    return molecule;
+}
 
-	return molecule;
+chemistry.Level.prototype.levelUp = function() {
+    this.level++;
+    this.updateAvailableMoleculeData();
+    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.LEVEL_UP));
 }
