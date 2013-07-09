@@ -36,7 +36,7 @@ chemistry.Game = function(width, height, difficulty) {
 	this.addHUD(width,height);
     this.addMarkers(width, height);
     this.addLevelUpOverlay(width, height);
-    this.addFeverModeOverlay(width, height);
+//    this.addFeverModeOverlay(width, height);
 
 	this.nextMolecule = null;
 	this.timeToNextMolecule = 0;
@@ -144,12 +144,12 @@ chemistry.Game.prototype.addLevelUpOverlay = function(width, height) {
     this.levelUpOverlay.setHidden(true);
 }
 
-chemistry.Game.prototype.addFeverModeOverlay = function(width, height) {
-    this.feverModeOverlay = new chemistry.overlays.FeverMode(width, height);
-    this.feverModeOverlay.setAnchorPoint(0,0);
-    this.appendChild(this.feverModeOverlay);
-    this.feverModeOverlay.setHidden(true);
-}
+//chemistry.Game.prototype.addFeverModeOverlay = function(width, height) {
+//    this.feverModeOverlay = new chemistry.overlays.FeverMode(width, height);
+//    this.feverModeOverlay.setAnchorPoint(0,0);
+//    this.appendChild(this.feverModeOverlay);
+//    this.feverModeOverlay.setHidden(true);
+//}
 
 chemistry.Game.prototype.levelUp = function(event) {
     this.removeAllMolecules();
@@ -268,8 +268,8 @@ chemistry.Game.prototype.addHP = function(value) {
 }
 
 chemistry.Game.prototype.enterFeverMode = function() {
-	this.fever = true;
-    this.feverModeOverlay.enterFeverMode();
+    this.fever = true;
+//    this.feverModeOverlay.enterFeverMode();
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.ENTER_FEVER_MODE));
 }
 
