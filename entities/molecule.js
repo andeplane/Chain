@@ -31,5 +31,5 @@ chemistry.Molecule.prototype.tick = function(dt) {
 }
 
 chemistry.Molecule.prototype.calculateScore = function() {
-	this.score = 10*this.chainLength*(this.numBranches+1) + this.numFunctionalGroups*20;
+	this.score = 10*this.chainLength;
 }

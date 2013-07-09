@@ -1,6 +1,5 @@
 goog.provide('chemistry.Game');
 
-goog.require('chemistry.MoleculeData');
 goog.require('chemistry.ScoreLabel');
 goog.require('chemistry.Hud');
 goog.require('chemistry.Molecule');
@@ -18,18 +17,17 @@ chemistry.Game = function(width, height, difficulty) {
 	this.score = 0;
 	this.hp    = 50;
 	this.difficulty = difficulty;
-	this.level = new chemistry.Level(difficulty);
+	this.level = new chemistry.Level(difficulty, this);
 
 	this.molecules = [];
 
 	this.addBackground(width, height);
-	this.addLanes(width, height, 4);
+	this.addLanes(width, height, this.level.numLanes);
 	this.addMoleculeLayer(width, height);
 	this.addHUD(width,height);
 
 	this.nextMolecule = null;
 	this.timeToNextMolecule = 0;
-	this.moleculeData = new chemistry.MoleculeData();
 	
 	lime.scheduleManager.schedule(this.tick, this);
 }
@@ -93,23 +91,22 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 
 			goog.events.listen(target,['mousedown','touchstart'], this.clickedMolecule);
         }
-        // Choose a random new molecule
-        var molecules = this.moleculeData.getMoleculeData();
-		var moleculeData = molecules[goog.math.randomInt(molecules.length)];
-
-		// Create molecule object and scale it into lane size
-		this.nextMolecule = new chemistry.Molecule(moleculeData);
-		this.nextMolecule.velocity = 0.2*this.difficulty*Math.log(0.0001*this.t+Math.exp(1));
-		var size = this.nextMolecule.getSize();
-		var maxSize = Math.max(size.width, size.height);
-		var scale = lane.getSize().width / maxSize * 0.9;
-		this.nextMolecule.setScale(scale,scale)
+        this.nextMolecule = this.level.getNextMolecule();
+		this.nextMolecule.velocity = this.level.getVelocity();
+		this.scaleMolecule(this.nextMolecule);
 
 		// Update time to next molecule
-        this.timeToNextMolecule = 2000/(this.difficulty*0.7*Math.log(0.0001*this.t+Math.exp(1)));
+        this.timeToNextMolecule = this.level.getTimeToNextMolecule();
 		this.hud.nextMolecule.newMolecule(this.nextMolecule, this.timeToNextMolecule);
 	}	
 };
+
+chemistry.Game.prototype.scaleMolecule = function(molecule) {
+	var size = molecule.getSize();
+	var maxSize = Math.max(size.width, size.height);
+	var scale = this.lanes[0].getSize().width / maxSize * 0.9;
+	molecule.setScale(scale,scale)
+}
 
 chemistry.Game.prototype.addMolecule = function(molecule) {
 	this.moleculeLayer.appendChild(molecule);
