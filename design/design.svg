@@ -7,6 +7,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1536"
@@ -14,9 +15,21 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="design.svg">
+   sodipodi:docname="design.svg.2013_07_09_12_28_20.0.svg">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4367">
+      <stop
+         style="stop-color:#25769e;stop-opacity:1"
+         offset="0"
+         id="stop4369" />
+      <stop
+         style="stop-color:#66e1ff;stop-opacity:1"
+         offset="1"
+         id="stop4371" />
+    </linearGradient>
     <filter
        id="filter3013"
        style="color-interpolation-filters:sRGB;"
@@ -159,7 +172,7 @@
       </feSpecularLighting>
       <feComposite
          id="feComposite3307"
-         in2="result91"
+         in2="result1"
          k3="1.5"
          k2="1"
          operator="arithmetic"
@@ -393,6 +406,15 @@
          operator="over"
          result="composite2" />
     </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4367"
+       id="linearGradient4373"
+       x1="512"
+       y1="64"
+       x2="832"
+       y2="1984"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -401,12 +423,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.69238281"
-     inkscape:cx="767.55473"
-     inkscape:cy="1023.7042"
+     inkscape:zoom="0.48615551"
+     inkscape:cx="648.33801"
+     inkscape:cy="1072.252"
      inkscape:document-units="px"
-     inkscape:current-layer="layer8"
-     showgrid="true"
+     inkscape:current-layer="layer6"
+     showgrid="false"
      inkscape:window-width="2500"
      inkscape:window-height="1580"
      inkscape:window-x="58"
@@ -430,14 +452,24 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:groupmode="layer"
      id="layer6"
-     inkscape:label="background" />
+     inkscape:label="background">
+    <rect
+       style="fill:url(#linearGradient4373);fill-opacity:1;stroke:none"
+       id="rect3597"
+       width="1536"
+       height="2048"
+       x="0"
+       y="0"
+       rx="3.0036407"
+       ry="3.7679536" />
+  </g>
   <g
      inkscape:groupmode="layer"
      id="layer5"
@@ -497,5 +529,9 @@
            y="176"
            style="fill:#ffffff;font-family:pusab;-inkscape-font-specification:pusab">3000</tspan></text>
     </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer9"
+       inkscape:label="nextmolecule" />
   </g>
 </svg>
