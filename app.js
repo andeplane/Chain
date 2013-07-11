@@ -31,6 +31,7 @@ app.prototype.newGame = function(difficulty) {
     
 	// this.director.replaceScene(this.game,lime.transitions.Dissolve, 0.2);
 	this.director.replaceScene(this.game);
+	lime.updateDirtyObjects();
 }
 
 app.prototype.endGame = function() {
