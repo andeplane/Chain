@@ -322,10 +322,12 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
         this.addScore(score, molecule);
         this.addHP( this.level.getHP(true) );
         if(marker) { marker.jump(); }
+        goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.CORRECT_ANSWER));
     } else {
         // Wrong, decrease life
         lane.targetBox.highlight(false);
         this.addHP( this.level.getHP(false) );
+        goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
     }
     if(molecule.isDragging) {
     	var currentLane = this.getLaneFromPosition(molecule.getPosition());

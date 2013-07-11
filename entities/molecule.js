@@ -6,7 +6,7 @@ chemistry.Molecule = function(data) {
 	lime.Sprite.call(this);
 
 	this.data = data;
-	this.setSize(250,250); // TODO REMOVE ME!!!
+	this.setSize(data.size[0],data.size[1]); // TODO REMOVE ME!!!
 	this.setFill(data.imageFile);
 	// Rotate by n*90 degrees for more variations
 	var rnd = goog.math.randomInt(4);

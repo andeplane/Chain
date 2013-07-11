@@ -44,6 +44,7 @@ chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
 	var scaleAction = new lime.animation.ScaleTo(1,0).setDuration(timeToNext/1000.0).setEasing(lime.animation.Easing.EASEIN); // setDuration takes seconds as unit of time
 	this.timeLeftBar.runAction(scaleAction);
 	this.moleculeSprite.setFill(molecule.data.imageFile);
+	this.moleculeSprite.setSize(molecule.data.size[0],molecule.data.size[1]);
 	this.moleculeSprite.setRotation(molecule.getRotation());
 
     this.moleculeSprite.setOpacity(0);
