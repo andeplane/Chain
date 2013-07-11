@@ -38,6 +38,4 @@ app.prototype.endGame = function() {
 	this.director.replaceScene(this.mainMenu);
 	this.game = null;
 	lime.updateDirtyObjects();
-	
-    this.director.replaceScene(this.game);
 }
