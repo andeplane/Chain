@@ -4,19 +4,23 @@ goog.require('chemistry.MoleculeData');
 goog.require('chemistry.events.GameEvent');
 
 chemistry.Level = function(difficulty, game) {
-	this.difficulty    = difficulty;
-	this.game 		   = game;
-	this.numLanes	   = 3;
-	this.numMolecules  = 0;
-	this.level  	   = 1;
-	this.moleculeData  = new chemistry.MoleculeData().getMoleculeData();
+	this.difficulty    		= difficulty;
+	this.game 		   		= game;
+	this.numLanes	   		= 3;
+	this.numMolecules  		= 0;
+	this.numCorrect 	    = 0;
+	this.level  	   		= 1;
+	this.moleculeData  		= new chemistry.MoleculeData().getMoleculeData();
 	this.availableMoleculeData = [];
 	this.updateAvailableMoleculeData();
+
+	goog.events.listen(game, chemistry.events.GameEvent.CORRECT_ANSWER, this.newCorrectMolecule, false, this);
 }
 goog.inherits(chemistry.Level, goog.events.EventTarget);
 
 chemistry.Level.prototype.getVelocity = function() {
-	return 0.2*this.difficulty*Math.log(this.level + Math.exp(1));
+	var baseVelocity = appObject.screenHeight / 1024;
+	return 0.2*baseVelocity*Math.log(this.level + Math.exp(1));
 }
 
 chemistry.Level.prototype.getHP = function(correctAnswer) {
@@ -24,7 +28,7 @@ chemistry.Level.prototype.getHP = function(correctAnswer) {
 }
 
 chemistry.Level.prototype.getTimeToNextMolecule = function() {
-	return 2000/(this.difficulty*0.7*Math.log(this.level + Math.exp(1)));
+	return 2000/(0.7*Math.log(this.level + Math.exp(1)));
 }
 
 chemistry.Level.prototype.updateAvailableMoleculeData = function() {
@@ -40,14 +44,18 @@ chemistry.Level.prototype.updateAvailableMoleculeData = function() {
 	}
 }
 
-chemistry.Level.prototype.getNextMolecule = function() {
-    this.numMolecules++;
-    if(this.numMolecules % 5 === 0) {
+chemistry.Level.prototype.newCorrectMolecule = function() {
+	this.numCorrect++;
+	if(this.numCorrect % 5 === 0) {
         this.levelUp(); // Increase level every 5th molecule
     }
+}
+
+chemistry.Level.prototype.getNextMolecule = function() {
+    this.numMolecules++;
     // Choose a random new molecule
     var moleculeData = this.availableMoleculeData[goog.math.randomInt(this.availableMoleculeData.length)];
-
+    
     // Create molecule object and scale it into lane size
     var molecule = new chemistry.Molecule(moleculeData);
 

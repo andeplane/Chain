@@ -34,9 +34,11 @@ chemistry.Game = function(width, height, difficulty) {
 	this.addMarkerLayer(width, height);
 	this.addMoleculeLayer(width, height);
 	this.addHUD(width,height);
+	this.addMarkers(width, height);
     this.addMarkers(width, height);
     this.addLevelUpOverlay(width, height);
 //    this.addFeverModeOverlay(width, height);
+    this.addKeyboardEventListener();
 
 	this.nextMolecule = null;
 	this.timeToNextMolecule = 0;
@@ -45,7 +47,7 @@ chemistry.Game = function(width, height, difficulty) {
 }
 goog.inherits(chemistry.Game, lime.Scene);
 
-chemistry.Game.prototype.addKeyEventListener = function() {
+chemistry.Game.prototype.addKeyboardEventListener = function() {
 	goog.events.listen(goog.global, ['keydown'], function (e) {
 		var obj = {};
         switch (e.keyCode) {
@@ -328,10 +330,12 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
         this.addScore(score, molecule);
         this.addHP( this.level.getHP(true) );
         if(marker) { marker.jump(); }
+        goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.CORRECT_ANSWER));
     } else {
         // Wrong, decrease life
         lane.targetBox.highlight(false);
         this.addHP( this.level.getHP(false) );
+        goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
     }
     if(molecule.isDragging) {
     	var currentLane = this.getLaneFromPosition(molecule.getPosition());
