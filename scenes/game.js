@@ -37,7 +37,7 @@ chemistry.Game = function(width, height, difficulty) {
 	this.addMarkers(width, height);
     this.addMarkers(width, height);
     this.addLevelUpOverlay(width, height);
-    this.addFeverModeOverlay(width, height);
+//    this.addFeverModeOverlay(width, height);
     this.addKeyboardEventListener();
 
 	this.nextMolecule = null;
@@ -146,20 +146,15 @@ chemistry.Game.prototype.addLevelUpOverlay = function(width, height) {
     this.levelUpOverlay.setHidden(true);
 }
 
-chemistry.Game.prototype.addFeverModeOverlay = function(width, height) {
-    this.feverModeOverlay = new chemistry.overlays.FeverMode(width, height);
-    this.feverModeOverlay.setAnchorPoint(0,0);
-    this.appendChild(this.feverModeOverlay);
-    this.feverModeOverlay.setHidden(true);
-}
+//chemistry.Game.prototype.addFeverModeOverlay = function(width, height) {
+//    this.feverModeOverlay = new chemistry.overlays.FeverMode(width, height);
+//    this.feverModeOverlay.setAnchorPoint(0,0);
+//    this.appendChild(this.feverModeOverlay);
+//    this.feverModeOverlay.setHidden(true);
+//}
 
 chemistry.Game.prototype.levelUp = function(event) {
-    for(var i in this.molecules) {
-        var molecule = this.molecules[i];
-        var lane = this.getLaneFromPosition(molecule.getPosition());
-        lane.removeMolecule(molecule);
-        this.removeMolecule(molecule);
-    }
+    this.removeAllMolecules();
 
     this.levelUpOverlay.levelUp(this.level.level);
 }
@@ -279,8 +274,8 @@ chemistry.Game.prototype.addHP = function(value) {
 }
 
 chemistry.Game.prototype.enterFeverMode = function() {
-	this.fever = true;
-    this.feverModeOverlay.enterFeverMode();
+    this.fever = true;
+//    this.feverModeOverlay.enterFeverMode();
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.ENTER_FEVER_MODE));
 }
 
@@ -289,7 +284,20 @@ chemistry.Game.prototype.exitFeverMode = function() {
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.EXIT_FEVER_MODE));
 }
 
+chemistry.Game.prototype.removeAllMolecules = function() {
+    for(var i in this.molecules) {
+        var molecule = this.molecules[i];
+        var lane = this.getLaneFromPosition(molecule.getPosition());
+        if(molecule.isDragging) {
+            lane.decreaseHighlight();
+        }
+        lane.removeMolecule(molecule);
+        this.removeMolecule(molecule);
+    }
+}
+
 chemistry.Game.prototype.end = function() {
+    this.removeAllMolecules();
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.GAME_OVER));
     goog.events.removeAll(this);
     lime.scheduleManager.unschedule(this.tick, this);
