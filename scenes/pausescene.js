@@ -28,7 +28,7 @@ chemistry.scenes.PauseScene.prototype.resumeButtonClicked = function(e) {
 }
 
 chemistry.scenes.PauseScene.prototype.restartButtonClicked = function(e) {
-    appObject.game.start();
+    appObject.game.restart();
     appObject.game.unpause(e);
 }
 

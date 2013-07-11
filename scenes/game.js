@@ -43,7 +43,7 @@ chemistry.Game = function(width, height, difficulty) {
     this.addKeyboardEventListener();
     this.addGameOverOverlay(width, height);
 
-    this.start();
+    this.restart();
 }
 goog.inherits(chemistry.Game, lime.Scene);
 
@@ -54,7 +54,7 @@ chemistry.Game.state = {
     GAME_OVER: 3
 };
 
-chemistry.Game.prototype.start = function() {
+chemistry.Game.prototype.restart = function() {
     this.t 	   = 0;
     this.score = 0;
     this.setHP(50);
@@ -68,7 +68,7 @@ chemistry.Game.prototype.start = function() {
 
 chemistry.Game.prototype.retry = function() {
     this.gameOverOverlay.setHidden(true);
-    this.start();
+    this.restart();
     lime.updateDirtyObjects();
 }
 
