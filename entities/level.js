@@ -20,7 +20,7 @@ goog.inherits(chemistry.Level, goog.events.EventTarget);
 
 chemistry.Level.prototype.getVelocity = function() {
 	var baseVelocity = appObject.screenHeight / 1024;
-	return 0.2*baseVelocity*Math.log(this.level + Math.exp(1));
+	return 0.2*baseVelocity*Math.log(this.level + Math.exp(1))*1000;
 }
 
 chemistry.Level.prototype.getHP = function(correctAnswer) {

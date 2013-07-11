@@ -33,7 +33,7 @@ chemistry.RollerCounter.prototype.jump = function() {
 	this.currentAction = new lime.animation.Sequence(
 		new lime.animation.ScaleTo(1.7,1.7).setDuration(0.1).setEasing(lime.animation.Easing.LINEAR),
 		new lime.animation.ScaleTo(1,1).setDuration(0.2)
-		);
+		).enableOptimizations();
 	this.runAction(this.currentAction);
 }
 
@@ -44,13 +44,13 @@ chemistry.RollerCounter.prototype.enterFeverMode = function() {
 		new lime.animation.Sequence(
 			new lime.animation.ScaleTo(1.3,1.3).setDuration(0.2).setEasing(lime.animation.Easing.LINEAR),
 			new lime.animation.ScaleTo(1,1).setDuration(0.2)
-		));
+		)).enableOptimizations();
 	this.runAction(this.currentAction);
 }
 
 chemistry.RollerCounter.prototype.exitFeverMode = function() {
 	this.fever = false;
 	if(this.currentAction) {this.currentAction.stop(); }
-	this.currentAction = new lime.animation.ScaleTo(1,1).setDuration(0.2);
+	this.currentAction = new lime.animation.ScaleTo(1,1).setDuration(0.2).enableOptimizations();
 	this.runAction(this.currentAction);
 }

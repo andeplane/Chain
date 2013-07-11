@@ -92,8 +92,8 @@ chemistry.Lane.prototype.decreaseHighlight = function() {
 chemistry.Lane.prototype.refreshHighlight = function() {
 	if(this.currentAction) this.currentAction.stop();
 
-	this.currentAction = new lime.animation.FadeTo(0.2*this.numHighlight);
-	this.currentAction.setDuration(0.3);
+	this.currentAction = new lime.animation.FadeTo(0.2*this.numHighlight).setDuration(0.1).enableOptimizations();
+	this.currentAction;
 	this.highlightSprite.runAction(this.currentAction);
 }
 

@@ -25,6 +25,6 @@ chemistry.MultiplierLabel.prototype.jump = function() {
 	this.currentAction = new lime.animation.Sequence(
 		new lime.animation.ScaleTo(2,2).setDuration(0.1),
 		new lime.animation.ScaleTo(1,1).setDuration(0.1)
-		);
+		).enableOptimizations();
 	this.runAction(this.currentAction);
 }

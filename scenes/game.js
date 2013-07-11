@@ -204,9 +204,13 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
             var x = lane.getXMiddle();
             var y = this.getSize().height / 8;
             this.nextMolecule.setPosition(x, y);
+            this.nextMolecule.targetX = x;
             this.addMolecule(this.nextMolecule);
             this.nextMolecule.isFalling = true;
 
+            var pos = this.nextMolecule.getPosition();
+            this.nextMolecule.moveTo(pos.x, this.getSize().height);
+            
             var target = this.nextMolecule;
             var self = this;
         }
@@ -333,6 +337,10 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
     	var currentLane = this.getLaneFromPosition(molecule.getPosition());
     	currentLane.decreaseHighlight();
     }
+
+    if(molecule.ghost) {
+        this.removeChild(molecule.ghost);
+    }
 }
 
 chemistry.Game.prototype.clickedMolecule = function(e) {
@@ -343,33 +351,68 @@ chemistry.Game.prototype.clickedMolecule = function(e) {
 	var self = this;
 
     var xDiff = self.screenToLocal(e.screenPosition).x - e.target.getPosition().x;
+    // e.target.currentAnimation.stop();
+    // var ghost = new lime.Sprite();
+    // ghost.setFill(e.target.data.imageFile);
+    // ghost.setSize(e.target.getSize());
+    // ghost.setPosition(e.target.getPosition());
+    // ghost.setRotation(e.target.getRotation());
+    // ghost.setScale(e.target.getScale());
+    // ghost.setAnchorPoint(e.target.getAnchorPoint());
+    // ghost.setOpacity(0.2);
+
+    // e.target.ghost = ghost;
+    // this.appendChild(ghost);
     
     //listen for end event
     e.swallow(['mouseup','touchend'],function(){
+        // var previousLane = self.getLaneFromPosition(e.target.getPosition());
+        // if(previousLane !== currentLane) {
+        //     previousLane.removeMolecule(e.target);
+        //     currentLane.addMolecule(e.target);
+        // }
+
     	e.target.isDragging = false;
     	currentLane.decreaseHighlight();
-        e.target.setPosition(currentLane.getXMiddle(), e.target.getPosition().y);
+        // e.target.moveAction.stop();
+
+        // e.target.setPosition(currentLane.getXMiddle(), e.target.getPosition().y);
+
+        // var pos = e.target.getPosition();
+        // e.target.moveTo(pos.x, self.getSize().height);
+        // self.removeChild(ghost);
+        // e.target.ghost = null;
     });
 
     e.swallow(['mousemove','touchmove'],function(ev) {
-    	// Make sure the molecule is within the screen
+        // Make sure the molecule is within the screen
     	var newXPosition = self.screenToLocal(ev.screenPosition).x - xDiff;
     	newXPosition = goog.math.clamp(newXPosition, 0, self.getSize().width - 1);
+        var pos = e.target.getPosition();
+        pos.x = newXPosition;
 
-        e.target.setPosition(newXPosition, e.target.getPosition().y);
-        var newLane = self.getLaneFromPosition(e.target.getPosition());
+        // e.target.setPosition(newXPosition, e.target.getPosition().y);
+        // ghost.setPosition(newXPosition, e.target.getPosition().y);
+        var newLane = self.getLaneFromPosition(pos);
         if(newLane !== currentLane) {
             currentLane.removeMolecule(e.target);
             currentLane.decreaseHighlight();
+
             newLane.addMolecule(e.target);
             newLane.increaseHighlight();
             currentLane = newLane;
+
+            goog.events.listen(e.target.moveAction, lime.animation.Event.STOP, function(ev) {
+                e.target.moveTo(currentLane.getXMiddle(), self.getSize().height);
+            });
+
+            e.target.moveAction.stop();
         }
     });
 }
 
 chemistry.Game.prototype.tick = function(dt) {
-    lime.updateDirtyObjects();
+    // lime.updateDirtyObjects();
     for(var i in this.lanes) {
         var lane = this.lanes[i];
         lane.tick(dt);

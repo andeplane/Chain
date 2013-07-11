@@ -48,7 +48,7 @@ chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
 	this.moleculeSprite.setRotation(molecule.getRotation());
 
     this.moleculeSprite.setOpacity(0);
-    var fadeMoleculeAction = new lime.animation.FadeTo(1).setDuration(timeToNext / (2*1000.0));
+    var fadeMoleculeAction = new lime.animation.FadeTo(1).setDuration(timeToNext / (2*1000.0)).enableOptimizations();
     this.moleculeSprite.runAction(fadeMoleculeAction);
 
 	var size = this.moleculeSprite.getSize();
