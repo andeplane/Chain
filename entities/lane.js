@@ -44,41 +44,6 @@ chemistry.Lane.prototype.addTargetBox = function(width, height) {
     }, false, this);
 }
 
-chemistry.Lane.prototype.addMolecule = function(molecule) {
-	this.molecules.push(molecule);
-}
-
-chemistry.Lane.prototype.removeMoleculeAtIndex = function(index) {
-	this.molecules.splice(index, 1);
-}
-
-chemistry.Lane.prototype.removeMolecule = function(molecule) {
-	var index = this.molecules.indexOf(molecule);
-	this.removeMoleculeAtIndex(index);
-}
-
-chemistry.Lane.prototype.tick = function(dt) {
-	this.processMolecules(dt);
-}
-
-chemistry.Lane.prototype.processMolecules = function(dt) {
-	var moleculesToBeRemoved = [];
-	for(var i in this.molecules) {
-		var molecule = this.molecules[i];
-        molecule.tick(dt);
-        if(molecule.getPosition().y >= this.targetBox.getPosition().y) {
-            goog.events.dispatchEvent(this, new chemistry.events.LaneEvent(chemistry.events.LaneEvent.MOLECULE_HIT_TARGET_BOX, this.number, molecule));
-            moleculesToBeRemoved.push(molecule);
-		}
-	}
-
-	for(var i in moleculesToBeRemoved) {
-		var molecule = moleculesToBeRemoved[i];
-		this.removeMolecule(molecule);
-		appObject.game.removeMolecule(molecule);
-	}
-}
-
 chemistry.Lane.prototype.increaseHighlight = function() {
 	this.numHighlight += 1;
 	this.refreshHighlight();
@@ -92,11 +57,6 @@ chemistry.Lane.prototype.decreaseHighlight = function() {
 chemistry.Lane.prototype.refreshHighlight = function() {
 	if(this.currentAction) this.currentAction.stop();
 
-	this.currentAction = new lime.animation.FadeTo(0.2*this.numHighlight);
-	this.currentAction.setDuration(0.3);
+	this.currentAction = new lime.animation.FadeTo(0.2*this.numHighlight).setDuration(0.1).enableOptimizations();
 	this.highlightSprite.runAction(this.currentAction);
-}
-
-chemistry.Lane.prototype.getXMiddle = function() {
-	return this.getPosition().x + this.getSize().width/2.0;
 }

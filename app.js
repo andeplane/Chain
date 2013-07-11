@@ -6,7 +6,7 @@ goog.require('lime.Director');
 goog.require('lime.Scene');
 goog.require('lime.Sprite');
 goog.require('lime.audio.Audio');
-
+goog.require('lime.transitions.Dissolve');
 
 app = function(body, screenWidth, screenHeight) {
 	this.director = new lime.Director(body, screenWidth, screenHeight);
@@ -22,28 +22,18 @@ app = function(body, screenWidth, screenHeight) {
 	// this.audio = new lime.audio.Audio("assets/EIVISSA_SALINAS_feat._DJ_HSERES_-_Belly_Rythm.mp3");
 	// this.audio.play();
 	
-	this.mainMenu = new chemistry.MainMenu();
-
+	this.mainMenu = new chemistry.MainMenu(screenWidth, screenHeight);
 	this.director.replaceScene(this.mainMenu);
-};
-
-app.prototype.pause = function() {
-	this.director.setPaused(true);
-	lime.updateDirtyObjects();
-};
-
-app.prototype.unpause = function() {
-	this.director.setPaused(false);
-	lime.updateDirtyObjects();
 };
 
 app.prototype.newGame = function(difficulty) {
     this.game = new chemistry.Game(this.screenWidth, this.screenHeight, difficulty);
-	this.director.replaceScene(this.game);
+    
+	this.director.replaceScene(this.game,lime.transitions.Dissolve, 0.2);
 }
 
 app.prototype.endGame = function() {
-	this.director.replaceScene(this.mainMenu);
+	this.director.replaceScene(this.mainMenu,lime.transitions.Dissolve, 0.2);
 	this.game = null;
 	lime.updateDirtyObjects();
 }

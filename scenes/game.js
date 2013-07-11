@@ -214,10 +214,7 @@ chemistry.Game.prototype.clickedTargetBox = function(event) {
     } else {
         // We have falling molecules. Choose the lower most molecule as current
         molecule = this.molecules[0];
-        var currentLane = this.getLaneFromPosition(molecule.getPosition());
-
-        currentLane.removeMolecule(molecule);
-        this.removeMolecule(molecule);
+        // this.removeMolecule(molecule);
     }
 
     var clickedLane = this.lanes[boxIndex];
@@ -232,14 +229,19 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
         // Choose a random lane
         var lane = this.lanes[goog.math.randomInt(this.lanes.length)];
         if(this.nextMolecule != null) {
-            // The next molecule exists, lets move that into falling mode in the randomly chosen lane
-            lane.addMolecule(this.nextMolecule);
-            var x = lane.getXMiddle();
+            // The next molecule exists, lets move that into falling mode
+            var moleculeWidth = this.nextMolecule.getSize().width*this.nextMolecule.getScale().x;
+            var x = moleculeWidth + goog.math.randomInt(this.getSize().width - 2*moleculeWidth);
+
             var y = this.getSize().height / 8;
             this.nextMolecule.setPosition(x, y);
+            this.nextMolecule.targetX = x;
             this.addMolecule(this.nextMolecule);
             this.nextMolecule.isFalling = true;
 
+            var pos = this.nextMolecule.getPosition();
+            this.nextMolecule.moveTo(pos.x, this.getSize().height);
+            
             var target = this.nextMolecule;
             var self = this;
         }
@@ -254,14 +256,14 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 };
 
 chemistry.Game.prototype.scaleMolecule = function(molecule) {
-	var size = molecule.getSize();
-	var maxSize = Math.max(size.width, size.height);
-	var scale = this.lanes[0].getSize().width / maxSize * 0.9;
-	molecule.setScale(scale,scale)
+    // Make sure the molecules aren't bigger than 1/nth of the screen width.
+    var moleculeMaxSize = Math.max(molecule.getSize().width, molecule.getSize().height);
+    var maxSize = this.getSize().width / 5.0;
+    var scale = Math.min(maxSize / moleculeMaxSize, 1.0);
+    molecule.setScale(scale,scale);
 }
 
 chemistry.Game.prototype.addMolecule = function(molecule) {
-	goog.events.listen(molecule,['mousedown','touchstart'], this.clickedMolecule, false, this);
     this.moleculeLayer.appendChild(molecule);
     this.molecules.push(molecule);
 }
@@ -288,7 +290,7 @@ chemistry.Game.prototype.addScore = function(score, molecule) {
         this.appendChild(scoreLabel);
         goog.events.listen(animation,lime.animation.Event.STOP,function(){
             this.removeChild(scoreLabel);
-        },false,this);
+        }, false, this);
     }
 }
 
@@ -326,11 +328,6 @@ chemistry.Game.prototype.exitFeverMode = function() {
 chemistry.Game.prototype.removeAllMolecules = function() {
     for(var i in this.molecules) {
         var molecule = this.molecules[i];
-        var lane = this.getLaneFromPosition(molecule.getPosition());
-        if(molecule.isDragging) {
-            lane.decreaseHighlight();
-        }
-        lane.removeMolecule(molecule);
         this.removeMolecule(molecule);
     }
 }
@@ -378,58 +375,88 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
         this.addHP( this.level.getHP(true) );
         if(marker) { marker.jump(); }
         goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.CORRECT_ANSWER));
+
+        // Remove molecule from molecule list, so that we can start working on the next one
+        var index = this.molecules.indexOf(molecule);
+        this.molecules.splice(index, 1);
+
+        // Create vibration effect and remove the molecule afterwards
+        var fade = molecule.fadeOut();
+        goog.events.listen(fade, lime.animation.Event.STOP, function(e) {
+            this.moleculeLayer.removeChild(molecule);
+        }, false, this);
     } else {
-        // Wrong, decrease life
         lane.targetBox.highlight(false);
         this.addHP( this.level.getHP(false) );
         goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
-    }
-    if(molecule.isDragging) {
-    	var currentLane = this.getLaneFromPosition(molecule.getPosition());
-    	currentLane.decreaseHighlight();
+
+        // Remove molecule from molecule list, so that we can start working on the next one
+        var index = this.molecules.indexOf(molecule);
+        this.molecules.splice(index, 1);
+
+        // Create vibration effect and remove the molecule afterwards
+        var vib = molecule.vibrate();
+        goog.events.listen(vib, lime.animation.Event.STOP, function(e) {
+            this.moleculeLayer.removeChild(molecule);
+        }, false, this);
     }
 }
 
-chemistry.Game.prototype.clickedMolecule = function(e) {
-	if(e.target.isDragging) return;
-	e.target.isDragging = true;
-    var currentLane = this.getLaneFromPosition(e.target.getPosition());
-    currentLane.increaseHighlight();
-	var self = this;
+chemistry.Game.prototype.processMolecules = function(dt) {
+    var moleculesToBeRemoved = [];
+    for(var i in this.molecules) {
+        var molecule = this.molecules[i];
+        molecule.tick(dt);
+        var lane = this.getLaneFromPosition(molecule.getPosition());
 
-    var xDiff = self.screenToLocal(e.screenPosition).x - e.target.getPosition().x;
-    
-    //listen for end event
-    e.swallow(['mouseup','touchend'],function(){
-    	e.target.isDragging = false;
-    	currentLane.decreaseHighlight();
-        e.target.setPosition(currentLane.getXMiddle(), e.target.getPosition().y);
-    });
+        if(molecule.getPosition().y >= lane.targetBox.getPosition().y) {
+            moleculesToBeRemoved.push(molecule);
 
-    e.swallow(['mousemove','touchmove'],function(ev) {
-    	// Make sure the molecule is within the screen
-    	var newXPosition = self.screenToLocal(ev.screenPosition).x - xDiff;
-    	newXPosition = goog.math.clamp(newXPosition, 0, self.getSize().width - 1);
-
-        e.target.setPosition(newXPosition, e.target.getPosition().y);
-        var newLane = self.getLaneFromPosition(e.target.getPosition());
-        if(newLane !== currentLane) {
-            currentLane.removeMolecule(e.target);
-            currentLane.decreaseHighlight();
-            newLane.addMolecule(e.target);
-            newLane.increaseHighlight();
-            currentLane = newLane;
+            lane.targetBox.highlight(false);
+            this.addHP( this.level.getHP(false) );
+            goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
         }
-    });
+    }
+
+    for(var i in moleculesToBeRemoved) {
+        var molecule = moleculesToBeRemoved[i];
+        this.removeMolecule(molecule);
+    }
+}
+
+chemistry.Game.prototype.pause = function(ev) {
+    // First broadcast pause event
+    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.PAUSE));
+
+    // Stop movement on all molecules
+    for(var i in this.molecules) {
+        var molecule = this.molecules[i];
+        molecule.moveAction.stop();
+    }
+
+    // Tell director to pause
+    this.getDirector().setPaused(true);
+    // Draw pause menu
+    lime.updateDirtyObjects();
+}
+
+chemistry.Game.prototype.unpause = function(ev) {
+    // First broadcast unpause event
+    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.UNPAUSE));
+
+    // Resume movement on all molecules
+    for(var i in this.molecules) {
+        var molecule = this.molecules[i];
+        molecule.moveTo(molecule.targetX, this.getSize().height);
+    }
+
+    // Tell director to unpause
+    this.getDirector().setPaused(false);
 }
 
 chemistry.Game.prototype.tick = function(dt) {
-    lime.updateDirtyObjects();
-    for(var i in this.lanes) {
-        var lane = this.lanes[i];
-        lane.tick(dt);
-    }
     this.hud.tick(dt);
+    this.processMolecules(dt);
     this.updateNextMolecule(dt);
     if(this.hp <= 0) this.gameOver();
     this.t += dt;
