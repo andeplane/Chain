@@ -1,5 +1,7 @@
 goog.provide('chemistry.Molecule');
+
 goog.require('lime.Sprite');
+goog.require('lime.animation.RotateTo');
 goog.require('goog.math');
 
 chemistry.Molecule = function(data) {
