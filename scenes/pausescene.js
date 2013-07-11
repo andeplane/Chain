@@ -33,5 +33,5 @@ chemistry.scenes.PauseScene.prototype.restartButtonClicked = function(e) {
 }
 
 chemistry.scenes.PauseScene.prototype.returnToMenuButtonClicked = function(e) {
-	appObject.game.end();
+    appObject.game.quit();
 }

@@ -55,6 +55,8 @@ chemistry.Game.state = {
 };
 
 chemistry.Game.prototype.restart = function() {
+    lime.scheduleManager.unschedule(this.tick, this);
+    this.removeAllMolecules();
     this.t 	   = 0;
     this.score = 0;
     this.setHP(50);
@@ -62,8 +64,8 @@ chemistry.Game.prototype.restart = function() {
 
     this.nextMolecule = null;
     this.timeToNextMolecule = 0;
-    lime.scheduleManager.schedule(this.tick, this);
     this.state = chemistry.Game.state.RUNNING;
+    lime.scheduleManager.schedule(this.tick, this);
 }
 
 chemistry.Game.prototype.retry = function() {
