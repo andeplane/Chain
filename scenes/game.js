@@ -37,7 +37,6 @@ chemistry.Game = function(width, height, difficulty) {
 	this.addMoleculeLayer(width, height);
 	this.addHUD(width,height);
 	this.addMarkers(width, height);
-    this.addMarkers(width, height);
     this.addLevelUpOverlay(width, height);
 //    this.addFeverModeOverlay(width, height);
     this.addKeyboardEventListener();
