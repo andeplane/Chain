@@ -1,7 +1,7 @@
 goog.provide('chemistry.Molecule');
 
 goog.require('lime.Sprite');
-goog.require('lime.animation.RotateTo');
+goog.require('lime.animation.RotateBy');
 goog.require('goog.math');
 
 chemistry.Molecule = function(data) {
@@ -38,6 +38,8 @@ chemistry.Molecule.prototype.calculateScore = function() {
 }
 
 chemistry.Molecule.prototype.fadeOut = function() {
+	if(this.moveAction) this.moveAction.stop();
+
 	var animation = new lime.animation.Spawn(
 		new lime.animation.FadeTo(0).setDuration(0.3).setEasing(lime.animation.Easing.EASEIN),
     	new lime.animation.ScaleTo(0.5).setDuration(0.7)
@@ -47,29 +49,30 @@ chemistry.Molecule.prototype.fadeOut = function() {
 }
 
 chemistry.Molecule.prototype.vibrate = function() {
+	if(this.moveAction) this.moveAction.stop();
 	var initialRotation = this.getRotation();
-
+	
 	var animation = new lime.animation.Sequence (
-        new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-        new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+        new lime.animation.RotateBy(10).setDuration(0.045),
+        new lime.animation.RotateBy(-10).setDuration(0.045),
         new lime.animation.Spawn(
             new lime.animation.Sequence (
-                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
-                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045)
+                new lime.animation.RotateBy(10).setDuration(0.045),
+                new lime.animation.RotateBy(-10).setDuration(0.045),
+                new lime.animation.RotateBy(10).setDuration(0.045),
+                new lime.animation.RotateBy(-10).setDuration(0.045),
+                new lime.animation.RotateBy(10).setDuration(0.045),
+                new lime.animation.RotateBy(-10).setDuration(0.045),
+                new lime.animation.RotateBy(10).setDuration(0.045),
+                new lime.animation.RotateBy(-10).setDuration(0.045),
+                new lime.animation.RotateBy(10).setDuration(0.045),
+                new lime.animation.RotateBy(-10).setDuration(0.045),
+                new lime.animation.RotateBy(10).setDuration(0.045),
+                new lime.animation.RotateBy(-10).setDuration(0.045),
+                new lime.animation.RotateBy(10).setDuration(0.045),
+                new lime.animation.RotateBy(-10).setDuration(0.045),
+                new lime.animation.RotateBy(10).setDuration(0.045),
+                new lime.animation.RotateBy(-10).setDuration(0.045)
                 ),
             new lime.animation.FadeTo(0).setDuration(0.3),
             new lime.animation.ScaleTo(2).setDuration(0.7)

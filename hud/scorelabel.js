@@ -17,8 +17,8 @@ chemistry.ScoreLabel.prototype.animateScore = function(score, x, y) {
 	this.setText(parseInt(score));
 	this.setPosition(x,y);
 	var animation = new lime.animation.Spawn(
-		new lime.animation.ScaleTo(15,15).setDuration(1.0),
-		new lime.animation.FadeTo(0).setDuration(0.5)
+		new lime.animation.ScaleTo(15,15).setDuration(1.0).enableOptimizations(),
+		new lime.animation.FadeTo(0).setDuration(0.5).enableOptimizations()
 		).enableOptimizations();
 	this.runAction(animation);
 	return animation;
