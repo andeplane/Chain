@@ -12,11 +12,8 @@ chemistry.Molecule = function(data) {
 	var rnd = goog.math.randomInt(4);
 	this.setRotation(90*rnd);
 	this.moveAction = null;
-	this.ghost = null;
 	this.isFalling	   = false;
-	this.isDragging    = false;
 	this.targetX = 0;
-
 	
 	this.chainLength 		 = data.chainLength;
 	this.numBranches 		 = data.numBranches;
@@ -36,6 +33,50 @@ chemistry.Molecule.prototype.tick = function(dt) {
 
 chemistry.Molecule.prototype.calculateScore = function() {
 	this.score = 10*this.chainLength;
+}
+
+chemistry.Molecule.prototype.fadeOut = function() {
+	var animation = new lime.animation.Spawn(
+		new lime.animation.FadeTo(0).setDuration(0.3).setEasing(lime.animation.Easing.EASEIN),
+    	new lime.animation.ScaleTo(0.5).setDuration(0.7)
+		).enableOptimizations();
+	this.runAction(animation);
+	return animation;
+}
+
+chemistry.Molecule.prototype.vibrate = function() {
+	var initialRotation = this.getRotation();
+
+	var animation = new lime.animation.Sequence (
+        new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+        new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+        new lime.animation.Spawn(
+            new lime.animation.Sequence (
+                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(10 + initialRotation).setDuration(0.045),
+                new lime.animation.RotateTo(20 + initialRotation).setDuration(0.045)
+                ),
+            new lime.animation.FadeTo(0).setDuration(0.3),
+            new lime.animation.ScaleTo(2).setDuration(0.7)
+            )
+        ).enableOptimizations();
+	
+	this.runAction(animation);
+
+	return animation;
 }
 
 chemistry.Molecule.prototype.moveTo = function(x,y) {

@@ -16,3 +16,6 @@ chemistry.events.GameEvent.GAME_OVER = "GAME_OVER";
 chemistry.events.GameEvent.LEVEL_UP = "LEVEL_UP";
 chemistry.events.GameEvent.WRONG_ANSWER = "WRONG_ANSWER";
 chemistry.events.GameEvent.CORRECT_ANSWER = "CORRECT_ANSWER";
+
+chemistry.events.GameEvent.PAUSE = "PAUSE";
+chemistry.events.GameEvent.UNPAUSE = "UNPAUSE";

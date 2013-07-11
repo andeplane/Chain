@@ -53,5 +53,5 @@ chemistry.Hud.prototype.tick = function(dt) {
 }
 
 chemistry.Hud.prototype.pauseButtonClicked = function(e) {
-	appObject.pause();
+	appObject.game.pause();
 };
