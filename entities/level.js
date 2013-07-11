@@ -6,17 +6,27 @@ goog.require('chemistry.events.GameEvent');
 chemistry.Level = function(difficulty, game) {
 	this.difficulty    		= difficulty;
 	this.game 		   		= game;
-	this.numLanes	   		= 3;
-	this.numMolecules  		= 0;
-	this.numCorrect 	    = 0;
-	this.level  	   		= 1;
+    this.numLanes	   		= -999;
+    this.numMolecules  		= -999;
+    this.numCorrect 	    = -999;
+    this.level  	   		= -999;
 	this.moleculeData  		= new chemistry.MoleculeData().getMoleculeData();
-	this.availableMoleculeData = [];
-	this.updateAvailableMoleculeData();
+    this.availableMoleculeData = [];
+
+    this.reset();
 
 	goog.events.listen(game, chemistry.events.GameEvent.CORRECT_ANSWER, this.newCorrectMolecule, false, this);
 }
 goog.inherits(chemistry.Level, goog.events.EventTarget);
+
+chemistry.Level.prototype.reset = function() {
+    this.level  	   		= 1;
+    this.numCorrect 	    = 0;
+    this.numMolecules  		= 0;
+    this.numLanes	   		= 3;
+
+    this.updateAvailableMoleculeData();
+}
 
 chemistry.Level.prototype.getVelocity = function() {
 	var baseVelocity = appObject.screenHeight / 1024;

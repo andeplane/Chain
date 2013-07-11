@@ -6,7 +6,7 @@ goog.require('chemistry.Molecule');
 goog.require('chemistry.Lane');
 goog.require('chemistry.Level');
 goog.require('chemistry.overlays.LevelUp');
-goog.require('chemistry.overlays.FeverMode');
+goog.require('chemistry.overlays.GameOver');
 goog.require('chemistry.events.GameEvent');
 goog.require('chemistry.events.LaneEvent');
 goog.require('chemistry.MultiplierLabel');
@@ -16,12 +16,14 @@ goog.require('lime.animation.MoveTo');
 goog.require('lime.fill.LinearGradient');
 
 chemistry.Game = function(width, height, difficulty) {
-	lime.Scene.call(this);
-	this.setSize(width, height);
+    lime.Scene.call(this);
 
-	this.t 	   = 0;
-	this.score = 0;
-    this.hp    = 50;
+    this.setSize(width, height);
+
+    this.t = -999;
+    this.score = -999;
+    this.hp = -999;
+
 	this.difficulty = difficulty;
     this.level = new chemistry.Level(difficulty, this);
     goog.events.listen(this.level, chemistry.events.GameEvent.LEVEL_UP, this.levelUp, false, this);
@@ -39,16 +41,47 @@ chemistry.Game = function(width, height, difficulty) {
     this.addLevelUpOverlay(width, height);
 //    this.addFeverModeOverlay(width, height);
     this.addKeyboardEventListener();
+    this.addGameOverOverlay(width, height);
 
-	this.nextMolecule = null;
-	this.timeToNextMolecule = 0;
-	
-    lime.scheduleManager.schedule(this.tick, this);
+    this.start();
 }
 goog.inherits(chemistry.Game, lime.Scene);
 
+// Game states
+chemistry.Game.state = {
+    RUNNING: 1,
+    PAUSED: 2,
+    GAME_OVER: 3
+};
+
+chemistry.Game.prototype.start = function() {
+    this.t 	   = 0;
+    this.score = 0;
+    this.setHP(50);
+    this.level.reset();
+
+    this.nextMolecule = null;
+    this.timeToNextMolecule = 0;
+    lime.scheduleManager.schedule(this.tick, this);
+    this.state = chemistry.Game.state.RUNNING;
+}
+
+chemistry.Game.prototype.retry = function() {
+    this.gameOverOverlay.setHidden(true);
+    this.start();
+    lime.updateDirtyObjects();
+}
+
+chemistry.Game.prototype.pause = function() {
+    this.state = chemistry.Game.state.PAUSED;
+    lime.scheduleManager.unschedule(this.tick, this);
+}
+
 chemistry.Game.prototype.addKeyboardEventListener = function() {
-	goog.events.listen(goog.global, ['keydown'], function (e) {
+    goog.events.listen(goog.global, ['keydown'], function (e) {
+        if(this.state !== chemistry.Game.state.RUNNING) {
+            return;
+        }
 		var obj = {};
         switch (e.keyCode) {
             case 49: //1
@@ -75,7 +108,6 @@ chemistry.Game.prototype.addKeyboardEventListener = function() {
 chemistry.Game.prototype.addHUD = function(width, height) {
     this.hud = new chemistry.Hud(appObject.screenWidth, appObject.screenWidth/4.0);
     this.appendChild(this.hud,1000);
-    this.hud.lifebar.setHP(this.hp);
     goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.lifebar.enterFeverMode, false, this.hud.lifebar);
 	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.lifebar.exitFeverMode, false, this.hud.lifebar);
 	goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.rollerCounter.enterFeverMode, false, this.hud.rollerCounter);
@@ -146,12 +178,14 @@ chemistry.Game.prototype.addLevelUpOverlay = function(width, height) {
     this.levelUpOverlay.setHidden(true);
 }
 
-//chemistry.Game.prototype.addFeverModeOverlay = function(width, height) {
-//    this.feverModeOverlay = new chemistry.overlays.FeverMode(width, height);
-//    this.feverModeOverlay.setAnchorPoint(0,0);
-//    this.appendChild(this.feverModeOverlay);
-//    this.feverModeOverlay.setHidden(true);
-//}
+chemistry.Game.prototype.addGameOverOverlay = function(width, height) {
+    this.gameOverOverlay = new chemistry.overlays.GameOver(width, height);
+    this.gameOverOverlay.setAnchorPoint(0,0);
+    this.appendChild(this.gameOverOverlay);
+    this.gameOverOverlay.setHidden(true);
+    goog.events.listen(this.gameOverOverlay, chemistry.overlays.GameOver.event.RETRY_BUTTON_CLICKED, this.retry, false, this);
+    goog.events.listen(this.gameOverOverlay, chemistry.overlays.GameOver.event.END_GAME_BUTTON_CLICKED, this.quit, false, this);
+}
 
 chemistry.Game.prototype.levelUp = function(event) {
     this.removeAllMolecules();
@@ -166,6 +200,10 @@ chemistry.Game.prototype.moleculeHitTargetBox = function(event) {
 }
 
 chemistry.Game.prototype.clickedTargetBox = function(event) {
+    if(this.state !== chemistry.Game.state.RUNNING) {
+        return;
+    }
+
     var boxIndex = event.laneNumber;
     var molecule;
     if(this.molecules.length == 0) {
@@ -254,19 +292,24 @@ chemistry.Game.prototype.addScore = function(score, molecule) {
     }
 }
 
-chemistry.Game.prototype.addHP = function(value) {
+chemistry.Game.prototype.setHP = function(value) {
     var oldHP = this.hp;
-    this.hp += value;
-    this.hp = goog.math.clamp(this.hp, 0, 100);
+    this.hp = goog.math.clamp(value, 0, 100);
 
     this.hud.lifebar.setHP(this.hp);
 
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.HP_CHANGED));
     if(this.hp === 100 && oldHP !== 100) {
-    	this.enterFeverMode();
+        this.enterFeverMode();
     } else if(this.hp !== 100 && oldHP === 100) {
-    	this.exitFeverMode();
+        this.exitFeverMode();
     }
+}
+
+chemistry.Game.prototype.addHP = function(value) {
+    var oldHP = this.hp;
+    oldHP += value;
+    this.setHP(oldHP);
 }
 
 chemistry.Game.prototype.enterFeverMode = function() {
@@ -292,12 +335,16 @@ chemistry.Game.prototype.removeAllMolecules = function() {
     }
 }
 
-chemistry.Game.prototype.end = function() {
-    this.removeAllMolecules();
-    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.GAME_OVER));
-    goog.events.removeAll(this);
-    lime.scheduleManager.unschedule(this.tick, this);
+chemistry.Game.prototype.quit = function() {
     appObject.endGame();
+}
+
+chemistry.Game.prototype.gameOver = function() {
+    this.removeAllMolecules();
+    this.state = chemistry.Game.state.GAME_OVER;
+    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.GAME_OVER));
+    this.gameOverOverlay.gameOver();
+    lime.scheduleManager.unschedule(this.tick, this);
 }
 
 chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
@@ -384,6 +431,6 @@ chemistry.Game.prototype.tick = function(dt) {
     }
     this.hud.tick(dt);
     this.updateNextMolecule(dt);
-    if(this.hp <= 0) this.end();
+    if(this.hp <= 0) this.gameOver();
     this.t += dt;
 };
