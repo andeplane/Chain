@@ -263,18 +263,6 @@ chemistry.Game.prototype.scaleMolecule = function(molecule) {
     molecule.setScale(scale,scale);
 }
 
-chemistry.Game.prototype.addMolecule = function(molecule) {
-    this.moleculeLayer.appendChild(molecule);
-    this.molecules.push(molecule);
-}
-
-chemistry.Game.prototype.removeMolecule = function(molecule) {
-	goog.events.removeAll(molecule);
-    this.moleculeLayer.removeChild(molecule);
-    var index = this.molecules.indexOf(molecule);
-    this.molecules.splice(index, 1);
-}
-
 chemistry.Game.prototype.getLaneFromPosition = function(position) {
     var laneIndex = parseInt(position.x/this.getSize().width*this.lanes.length);
     return this.lanes[laneIndex];
@@ -325,11 +313,26 @@ chemistry.Game.prototype.exitFeverMode = function() {
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.EXIT_FEVER_MODE));
 }
 
+chemistry.Game.prototype.addMolecule = function(molecule) {
+    this.moleculeLayer.appendChild(molecule);
+    this.molecules.push(molecule);
+}
+
+chemistry.Game.prototype.removeMolecule = function(molecule) {
+    goog.events.removeAll(molecule);
+    this.moleculeLayer.removeChild(molecule);
+    var index = this.molecules.indexOf(molecule);
+    this.molecules.splice(index, 1);
+}
+
 chemistry.Game.prototype.removeAllMolecules = function() {
     for(var i in this.molecules) {
         var molecule = this.molecules[i];
-        this.removeMolecule(molecule);
+        goog.events.removeAll(molecule);
+        this.moleculeLayer.removeChild(molecule);
     }
+
+    this.molecules = [];
 }
 
 chemistry.Game.prototype.quit = function() {
