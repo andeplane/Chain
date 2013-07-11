@@ -25,8 +25,8 @@ chemistry.overlays.LevelUp.prototype.levelUp = function(levelNumber) {
     this.levelUpText.setOpacity(1);
     this.levelUpText.setScale(1);
     var animation = new lime.animation.Spawn(
-        new lime.animation.ScaleTo(10,10).setDuration(2.0),
-        new lime.animation.FadeTo(0).setDuration(1.0)
+        new lime.animation.ScaleTo(10,10).setDuration(3.0),
+        new lime.animation.FadeTo(0).setDuration(2.0)
         );
     this.levelUpText.runAction(animation);
     goog.events.listen(animation, lime.animation.Event.STOP, this.endedLevelUp, false, this);

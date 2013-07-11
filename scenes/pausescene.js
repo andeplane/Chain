@@ -28,9 +28,8 @@ chemistry.scenes.PauseScene.prototype.resumeButtonClicked = function(e) {
 }
 
 chemistry.scenes.PauseScene.prototype.restartButtonClicked = function(e) {
-	var difficulty = appObject.game.difficulty;
-    appObject.game.quit();
-	appObject.newGame(difficulty);
+    appObject.game.start();
+    appObject.game.unpause(e);
 }
 
 chemistry.scenes.PauseScene.prototype.returnToMenuButtonClicked = function(e) {
