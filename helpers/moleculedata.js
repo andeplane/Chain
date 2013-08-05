@@ -17,7 +17,16 @@ chemistry.MoleculeData = function() {
 				 {chainLength: 6, numBranches: 0, numFunctionalGroups: 0, size: [250,59], imageFile: "images/molecules/tct-heksatrien.6.png"},
 				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, size: [250,73], imageFile: "images/molecules/trans,trans-pentan.5.1.png"},
 				 {chainLength: 5, numBranches: 0, numFunctionalGroups: 0, size: [250,54], imageFile: "images/molecules/trans,trans-pentan.5.2.png"},
-				 {chainLength: 6, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/ttc-heksatrien.6.png"}
+				 {chainLength: 6, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/ttc-heksatrien.6.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/ctcc.7.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/cttc.7.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/tccc.7.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/tcct.7.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/tctc.7.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/ttcc.7.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/ttct.7.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/tttc.7.png"},
+				 {chainLength: 7, numBranches: 0, numFunctionalGroups: 0, size: [250,118], imageFile: "images/molecules/tttt.7.png"}
 				];
 
 	for(var i in this.data) {

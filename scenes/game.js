@@ -10,6 +10,7 @@ goog.require('chemistry.overlays.GameOver');
 goog.require('chemistry.events.GameEvent');
 goog.require('chemistry.events.LaneEvent');
 goog.require('chemistry.MultiplierLabel');
+goog.require('chemistry.Score');
 
 goog.require('lime.Layer');
 goog.require('lime.animation.MoveTo');
@@ -21,7 +22,7 @@ chemistry.Game = function(width, height, difficulty) {
     this.setSize(width, height);
 
     this.t = -999;
-    this.score = -999;
+    this.score = new chemistry.Score();
     this.hp = -999;
 
 	this.difficulty = difficulty;
@@ -57,7 +58,7 @@ chemistry.Game.prototype.restart = function() {
     lime.scheduleManager.unschedule(this.tick, this);
     this.removeAllMolecules();
     this.t 	   = 0;
-    this.score = 0;
+    this.score = new chemistry.Score();
     this.setHP(50);
     this.level.reset();
 
@@ -270,12 +271,12 @@ chemistry.Game.prototype.getLaneFromPosition = function(position) {
 }
 
 chemistry.Game.prototype.addScore = function(score, molecule) {
-    this.score += score;
+    this.score.add(score);
     this.hud.rollerCounter.jump();
     if(molecule.isFalling) {
         var scoreLabel = new chemistry.ScoreLabel();
 
-        var animation = scoreLabel.animateScore(score, molecule.getPosition().x, molecule.getPosition().y);
+        var animation = scoreLabel.animateScore(this.score, molecule.getPosition().x, molecule.getPosition().y);
         this.appendChild(scoreLabel);
         goog.events.listen(animation,lime.animation.Event.STOP,function(){
             this.removeChild(scoreLabel);
@@ -346,6 +347,10 @@ chemistry.Game.prototype.gameOver = function() {
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.GAME_OVER));
     this.gameOverOverlay.gameOver();
     lime.scheduleManager.unschedule(this.tick, this);
+    appObject.scores.newScore();
+    // Update roller counter so it shows final score
+    this.hud.rollerCounter.currentScore = this.score.score;
+    this.hud.rollerCounter.tick();
 }
 
 chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {

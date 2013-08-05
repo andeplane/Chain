@@ -19,3 +19,5 @@ chemistry.events.GameEvent.CORRECT_ANSWER = "CORRECT_ANSWER";
 
 chemistry.events.GameEvent.PAUSE = "PAUSE";
 chemistry.events.GameEvent.UNPAUSE = "UNPAUSE";
+
+chemistry.events.GameEvent.NEWSCORE = "NEWSCORE";

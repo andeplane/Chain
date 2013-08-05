@@ -14,7 +14,8 @@ chemistry.ScoreLabel = function() {
 goog.inherits(chemistry.ScoreLabel, lime.Label);
 
 chemistry.ScoreLabel.prototype.animateScore = function(score, x, y) {
-	this.setText(parseInt(score));
+	console.log(score);
+	this.setText(parseInt(score.score));
 	this.setPosition(x,y);
 	var animation = new lime.animation.Spawn(
 		new lime.animation.ScaleTo(15,15).setDuration(1.0).enableOptimizations(),

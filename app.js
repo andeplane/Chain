@@ -1,14 +1,31 @@
-goog.provide('app');
+goog.provide('limeApp');
 
 goog.require('chemistry.MainMenu');
 goog.require('chemistry.Game');
+goog.require('chemistry.Facebook');
+goog.require('chemistry.Scores');
+
 goog.require('lime.Director');
 goog.require('lime.Scene');
 goog.require('lime.Sprite');
 goog.require('lime.audio.Audio');
 goog.require('lime.transitions.Dissolve');
+function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+             .toString(16)
+             .substring(1);
+};
 
-app = function(body, screenWidth, screenHeight) {
+function guid() {
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+         s4() + '-' + s4() + s4() + s4();
+}
+
+limeApp = function(body, screenWidth, screenHeight) {
+    if(!localStorage.uuid) {
+        localStorage.uuid = guid();
+    }
+
     this.director = new lime.Director(body, screenWidth, screenHeight);
     this.director.makeMobileWebAppCapable();
     this.director.pauseClassFactory = chemistry.scenes.PauseScene;
@@ -21,12 +38,14 @@ app = function(body, screenWidth, screenHeight) {
     var scene = new lime.Scene();
     // this.audio = new lime.audio.Audio("assets/EIVISSA_SALINAS_feat._DJ_HSERES_-_Belly_Rythm.mp3");
     // this.audio.play();
-
+    
+	this.facebook = new chemistry.Facebook();
     this.mainMenu = new chemistry.MainMenu(screenWidth, screenHeight);
+    this.scores = new chemistry.Scores();
     this.director.replaceScene(this.mainMenu);
 };
 
-app.prototype.newGame = function(difficulty) {
+limeApp.prototype.newGame = function(difficulty) {
     this.game = new chemistry.Game(this.screenWidth, this.screenHeight, difficulty);
     
 	// this.director.replaceScene(this.game,lime.transitions.Dissolve, 0.2);
@@ -34,7 +53,7 @@ app.prototype.newGame = function(difficulty) {
 	lime.updateDirtyObjects();
 }
 
-app.prototype.endGame = function() {
+limeApp.prototype.endGame = function() {
 	// this.director.replaceScene(this.mainMenu,lime.transitions.Dissolve, 0.2);
 	this.director.replaceScene(this.mainMenu);
 	this.game = null;
