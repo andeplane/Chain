@@ -2,7 +2,7 @@ goog.provide('chemistry.Facebook');
 
 chemistry.Facebook = function() {
     this.isAvailable = true;
-	this.isLoggedIn = false;
+    this.isLoggedIn = false;
     this.name = null;
     this.fbid = null;
 
