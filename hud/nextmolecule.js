@@ -40,6 +40,9 @@ chemistry.NextMolecule.prototype.addMoleculeSprite = function(width, height) {
 }
 
 chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
+	this.moleculeSprite.setHidden(false);
+	this.timeLeftBar.setHidden(false);
+	
 	this.timeLeftBar.setScale(1,1);
 	var scaleAction = new lime.animation.ScaleTo(1,0).setDuration(timeToNext/1000.0).setEasing(lime.animation.Easing.EASEIN); // setDuration takes seconds as unit of time
 	this.timeLeftBar.runAction(scaleAction);
@@ -59,4 +62,9 @@ chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
 
 chemistry.NextMolecule.prototype.tick = function(dt) {
 	// TODO: Add things
+}
+
+chemistry.NextMolecule.prototype.gameOver = function() {
+	this.moleculeSprite.setHidden(true);
+	this.timeLeftBar.setHidden(true);
 }

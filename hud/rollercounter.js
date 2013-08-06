@@ -48,6 +48,12 @@ chemistry.RollerCounter.prototype.enterFeverMode = function() {
 	this.runAction(this.currentAction);
 }
 
+chemistry.RollerCounter.prototype.reset = function() {
+	this.exitFeverMode();
+	this.currentScore = 0;
+	this.setText("0");
+}
+
 chemistry.RollerCounter.prototype.exitFeverMode = function() {
 	this.fever = false;
 	if(this.currentAction) {this.currentAction.stop(); }

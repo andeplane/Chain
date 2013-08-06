@@ -54,6 +54,10 @@ chemistry.Hud.prototype.tick = function(dt) {
 	this.nextMolecule.tick(dt);
 }
 
+chemistry.Hud.prototype.reset = function(dt) {
+	this.rollerCounter.reset();
+}
+
 chemistry.Hud.prototype.pauseButtonClicked = function(e) {
 	appObject.game.pause();
 };

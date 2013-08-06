@@ -23,11 +23,11 @@ chemistry.Game = function(width, height, difficulty) {
     var gridUnit = width / 40;
     this.boardEdgeY = 51 * gridUnit;
 
+    this.difficulty = difficulty;
     this.t = -999;
-    this.score = new chemistry.Score();
+    this.score = new chemistry.Score(this.difficulty);
     this.hp = -999;
-
-	this.difficulty = difficulty;
+    
     this.level = new chemistry.Level(difficulty, this);
     goog.events.listen(this.level, chemistry.events.GameEvent.LEVEL_UP, this.levelUp, false, this);
 	this.fever = false;
@@ -44,7 +44,6 @@ chemistry.Game = function(width, height, difficulty) {
 //    this.addFeverModeOverlay(width, height);
     this.addKeyboardEventListener();
     this.addGameOverOverlay(width, height);
-
     this.restart();
 }
 goog.inherits(chemistry.Game, lime.Scene);
@@ -60,9 +59,10 @@ chemistry.Game.prototype.restart = function() {
     lime.scheduleManager.unschedule(this.tick, this);
     this.removeAllMolecules();
     this.t 	   = 0;
-    this.score = new chemistry.Score();
+    this.score = new chemistry.Score(this.difficulty);
     this.setHP(50);
     this.level.reset();
+    this.hud.reset();
 
     this.nextMolecule = null;
     this.timeToNextMolecule = 0;
@@ -116,6 +116,7 @@ chemistry.Game.prototype.addHUD = function(width, height) {
 	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.lifebar.exitFeverMode, false, this.hud.lifebar);
 	goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.rollerCounter.enterFeverMode, false, this.hud.rollerCounter);
 	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.rollerCounter.exitFeverMode, false, this.hud.rollerCounter);
+    goog.events.listen(this, chemistry.events.GameEvent.GAME_OVER, this.hud.nextMolecule.gameOver, false, this.hud.nextMolecule);
 }
 
 chemistry.Game.prototype.addMarkerLayer = function(width, height) {
@@ -414,6 +415,8 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, targetBox) {
         targetBox.highlight(false);
         this.failMolecule(molecule);
     }
+
+    if(this.hp <= 0) this.gameOver();
 }
 
 chemistry.Game.prototype.failMolecule = function(molecule) {

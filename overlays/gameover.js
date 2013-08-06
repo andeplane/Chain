@@ -57,6 +57,7 @@ chemistry.overlays.GameOver.prototype.gameOver = function() {
 }
 
 chemistry.overlays.GameOver.prototype.retryButtonClicked = function(ev) {
+    if(this.getHidden()) return;
     var animation = new lime.animation.FadeTo(0).setDuration(0.3);
     this.runAction(animation);
     goog.events.listen(animation, lime.animation.Event.STOP, function() {
@@ -65,6 +66,7 @@ chemistry.overlays.GameOver.prototype.retryButtonClicked = function(ev) {
 }
 
 chemistry.overlays.GameOver.prototype.endGameButtonClicked = function(ev) {
+    if(this.getHidden()) return;
     var animation = new lime.animation.FadeTo(0).setDuration(0.3);
     this.runAction(animation);
     goog.events.listen(animation, lime.animation.Event.STOP, function() {
