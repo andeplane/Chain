@@ -23,7 +23,7 @@ chemistry.overlays.GameOver = function(width, height) {
 
     this.gameOverLabel = new lime.Label("Game over");
     this.gameOverLabel.setFontSize(width / 16);
-    this.gameOverLabel.setFontFamily('Pusab');
+    this.gameOverLabel.setFontFamily('Sonsie One');
     this.gameOverLabel.setFontColor('#e00');
     this.gameOverLabel.setSize(width, width / 10);
     this.gameOverLabel.setPosition(width/2, height/2 -  width / 6);

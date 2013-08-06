@@ -11,7 +11,7 @@ chemistry.overlays.LevelUp = function(width, height) {
 
     this.levelUpText = new lime.Label("Level 5");
     this.levelUpText.setFontSize(width / 16);
-    this.levelUpText.setFontFamily('Pusab');
+    this.levelUpText.setFontFamily('Sonsie One');
     this.levelUpText.setFontColor('#e00');
     this.levelUpText.setSize(width, width / 10);
     this.levelUpText.setPosition(width/2, height/2);

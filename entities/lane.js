@@ -43,20 +43,3 @@ chemistry.Lane.prototype.addTargetBox = function(width, height) {
         goog.events.dispatchEvent(this, new chemistry.events.LaneEvent(chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.number), null);
     }, false, this);
 }
-
-chemistry.Lane.prototype.increaseHighlight = function() {
-	this.numHighlight += 1;
-	this.refreshHighlight();
-}
-
-chemistry.Lane.prototype.decreaseHighlight = function() {
-	this.numHighlight -= 1;
-	this.refreshHighlight();
-}
-
-chemistry.Lane.prototype.refreshHighlight = function() {
-	if(this.currentAction) this.currentAction.stop();
-
-	this.currentAction = new lime.animation.FadeTo(0.2*this.numHighlight).setDuration(0.1).enableOptimizations();
-	this.highlightSprite.runAction(this.currentAction);
-}

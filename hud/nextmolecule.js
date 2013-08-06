@@ -15,17 +15,17 @@ chemistry.NextMolecule = function(width, height) {
 goog.inherits(chemistry.NextMolecule, lime.Node);
 
 chemistry.NextMolecule.prototype.addBackground = function(width, height) {
-	this.background = new lime.Sprite();
-	this.background.setAnchorPoint(0,0);
-	this.background.setPosition(-width,0);
-	this.background.setSize(width, height);
-	this.background.setFill("#afa");
-	this.appendChild(this.background);
+//	this.background = new lime.Sprite();
+//	this.background.setAnchorPoint(0,0);
+//	this.background.setPosition(-width,0);
+//	this.background.setSize(width, height);
+//	this.background.setFill("#afa");
+//	this.appendChild(this.background);
 }
 
 chemistry.NextMolecule.prototype.addTimeLeftBar = function(width, height) {
-	this.timeLeftBar = new lime.Sprite().setFill("#0ac");
-	this.timeLeftBar.setAnchorPoint(1,1);
+    this.timeLeftBar = new lime.Sprite().setFill("#c8d5fc");
+    this.timeLeftBar.setAnchorPoint(1,1);
 	this.timeLeftBar.setSize(10, height);
 	this.timeLeftBar.setPosition(0,height);
 	this.appendChild(this.timeLeftBar);
@@ -34,7 +34,7 @@ chemistry.NextMolecule.prototype.addTimeLeftBar = function(width, height) {
 chemistry.NextMolecule.prototype.addMoleculeSprite = function(width, height) {
 	this.moleculeSprite = new lime.Sprite();
 	this.moleculeSprite.setFill("#fff");
-	this.moleculeSprite.setSize(250,250);
+    this.moleculeSprite.setSize(width * 0.8, height * 0.8);
 	this.moleculeSprite.setPosition(-width/2.0,height/2.0);
 	this.appendChild(this.moleculeSprite);
 }

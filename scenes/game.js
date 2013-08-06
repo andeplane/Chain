@@ -8,7 +8,7 @@ goog.require('chemistry.Level');
 goog.require('chemistry.overlays.LevelUp');
 goog.require('chemistry.overlays.GameOver');
 goog.require('chemistry.events.GameEvent');
-goog.require('chemistry.events.LaneEvent');
+goog.require('chemistry.events.TargetBoxEvent');
 goog.require('chemistry.MultiplierLabel');
 goog.require('chemistry.Score');
 
@@ -20,6 +20,8 @@ chemistry.Game = function(width, height, difficulty) {
     lime.Scene.call(this);
 
     this.setSize(width, height);
+    var gridUnit = width / 40;
+    this.boardEdgeY = 51 * gridUnit;
 
     this.difficulty = difficulty;
     this.t = -999;
@@ -33,7 +35,7 @@ chemistry.Game = function(width, height, difficulty) {
 	this.molecules = [];
 
 	this.addBackground(width, height);
-	this.addLanes(width, height, this.level.numLanes);
+    this.addTargetBoxes(width, height, this.level.numLanes);
 	this.addMarkerLayer(width, height);
 	this.addMoleculeLayer(width, height);
 	this.addHUD(width,height);
@@ -87,20 +89,20 @@ chemistry.Game.prototype.addKeyboardEventListener = function() {
 		var obj = {};
         switch (e.keyCode) {
             case 49: //1
-            		obj.laneNumber = 0;
+                    obj.boxNumber = 0;
                     this.clickedTargetBox(obj);
                 break;
             case 50: //2
-            		obj.laneNumber = 1;
+                    obj.boxNumber = 1;
                     this.clickedTargetBox(obj);
                 break;
             case 51: //3
-            		obj.laneNumber = 2;
+                    obj.boxNumber = 2;
                     this.clickedTargetBox(obj);
                 break;
             case 52: //4
             	if(this.numLanes < 4) return;
-            	obj.laneNumber = 3;
+                obj.boxNumber = 3;
                 this.clickedTargetBox(obj);
                 break;          
         }
@@ -142,12 +144,8 @@ chemistry.Game.prototype.addMarkers = function(width, height) {
 }
 
 chemistry.Game.prototype.addBackground = function(width, height) {
-    var fill = new lime.fill.LinearGradient().
-    setDirection(0,0,0,1). // 45' angle
-    addColorStop(0,100,0,0,1). // start from red color
-    addColorStop(1,0,0,100,.5); // end with transparent blue
     this.background = new lime.Sprite();
-    this.background.setFill(fill);
+    this.background.setFill("design/export/background.png");
     this.background.setAnchorPoint(0,0);
     this.background.setSize(width, height);
     this.appendChild(this.background);
@@ -160,17 +158,33 @@ chemistry.Game.prototype.addMoleculeLayer = function(width, height) {
     this.appendChild(this.moleculeLayer);
 }
 
-chemistry.Game.prototype.addLanes = function(width, height, numLanes) {
-    this.lanes = [];
+chemistry.Game.prototype.addTargetBoxes = function(width, height, numLanes) {
+    this.targetBoxes = [];
+    var gridUnit = width / 40;
+    var currentX = 0;
+    var spriteWidths = [14 * gridUnit, 18 * gridUnit, 15 * gridUnit];
+    var spriteXs = [0, 12 * gridUnit, 25 * gridUnit];
+    var spriteHeight = 9 * gridUnit;
     for(var i=0; i<numLanes; i++) {
-        var lane = new chemistry.Lane(width/numLanes, height, i);
-        lane.setAnchorPoint(0,0);
-        lane.setPosition(width/numLanes*i,0);
+//        var lane = new chemistry.Lane(width/numLanes, height, i);
+//        lane.setAnchorPoint(0,0);
+//        lane.setPosition(width/numLanes*i,0);
 
-        this.lanes.push(lane);
-        this.appendChild(lane);
-        goog.events.listen(lane, chemistry.events.LaneEvent.MOLECULE_HIT_TARGET_BOX, this.moleculeHitTargetBox, false, this);
-        goog.events.listen(lane, chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
+//        this.targetBoxess.push(lane);
+//        this.appendChild(lane);
+//        var goldenRatioInverse = 1/1.618;
+        var spriteWidth = spriteWidths[i];
+        var spriteX = spriteXs[i];
+        var chainLength = i + 3;
+        var targetBox = new chemistry.TargetBox(spriteWidth, 9 * gridUnit, i, chainLength, "design/export/button" + chainLength + ".png");
+        targetBox.setAnchorPoint(0,0);
+        targetBox.setPosition(spriteX, height - spriteHeight);
+        this.appendChild(targetBox);
+
+//        var self = this;
+//        goog.events.listen(targetBox,['mousedown','touchstart'], this.clickedTargetBox, false, this);
+        goog.events.listen(targetBox, chemistry.events.TargetBoxEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
+//        goog.events.listen(lane, chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
     }
 }
 
@@ -196,10 +210,9 @@ chemistry.Game.prototype.levelUp = function(event) {
     this.levelUpOverlay.levelUp(this.level.level);
 }
 
-chemistry.Game.prototype.moleculeHitTargetBox = function(event) {
-    var lane = this.lanes[event.laneNumber];
+chemistry.Game.prototype.moleculeOutOfBounds = function(event) {
     var molecule = event.molecule;
-    this.finalizeMolecule(molecule, lane);
+    this.finalizeMolecule(molecule, null);
 }
 
 chemistry.Game.prototype.clickedTargetBox = function(event) {
@@ -207,9 +220,9 @@ chemistry.Game.prototype.clickedTargetBox = function(event) {
         return;
     }
 
-    var boxIndex = event.laneNumber;
+    var clickedBox = event.targetBox;
     var molecule;
-    if(this.molecules.length == 0) {
+    if(this.molecules.length === 0) {
         // No falling molecules, the current molecule is this.nextMolecule
         molecule = this.nextMolecule;
         this.timeToNextMolecule = 0;
@@ -220,8 +233,7 @@ chemistry.Game.prototype.clickedTargetBox = function(event) {
         // this.removeMolecule(molecule);
     }
 
-    var clickedLane = this.lanes[boxIndex];
-    this.finalizeMolecule(molecule, clickedLane);
+    this.finalizeMolecule(molecule, clickedBox);
 }
 
 chemistry.Game.prototype.updateNextMolecule = function(dt) {
@@ -230,8 +242,8 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
         // We need to create another molecule, and move the current next molecule into falling mode
 
         // Choose a random lane
-        var lane = this.lanes[goog.math.randomInt(this.lanes.length)];
-        if(this.nextMolecule != null) {
+        var lane = this.targetBoxes[goog.math.randomInt(this.targetBoxes.length)];
+        if(this.nextMolecule !== null) {
             // The next molecule exists, lets move that into falling mode
             var moleculeWidth = this.nextMolecule.getSize().width*this.nextMolecule.getScale().x;
             var x = moleculeWidth + goog.math.randomInt(this.getSize().width - 2*moleculeWidth);
@@ -267,8 +279,8 @@ chemistry.Game.prototype.scaleMolecule = function(molecule) {
 }
 
 chemistry.Game.prototype.getLaneFromPosition = function(position) {
-    var laneIndex = parseInt(position.x/this.getSize().width*this.lanes.length);
-    return this.lanes[laneIndex];
+    var laneIndex = parseInt(position.x/this.getSize().width*this.targetBoxess.length);
+    return this.targetBoxess[laneIndex];
 }
 
 chemistry.Game.prototype.addScore = function(score, molecule) {
@@ -354,8 +366,12 @@ chemistry.Game.prototype.gameOver = function() {
     this.hud.rollerCounter.tick();
 }
 
-chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
-    if(lane.chainLength === molecule.chainLength) {
+chemistry.Game.prototype.finalizeMolecule = function(molecule, targetBox) {
+    if(!molecule) {
+        return;
+    }
+
+    if(targetBox.chainLength === molecule.chainLength) {
     	// First, calculate the multiplier by checking if the molecule is above the marker
     	var multiplier = 1;
     	var y = molecule.getPosition().y;
@@ -380,7 +396,7 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
         } // Give max multiplier if molecule is in nextMolecule box
 
         var score = (1 + multiplier + 4*this.fever)*molecule.score;
-        lane.targetBox.highlight(true);
+        targetBox.highlight(true);
         this.addScore(score, molecule);
         this.addHP( this.level.getHP(true) );
         if(marker) { marker.jump(); }
@@ -396,22 +412,26 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, lane) {
             this.moleculeLayer.removeChild(molecule);
         }, false, this);
     } else {
-        lane.targetBox.highlight(false);
-        this.addHP( this.level.getHP(false) );
-        goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
-
-        // Remove molecule from molecule list, so that we can start working on the next one
-        var index = this.molecules.indexOf(molecule);
-        this.molecules.splice(index, 1);
-
-        // Create vibration effect and remove the molecule afterwards
-        var vib = molecule.vibrate();
-        goog.events.listen(vib, lime.animation.Event.STOP, function(e) {
-            this.moleculeLayer.removeChild(molecule);
-        }, false, this);
+        targetBox.highlight(false);
+        this.failMolecule(molecule);
     }
 
     if(this.hp <= 0) this.gameOver();
+}
+
+chemistry.Game.prototype.failMolecule = function(molecule) {
+    this.addHP( this.level.getHP(false) );
+    goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
+
+    // Remove molecule from molecule list, so that we can start working on the next one
+    var index = this.molecules.indexOf(molecule);
+    this.molecules.splice(index, 1);
+
+    // Create vibration effect and remove the molecule afterwards
+    var vib = molecule.vibrate();
+    goog.events.listen(vib, lime.animation.Event.STOP, function(e) {
+        this.moleculeLayer.removeChild(molecule);
+    }, false, this);
 }
 
 chemistry.Game.prototype.processMolecules = function(dt) {
@@ -419,12 +439,10 @@ chemistry.Game.prototype.processMolecules = function(dt) {
     for(var i in this.molecules) {
         var molecule = this.molecules[i];
         molecule.tick(dt);
-        var lane = this.getLaneFromPosition(molecule.getPosition());
 
-        if(molecule.getPosition().y >= lane.targetBox.getPosition().y) {
+        if(molecule.getPosition().y + molecule.getSize().height / 2 >= this.boardEdgeY) {
             moleculesToBeRemoved.push(molecule);
 
-            lane.targetBox.highlight(false);
             this.addHP( this.level.getHP(false) );
             goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
         }
