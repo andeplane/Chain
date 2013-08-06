@@ -41,7 +41,7 @@ limeApp = function(body, screenWidth, screenHeight) {
     var scene = new lime.Scene();
     this.leaderboards = [];
     for(var i=0; i<3; i++) {
-        var leaderboard = new chemistry.Leaderboard(i);
+        var leaderboard = new chemistry.Leaderboard(screenWidth, screenHeight, i);
         this.leaderboards.push(leaderboard);
     }
     
