@@ -175,7 +175,7 @@ chemistry.Game.prototype.addTargetBoxes = function(width, height, numLanes) {
         var spriteWidth = spriteWidths[i];
         var spriteX = spriteXs[i];
         var chainLength = i + 3;
-        var targetBox = new chemistry.TargetBox(spriteWidth, 9 * gridUnit, i, chainLength, "design/export/button" + chainLength + ".png");
+        var targetBox = new chemistry.TargetBox(spriteWidth, 9 * gridUnit, i, chainLength, "design/export/button" + chainLength);
         targetBox.setAnchorPoint(0,0);
         targetBox.setPosition(spriteX, height - spriteHeight);
         this.appendChild(targetBox);
@@ -437,7 +437,7 @@ chemistry.Game.prototype.processMolecules = function(dt) {
         var molecule = this.molecules[i];
         molecule.tick(dt);
 
-        if(molecule.getPosition().y + molecule.getSize().height / 2 >= this.boardEdgeY) {
+        if(molecule.getPosition().y + molecule.getSize().height >= this.boardEdgeY) {
             moleculesToBeRemoved.push(molecule);
 
             this.addHP( this.level.getHP(false) );

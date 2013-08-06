@@ -5,9 +5,9 @@ chemistry.Scores = function(balle) {
 	this.allScores = [];
 	this.unsentScores = [];
 	this.highscores = [0, 0, 0];
-	if(localStorage.allScores) this.allScores = localStorage.allScores;
-	if(localStorage.unsentScores) this.unsentScores = localStorage.unsentScores;
-	if(localStorage.highscores) this.highscores = localStorage.highscores;
+    if(localStorage.allScores) this.allScores = localStorage.allScores;
+    if(localStorage.unsentScores) this.unsentScores = localStorage.unsentScores;
+    if(localStorage.highscores) this.highscores = localStorage.highscores;
 }
 
 chemistry.Scores.prototype.sendUnsentScores = function() {
