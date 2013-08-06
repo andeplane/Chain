@@ -10,19 +10,19 @@ chemistry.TargetBox = function(width, height, number, chainLength) {
 	this.setSize(width, height);
 	this.number = number;
 
-	var colors = ["#eee", "#ddd", "#eee", "#ddd"];
+//	var colors = ["#eee", "#ddd", "#eee", "#ddd"];
 	
 	var colorLayer = new lime.Sprite();
 	colorLayer.setAnchorPoint(0,0);
-	colorLayer.setSize(width, height);
-	colorLayer.setFill(colors[number]);
+    colorLayer.setSize(width, height);
+    colorLayer.setFill("design/export/button" + chainLength + ".png");
 	this.appendChild(colorLayer);
 
-    var numberLabel = new lime.Label(chainLength);
-    numberLabel.setPosition(width/2, height/2);
-    numberLabel.setFontSize(width/5);
-    numberLabel.setFontFamily("Pusab");
-    this.appendChild(numberLabel);
+//    var numberLabel = new lime.Label(chainLength);
+//    numberLabel.setPosition(width/2, height/2);
+//    numberLabel.setFontSize(width/5);
+//    numberLabel.setFontFamily("Sonsie One");
+//    this.appendChild(numberLabel);
 
 	this.highlightLayer = new lime.Sprite();
 	this.highlightLayer.setAnchorPoint(0,0);

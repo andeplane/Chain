@@ -15,7 +15,7 @@ chemistry.overlays.FeverMode = function(width, height) {
 
     this.feverModeText = new lime.Label("Fever mode!");
     this.feverModeText.setFontSize(width / 16);
-    this.feverModeText.setFontFamily('Pusab');
+    this.feverModeText.setFontFamily('Sonsie One');
     this.feverModeText.setFontColor('#e00');
     this.feverModeText.setSize(width, width / 10);
     this.feverModeText.setPosition(width/2, height/2);

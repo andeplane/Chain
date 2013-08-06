@@ -47,12 +47,8 @@ chemistry.MainMenu.prototype.fb = function(e) {
 }
 
 chemistry.MainMenu.prototype.addBackground = function(width, height) {
-    var fill = new lime.fill.LinearGradient().
-    setDirection(0,0,0,1). // 45' angle
-    addColorStop(0,100,0,0,1). // start from red color
-    addColorStop(1,0,0,100,.5); // end with transparent blue
     this.background = new lime.Sprite();
-    this.background.setFill(fill);
+    this.background.setFill("design/export/background.png");
     this.background.setAnchorPoint(0,0);
     this.background.setSize(width, height);
     this.appendChild(this.background);
