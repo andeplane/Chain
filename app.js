@@ -11,6 +11,9 @@ goog.require('lime.Scene');
 goog.require('lime.Sprite');
 goog.require('lime.audio.Audio');
 goog.require('lime.transitions.Dissolve');
+
+lime.Label.defaultFont = "Sonsie One";
+
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
              .toString(16)

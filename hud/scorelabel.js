@@ -8,7 +8,7 @@ goog.require('lime.animation.FadeTo');
 chemistry.ScoreLabel = function() {
 	lime.Label.call(this);
 
-    this.setFontFamily('SonsieOne');
+    this.setFontFamily('Sonsie One');
     this.setFontColor('#c8d5fc');
 }
 goog.inherits(chemistry.ScoreLabel, lime.Label);

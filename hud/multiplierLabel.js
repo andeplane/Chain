@@ -6,7 +6,7 @@ chemistry.MultiplierLabel = function(multiplier) {
 	lime.Label.call(this);
 
 	this.setFontSize(30).
-		setFontFamily("Pusab").
+        setFontFamily("Sonsie One").
 		setFontColor("#fff").
 		setText(multiplier+"x");
 	this.currentAction = null;
