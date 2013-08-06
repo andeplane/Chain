@@ -6,10 +6,10 @@ chemistry.HighscoreEntry = function(number, name, score) {
 	lime.Node.call(this);
 	this.setAnchorPoint(0.5,0.5);
 	this.setSize(300, 20);
-	var nameLabel = new lime.Label().setText(number+".  "+name);
+	var nameLabel = new lime.Label().setText(number+".  "+name).setFontColor("#fff");
 	// nameLabel.setSize(nameLabel.getSize().width + 30, nameLabel.getSize().height);
 
-	var scoreLabel = new lime.Label().setText(score);
+	var scoreLabel = new lime.Label().setText(score).setFontColor("#fff");
 	scoreLabel.setAnchorPoint(1,0.5);
 	nameLabel.setAnchorPoint(0,0.5);
 
