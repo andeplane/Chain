@@ -30,18 +30,18 @@ chemistry.Game = function(width, height, difficulty) {
     
     this.level = new chemistry.Level(difficulty, this);
     goog.events.listen(this.level, chemistry.events.GameEvent.LEVEL_UP, this.levelUp, false, this);
-	this.fever = false;
+    this.fever = false;
 
-	this.molecules = [];
+    this.molecules = [];
 
-	this.addBackground(width, height);
+    this.addBackground(width, height);
     this.addTargetBoxes(width, height, this.level.numLanes);
-	this.addMarkerLayer(width, height);
-	this.addMoleculeLayer(width, height);
-	this.addHUD(width,height);
-	this.addMarkers(width, height);
+    this.addMarkerLayer(width, height);
+    this.addMoleculeLayer(width, height);
+    this.addHUD(width,height);
+    this.addMarkers(width, height);
     this.addLevelUpOverlay(width, height);
-//    this.addFeverModeOverlay(width, height);
+    //    this.addFeverModeOverlay(width, height);
     this.addKeyboardEventListener();
     this.addGameOverOverlay(width, height);
     this.restart();
@@ -86,25 +86,27 @@ chemistry.Game.prototype.addKeyboardEventListener = function() {
         if(this.state !== chemistry.Game.state.RUNNING) {
             return;
         }
-		var obj = {};
+        var obj = {};
         switch (e.keyCode) {
-            case 49: //1
-                    obj.boxNumber = 0;
-                    this.clickedTargetBox(obj);
-                break;
-            case 50: //2
-                    obj.boxNumber = 1;
-                    this.clickedTargetBox(obj);
-                break;
-            case 51: //3
-                    obj.boxNumber = 2;
-                    this.clickedTargetBox(obj);
-                break;
-            case 52: //4
-            	if(this.numLanes < 4) return;
-                obj.boxNumber = 3;
-                this.clickedTargetBox(obj);
-                break;          
+        case 49: //1
+            obj.targetBox = this.targetBoxes[0];
+            this.clickedTargetBox(obj);
+            break;
+        case 50: //2
+            obj.targetBox = this.targetBoxes[1];
+            this.clickedTargetBox(obj);
+            break;
+        case 51: //3
+            obj.targetBox = this.targetBoxes[2];
+            this.clickedTargetBox(obj);
+            break;
+        case 52: //4
+            if(this.numLanes < 4) {
+                return;
+            }
+            obj.targetBox = this.targetBoxes[3];
+            this.clickedTargetBox(obj);
+            break;
         }
     }, false, this);
 }
@@ -113,33 +115,33 @@ chemistry.Game.prototype.addHUD = function(width, height) {
     this.hud = new chemistry.Hud(appObject.screenWidth, appObject.screenWidth/4.0);
     this.appendChild(this.hud,1000);
     goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.lifebar.enterFeverMode, false, this.hud.lifebar);
-	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.lifebar.exitFeverMode, false, this.hud.lifebar);
-	goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.rollerCounter.enterFeverMode, false, this.hud.rollerCounter);
-	goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.rollerCounter.exitFeverMode, false, this.hud.rollerCounter);
+    goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.lifebar.exitFeverMode, false, this.hud.lifebar);
+    goog.events.listen(this, chemistry.events.GameEvent.ENTER_FEVER_MODE, this.hud.rollerCounter.enterFeverMode, false, this.hud.rollerCounter);
+    goog.events.listen(this, chemistry.events.GameEvent.EXIT_FEVER_MODE,  this.hud.rollerCounter.exitFeverMode, false, this.hud.rollerCounter);
     goog.events.listen(this, chemistry.events.GameEvent.GAME_OVER, this.hud.nextMolecule.gameOver, false, this.hud.nextMolecule);
 }
 
 chemistry.Game.prototype.addMarkerLayer = function(width, height) {
-	this.markerLayer = new lime.Layer().setSize(width,height);
-	this.appendChild(this.markerLayer);
+    this.markerLayer = new lime.Layer().setSize(width,height);
+    this.appendChild(this.markerLayer);
 }
 
 chemistry.Game.prototype.addMarkers = function(width, height) {
     this.markers = [];
     for(var i=2; i<=5; i++) {
-    	var multiplierLabel = new chemistry.MultiplierLabel(i);
-		this.markers.push(multiplierLabel);
+        var multiplierLabel = new chemistry.MultiplierLabel(i);
+        this.markers.push(multiplierLabel);
 
-		if(i < 5) {
-			multiplierLabel.setPosition(width / 15, height/6 + (5 - i)*height/6);
-			this.markerLayer.appendChild(multiplierLabel);
-		} else {
-			var size = this.hud.nextMolecule.getSize();
+        if(i < 5) {
+            multiplierLabel.setPosition(width / 15, height/6 + (5 - i)*height/6);
+            this.markerLayer.appendChild(multiplierLabel);
+        } else {
+            var size = this.hud.nextMolecule.getSize();
 
-			multiplierLabel.setPosition(- (8*size.width / 10), size.width/10 );
-			this.hud.nextMolecule.appendChild(multiplierLabel);
-		}
-		
+            multiplierLabel.setPosition(- (8*size.width / 10), size.width/10 );
+            this.hud.nextMolecule.appendChild(multiplierLabel);
+        }
+
     }
 }
 
@@ -166,13 +168,13 @@ chemistry.Game.prototype.addTargetBoxes = function(width, height, numLanes) {
     var spriteXs = [0, 12 * gridUnit, 25 * gridUnit];
     var spriteHeight = 9 * gridUnit;
     for(var i=0; i<numLanes; i++) {
-//        var lane = new chemistry.Lane(width/numLanes, height, i);
-//        lane.setAnchorPoint(0,0);
-//        lane.setPosition(width/numLanes*i,0);
+        //        var lane = new chemistry.Lane(width/numLanes, height, i);
+        //        lane.setAnchorPoint(0,0);
+        //        lane.setPosition(width/numLanes*i,0);
 
-//        this.targetBoxess.push(lane);
-//        this.appendChild(lane);
-//        var goldenRatioInverse = 1/1.618;
+        //        this.targetBoxess.push(lane);
+        //        this.appendChild(lane);
+        //        var goldenRatioInverse = 1/1.618;
         var spriteWidth = spriteWidths[i];
         var spriteX = spriteXs[i];
         var chainLength = i + 3;
@@ -180,11 +182,12 @@ chemistry.Game.prototype.addTargetBoxes = function(width, height, numLanes) {
         targetBox.setAnchorPoint(0,0);
         targetBox.setPosition(spriteX, height - spriteHeight);
         this.appendChild(targetBox);
+        this.targetBoxes.push(targetBox);
 
-//        var self = this;
-//        goog.events.listen(targetBox,['mousedown','touchstart'], this.clickedTargetBox, false, this);
+        //        var self = this;
+        //        goog.events.listen(targetBox,['mousedown','touchstart'], this.clickedTargetBox, false, this);
         goog.events.listen(targetBox, chemistry.events.TargetBoxEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
-//        goog.events.listen(lane, chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
+        //        goog.events.listen(lane, chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
     }
 }
 
@@ -219,6 +222,8 @@ chemistry.Game.prototype.clickedTargetBox = function(event) {
     if(this.state !== chemistry.Game.state.RUNNING) {
         return;
     }
+
+    console.log(event);
 
     var clickedBox = event.targetBox;
     var molecule;
@@ -261,13 +266,13 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
             var self = this;
         }
         this.nextMolecule = this.level.getNextMolecule();
-		this.nextMolecule.velocity = this.level.getVelocity();
-		this.scaleMolecule(this.nextMolecule);
+        this.nextMolecule.velocity = this.level.getVelocity();
+        this.scaleMolecule(this.nextMolecule);
 
-		// Update time to next molecule
+        // Update time to next molecule
         this.timeToNextMolecule = this.level.getTimeToNextMolecule();
-		this.hud.nextMolecule.newMolecule(this.nextMolecule, this.timeToNextMolecule);
-	}	
+        this.hud.nextMolecule.newMolecule(this.nextMolecule, this.timeToNextMolecule);
+    }
 };
 
 chemistry.Game.prototype.scaleMolecule = function(molecule) {
@@ -319,12 +324,12 @@ chemistry.Game.prototype.addHP = function(value) {
 
 chemistry.Game.prototype.enterFeverMode = function() {
     this.fever = true;
-//    this.feverModeOverlay.enterFeverMode();
+    //    this.feverModeOverlay.enterFeverMode();
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.ENTER_FEVER_MODE));
 }
 
 chemistry.Game.prototype.exitFeverMode = function() {
-	this.fever = false;
+    this.fever = false;
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.EXIT_FEVER_MODE));
 }
 
@@ -367,32 +372,34 @@ chemistry.Game.prototype.gameOver = function() {
 }
 
 chemistry.Game.prototype.finalizeMolecule = function(molecule, targetBox) {
+    console.log(molecule)
+    console.log(targetBox)
     if(!molecule) {
         return;
     }
 
     if(targetBox.chainLength === molecule.chainLength) {
-    	// First, calculate the multiplier by checking if the molecule is above the marker
-    	var multiplier = 1;
-    	var y = molecule.getPosition().y;
-    	var marker = null;
+        // First, calculate the multiplier by checking if the molecule is above the marker
+        var multiplier = 1;
+        var y = molecule.getPosition().y;
+        var marker = null;
 
-    	for(var i=4; i>=2; i--) {
-    		// Compare molecule position to multiplier marker i
+        for(var i=4; i>=2; i--) {
+            // Compare molecule position to multiplier marker i
 
-    		var index = i-2; // The 2x multiplier is the 0th element in the array
-    		var tmpMarker = this.markers[index];
-    		if(y < tmpMarker.getPosition().y) {
-    			multiplier = i;
-    			marker = tmpMarker;
-    			break;
-    		}
-    	}
+            var index = i-2; // The 2x multiplier is the 0th element in the array
+            var tmpMarker = this.markers[index];
+            if(y < tmpMarker.getPosition().y) {
+                multiplier = i;
+                marker = tmpMarker;
+                break;
+            }
+        }
 
         if(!molecule.isFalling) {
-        	// If we are not falling, the molecule is the nextMolecule
-        	marker = this.markers[5-2];
-        	multiplier = 5;
+            // If we are not falling, the molecule is the nextMolecule
+            marker = this.markers[5-2];
+            multiplier = 5;
         } // Give max multiplier if molecule is in nextMolecule box
 
         var score = (1 + multiplier + 4*this.fever)*molecule.score;
