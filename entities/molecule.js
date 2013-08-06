@@ -11,8 +11,10 @@ chemistry.Molecule = function(data) {
 	this.setSize(data.size[0],data.size[1]); // TODO REMOVE ME!!!
 	this.setFill(data.imageFile);
 	// Rotate by n*90 degrees for more variations
-	var rnd = goog.math.randomInt(4);
-	this.setRotation(90*rnd);
+	var rnd = goog.math.randomInt(12);
+	this.flippedFactor = goog.math.randomInt(2) == 1 ? 1 : -1; // Will be used in the scale function in game
+
+	this.setRotation(30*rnd);
 	this.moveAction = null;
 	this.isFalling	   = false;
 	this.targetX = 0;

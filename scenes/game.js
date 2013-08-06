@@ -280,7 +280,7 @@ chemistry.Game.prototype.scaleMolecule = function(molecule) {
     var moleculeMaxSize = Math.max(molecule.getSize().width, molecule.getSize().height);
     var maxSize = this.getSize().width / 5.0;
     var scale = Math.min(maxSize / moleculeMaxSize, 1.0);
-    molecule.setScale(scale,scale);
+    molecule.setScale(scale*molecule.flippedFactor,scale);
 }
 
 chemistry.Game.prototype.getLaneFromPosition = function(position) {
