@@ -5,24 +5,29 @@ goog.require('lime.Sprite');
 goog.require('lime.animation.Sequence');
 goog.require('lime.animation.FadeTo');
 
-chemistry.TargetBox = function(width, height, number, chainLength) {
+chemistry.TargetBox = function(width, height, number, chainLength, imageFile) {
 	lime.Node.call(this);
 	this.setSize(width, height);
 	this.number = number;
+    this.chainLength = chainLength;
 
 //	var colors = ["#eee", "#ddd", "#eee", "#ddd"];
 	
-	var colorLayer = new lime.Sprite();
-	colorLayer.setAnchorPoint(0,0);
-    colorLayer.setSize(width, height);
-    colorLayer.setFill("design/export/button" + chainLength + ".png");
-	this.appendChild(colorLayer);
+    var buttonImage = new lime.Sprite();
+    buttonImage.setAnchorPoint(0,0);
+    buttonImage.setSize(width, height);
+    buttonImage.setFill(imageFile);
+    this.appendChild(buttonImage);
 
 //    var numberLabel = new lime.Label(chainLength);
 //    numberLabel.setPosition(width/2, height/2);
 //    numberLabel.setFontSize(width/5);
 //    numberLabel.setFontFamily("Sonsie One");
 //    this.appendChild(numberLabel);
+
+    goog.events.listen(buttonImage,['mousedown','touchstart'], function(e) {
+        goog.events.dispatchEvent(this, new chemistry.events.TargetBoxEvent(chemistry.events.TargetBoxEvent.CLICKED_TARGET_BOX, this), null);
+    }, false, this);
 
 	this.highlightLayer = new lime.Sprite();
 	this.highlightLayer.setAnchorPoint(0,0);
