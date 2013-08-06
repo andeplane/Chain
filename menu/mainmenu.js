@@ -18,12 +18,19 @@ chemistry.MainMenu = function(width, height) {
 	var sizeY = appObject.screenWidth/6;
 
 	var easy   = new lime.GlossyButton("Easy").setSize(sizeX,sizeY).setFontSize(70).setPosition(x,y-sizeY-10);
+    var easyLeaderboardButton = new lime.Sprite().setFill("images/leaderboards.png").setPosition(x + sizeX / 2.0 + 80, y-sizeY-10);
     var medium = new lime.GlossyButton("Medium").setSize(sizeX,sizeY).setFontSize(70).setPosition(x,y);
+    var mediumLeaderboardButton = new lime.Sprite().setFill("images/leaderboards.png").setPosition(x + sizeX / 2.0 + 80, y);
     var hard   = new lime.GlossyButton("Hard").setSize(sizeX,sizeY).setFontSize(70).setPosition(x,y+sizeY+10);
+    var hardLeaderboardButton = new lime.Sprite().setFill("images/leaderboards.png").setPosition(x + sizeX / 2.0 + 80, y+sizeY+10);
+
     var fb   = new lime.Sprite().setFill("images/fb.png").setSize(100,100).setPosition(appObject.screenWidth - 70, appObject.screenHeight - 70);
 	this.appendChild(easy);
+    this.appendChild(easyLeaderboardButton);
     this.appendChild(medium);
+    this.appendChild(mediumLeaderboardButton);
     this.appendChild(hard);
+    this.appendChild(hardLeaderboardButton);
     if(appObject.facebook.isAvailable) {
         this.appendChild(fb);
     }
@@ -31,6 +38,9 @@ chemistry.MainMenu = function(width, height) {
     goog.events.listen(easy, ['mousedown','touchstart'], this.easyButtonClicked, false, this);
     goog.events.listen(medium, ['mousedown','touchstart'], this.mediumButtonClicked, false, this);
     goog.events.listen(hard, ['mousedown','touchstart'], this.hardButtonClicked, false, this);
+    goog.events.listen(easyLeaderboardButton, ['mousedown','touchstart'], function(e) {appObject.showLeaderboard(0); }, false, this);
+    goog.events.listen(mediumLeaderboardButton, ['mousedown','touchstart'], function(e) {appObject.showLeaderboard(1); }, false, this);
+    goog.events.listen(hardLeaderboardButton, ['mousedown','touchstart'], function(e) {appObject.showLeaderboard(2); }, false, this);
     goog.events.listen(fb, ['mousedown','touchstart'], this.fb, false, this);
 }
 goog.inherits(chemistry.MainMenu, lime.Scene);
