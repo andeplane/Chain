@@ -14,7 +14,7 @@ chemistry.Lifebar = function(width, height) {
 	this.sprite.setSize(width,height);
 	this.sprite.setAnchorPoint(0,1);
 	this.appendChild(this.sprite);
-	this.sprite.setScale(1,1);
+	this.setScale(0.5,1);
 	this.currentAction = null;
 }
 goog.inherits(chemistry.Lifebar, lime.Node);
