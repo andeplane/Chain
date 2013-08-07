@@ -5,6 +5,7 @@ goog.require('chemistry.Game');
 goog.require('chemistry.Facebook');
 goog.require('chemistry.Scores');
 goog.require('chemistry.Leaderboard');
+goog.require('chemistry.Config');
 
 goog.require('lime.Director');
 goog.require('lime.Scene');
@@ -38,6 +39,9 @@ limeApp = function(body, screenWidth, screenHeight) {
     this.screenWidth = screenWidth;
     this.verticalCenter = screenHeight/2;
     this.horizontalCenter = screenWidth/2;
+    this.baseVelocity = screenHeight / 15;
+    this.config = new chemistry.Config();
+    
     var scene = new lime.Scene();
     this.leaderboards = [];
     for(var i=0; i<3; i++) {

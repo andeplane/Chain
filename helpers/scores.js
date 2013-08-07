@@ -21,6 +21,7 @@ chemistry.Scores.prototype.sendUnsentScores = function() {
 				};
 	var dataString = JSON.stringify(data);
 	var params = dataString;
+	
 	http.open("POST", url, true);
 
 	//Send the proper header information along with the request
@@ -28,7 +29,7 @@ chemistry.Scores.prototype.sendUnsentScores = function() {
 	
 	http.onreadystatechange = function() { 
 		if(http.readyState == 4 && http.status == 200) {
-			console.log(http.responseText);
+			// console.log(http.responseText);
 			var res = JSON.parse(http.responseText);
 			if(!res.error) {
 				this.unsentScores = JSON.stringify([]);

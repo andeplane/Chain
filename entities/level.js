@@ -29,35 +29,32 @@ chemistry.Level.prototype.reset = function() {
 }
 
 chemistry.Level.prototype.getVelocity = function() {
-	var baseVelocity = appObject.screenHeight / 15;
-	return baseVelocity*Math.log(this.level + Math.exp(1));
+    return config.getVelocity(this.game);
 }
 
-chemistry.Level.prototype.getHP = function(correctAnswer) {
-	return correctAnswer ? 5 : -10;
+chemistry.Level.prototype.getHP = function(correctAnswer, multiplier) {
+    return config.getHP(this.game, correctAnswer, multiplier);
 }
 
 chemistry.Level.prototype.getTimeToNextMolecule = function() {
-	return 2000/(0.7*Math.log(this.level + Math.exp(1)));
+	return config.getTimeToNextMolecule(this.game);
 }
 
 chemistry.Level.prototype.updateAvailableMoleculeData = function() {
 	this.availableMoleculeData = [];
 	for(var i in this.moleculeData) {
 		var data = this.moleculeData[i];
-		// Skip molecules with many functional groups for easy and medium
-		if(this.difficulty == 1 && data.numFunctionalGroups > 0) continue;
-		if(this.difficulty == 2 && data.numFunctionalGroups > 1) continue;
-		if(this.level < 1000 && data.chainLength > 5) continue;
-
-		this.availableMoleculeData.push(data);
+        
+		if(config.shouldAddMoleculeToLevel(this, data)) {
+            this.availableMoleculeData.push(data);
+        }
 	}
 }
 
 chemistry.Level.prototype.newCorrectMolecule = function() {
 	this.numCorrect++;
-	if(this.numCorrect % 5 === 0) {
-        this.levelUp(); // Increase level every 5th molecule
+	if(this.numCorrect % config.levelUpEveryNCorrectMolecule === 0) {
+        this.levelUp(); // Increase level every nth molecule
     }
 }
 
