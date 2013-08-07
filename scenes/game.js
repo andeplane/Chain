@@ -223,8 +223,6 @@ chemistry.Game.prototype.clickedTargetBox = function(event) {
         return;
     }
 
-    console.log(event);
-
     var clickedBox = event.targetBox;
     var molecule;
     if(this.molecules.length === 0) {
@@ -280,7 +278,7 @@ chemistry.Game.prototype.scaleMolecule = function(molecule) {
     var moleculeMaxSize = Math.max(molecule.getSize().width, molecule.getSize().height);
     var maxSize = this.getSize().width / 5.0;
     var scale = Math.min(maxSize / moleculeMaxSize, 1.0);
-    molecule.setScale(scale*molecule.flippedFactor,scale);
+    molecule.setScale(scale,scale*molecule.flippedFactor);
 }
 
 chemistry.Game.prototype.getLaneFromPosition = function(position) {
@@ -291,15 +289,21 @@ chemistry.Game.prototype.getLaneFromPosition = function(position) {
 chemistry.Game.prototype.addScore = function(score, molecule) {
     this.score.add(score);
     this.hud.rollerCounter.jump();
-    if(molecule.isFalling) {
-        var scoreLabel = new chemistry.ScoreLabel();
+    var scoreLabel = new chemistry.ScoreLabel();
+    var animation;
 
-        var animation = scoreLabel.animateScore(this.score, molecule.getPosition().x, molecule.getPosition().y);
-        this.appendChild(scoreLabel);
-        goog.events.listen(animation,lime.animation.Event.STOP,function(){
-            this.removeChild(scoreLabel);
-        }, false, this);
+    if(molecule.isFalling) {
+        animation = scoreLabel.animateScore(score, molecule.getPosition().x, molecule.getPosition().y);
+    } else {
+        var pos = this.hud.nextMolecule.getPosition();
+        var size = this.hud.nextMolecule.getSize();
+        animation = scoreLabel.animateScore(score, pos.x-size.width/2, pos.y+size.height/2);
     }
+
+    this.appendChild(scoreLabel);
+    goog.events.listen(animation,lime.animation.Event.STOP,function(){
+        this.removeChild(scoreLabel);
+    }, false, this);
 }
 
 chemistry.Game.prototype.setHP = function(value) {
@@ -372,8 +376,6 @@ chemistry.Game.prototype.gameOver = function() {
 }
 
 chemistry.Game.prototype.finalizeMolecule = function(molecule, targetBox) {
-    console.log(molecule)
-    console.log(targetBox)
     if(!molecule) {
         return;
     }
@@ -401,11 +403,10 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, targetBox) {
             marker = this.markers[5-2];
             multiplier = 5;
         } // Give max multiplier if molecule is in nextMolecule box
-
-        var score = (1 + multiplier + 4*this.fever)*molecule.score;
+        var score = config.calculateScore(this, multiplier, molecule)
         targetBox.highlight(true);
         this.addScore(score, molecule);
-        this.addHP( this.level.getHP(true) );
+        this.addHP( this.level.getHP(true, multiplier) );
         if(marker) { marker.jump(); }
         goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.CORRECT_ANSWER));
 
@@ -427,7 +428,7 @@ chemistry.Game.prototype.finalizeMolecule = function(molecule, targetBox) {
 }
 
 chemistry.Game.prototype.failMolecule = function(molecule) {
-    this.addHP( this.level.getHP(false) );
+    this.addHP( this.level.getHP(false, 0) );
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
 
     // Remove molecule from molecule list, so that we can start working on the next one
