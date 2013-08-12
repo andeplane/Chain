@@ -138,7 +138,7 @@ chemistry.Game.prototype.addMarkers = function(width, height) {
         } else {
             var size = this.hud.nextMolecule.getSize();
 
-            multiplierLabel.setPosition(- (8*size.width / 10), size.width/10 );
+            multiplierLabel.setPosition(- (7.6*size.width / 10), size.width/10 );
             this.hud.nextMolecule.appendChild(multiplierLabel);
         }
 
@@ -276,7 +276,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 chemistry.Game.prototype.scaleMolecule = function(molecule) {
     // Make sure the molecules aren't bigger than 1/nth of the screen width.
     var moleculeMaxSize = Math.max(molecule.getSize().width, molecule.getSize().height);
-    var maxSize = this.getSize().width / 5.0;
+    var maxSize = this.getSize().width / 10.0;
     var scale = Math.min(maxSize / moleculeMaxSize, 1.0);
     molecule.setScale(scale,scale*molecule.flippedFactor);
 }
@@ -360,15 +360,21 @@ chemistry.Game.prototype.removeAllMolecules = function() {
 }
 
 chemistry.Game.prototype.quit = function() {
+    this.cleanUp();
+    this.state = chemistry.Game.state.GAME_OVER;
     appObject.endGame();
 }
 
-chemistry.Game.prototype.gameOver = function() {
+chemistry.Game.prototype.cleanUp = function() {
     this.removeAllMolecules();
+    lime.scheduleManager.unschedule(this.tick, this);
+}
+
+chemistry.Game.prototype.gameOver = function() {
+    this.cleanUp();
     this.state = chemistry.Game.state.GAME_OVER;
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.GAME_OVER));
     this.gameOverOverlay.gameOver();
-    lime.scheduleManager.unschedule(this.tick, this);
     appObject.scores.newScore();
     // Update roller counter so it shows final score
     this.hud.rollerCounter.currentScore = this.score.score;
