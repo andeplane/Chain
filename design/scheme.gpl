@@ -1,0 +1,24 @@
+GIMP Palette
+Name: Color Palette by Color Scheme Designer #3g61TH.vvv5vkColumns: 4
+
+#
+  0 154 143     primary 1
+ 28 117 110     primary 2
+  0 102  94     primary 3
+ 50 204 192     primary 4
+ 90 204 195     primary 5
+ 10  63 167     secondary-a 1
+ 37  67 127     secondary-a 2
+  3  39 110     secondary-a 3
+ 61 111 210     secondary-a 4
+100 137 210     secondary-a 5
+ 19 206   0     secondary-b 1
+ 49 156  38     secondary-b 2
+ 13 136   0     secondary-b 3
+ 73 230  56     secondary-b 4
+113 230 101     secondary-b 5
+251 109   0     complement 1
+190 109  46     complement 2
+166  72   0     complement 3
+253 145  62     complement 4
+253 173 111     complement 5
