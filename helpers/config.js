@@ -58,21 +58,29 @@ chemistry.Config = function() {
 
 	this.getAvailableChainLengths = function(level) {
 		if(level.difficulty == 0) {
-			if(level.level < 2) return [3,4,5];
-			if(level.level < 10) return [4,5,6];
-			if(level.level < 15) return [5,6,7];
+			if(level.level < 3) return [3,4,5];
+			if(level.level < 5) return [4,5,6];
+			if(level.level < 10) return [5,6,7];
+			if(level.level < 15) return [6,7,8];
+
+			return [6,7,8];
 		}
 
 		if(level.difficulty == 1) {
-			if(level.level < 5) return [3,4,5];
-			if(level.level < 10) return [4,5,6];
-			if(level.level < 15) return [5,6,7];
+			if(level.level < 3) return [3,4,5];
+			if(level.level < 5) return [4,5,6];
+			if(level.level < 10) return [5,6,7];
+			if(level.level < 15) return [6,7,8];
+
+			return [6,7,8];
 		}
 
 		if(level.difficulty == 2) {
 			if(level.level < 5) return [3,4,5];
 			if(level.level < 10) return [4,5,6];
 			if(level.level < 15) return [5,6,7];
+
+			return [5,6,7];
 		}
 		
 		return [];

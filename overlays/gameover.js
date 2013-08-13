@@ -38,7 +38,7 @@ chemistry.overlays.GameOver = function(width, height) {
 
     this.appendChild(this.retryButton);
 
-    this.endGameButton = new lime.GlossyButton("End game");
+    this.endGameButton = new lime.GlossyButton("Main Menu");
     this.endGameButton.setFontSize(width / 16);
     this.endGameButton.setSize(width / 2, width / 6);
     this.endGameButton.setPosition(width/2, height/2 + 2* width / 6);
