@@ -100,6 +100,10 @@ chemistry.Game.prototype.addKeyboardEventListener = function() {
             obj.targetBox = this.targetBoxes[2];
             this.clickedTargetBox(obj);
             break;
+        case 81: //3
+            console.log("Woot!")
+            this.level.levelUp();
+            break;
         case 52: //4
             if(this.numLanes < 4) {
                 return;
@@ -175,8 +179,9 @@ chemistry.Game.prototype.updateTargetBoxes = function() {
     this.targetBoxes = [];
     var gridUnit = width / 40;
     var currentX = 0;
-    var spriteWidths = [14 * gridUnit, 18 * gridUnit, 15 * gridUnit];
-    var spriteXs = [0, 12 * gridUnit, 25 * gridUnit];
+    var spriteWidth = 20 * gridUnit;
+    var spriteStartX = -3*gridUnit;
+    var spriteIncrementX = 14 * gridUnit;
     var spriteHeight = 9 * gridUnit;
     for(var i=0; i<this.level.availableChainLengths.length; i++) {
         //        var lane = new chemistry.Lane(width/numLanes, height, i);
@@ -186,8 +191,8 @@ chemistry.Game.prototype.updateTargetBoxes = function() {
         //        this.targetBoxess.push(lane);
         //        this.appendChild(lane);
         //        var goldenRatioInverse = 1/1.618;
-        var spriteWidth = spriteWidths[i];
-        var spriteX = spriteXs[i];
+        //        var spriteWidth = spriteWidths[i];
+        var spriteX = spriteStartX + i * spriteIncrementX;
         var chainLength = this.level.availableChainLengths[i];
         var targetBox = new chemistry.TargetBox(spriteWidth, 9 * gridUnit, i, chainLength);
         targetBox.setAnchorPoint(0,0);
