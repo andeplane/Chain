@@ -1,7 +1,6 @@
 goog.provide('chemistry.Config');
 
 chemistry.Config = function() {
-
 	this.levelUpEveryNCorrectMolecule = 10;
 	this.getTimeToNextMolecule = function(game) {
 		// return 2000/(0.7*Math.log(2*game.level.level + Math.exp(1)));
@@ -18,28 +17,50 @@ chemistry.Config = function() {
 	}
 
 	this.shouldAddMoleculeToLevel = function(level, data) {
+		// Check if this chainlength is available
+		if(level.availableChainLengths.indexOf(data.chainLength) == -1) return false;
+
 		// Skip molecules with many functional groups for easy and medium
 		if(level.difficulty == 0) {
-			if(data.chainLength > 5) return false;
 			if(data.numFunctionalGroups > 0) return false;
 			if(level.level < 3 && data.numBranches > 0) return false;
 			if(level.level < 5 && data.numBranches > 1) return false;
 		}
 
 		if(level.difficulty == 1) {
-			if(data.chainLength > 5) return false;
 			if(data.numFunctionalGroups > 1) return false;
 			if(level.level < 3 && data.numBranches > 0) return false;
 			if(level.level < 5 && data.numBranches > 1) return false;
 		}
 
 		if(level.difficulty == 2) {
-			if(data.chainLength > 5) return false;
 			if(level.level < 3 && data.numBranches > 0) return false;
 			if(level.level < 5 && data.numBranches > 1) return false;
 		}
 
 		return true;
+	}
+
+	this.getAvailableChainLengths = function(level) {
+		if(level.difficulty == 0) {
+			if(level.level < 2) return [3,4,5];
+			if(level.level < 10) return [4,5,6];
+			if(level.level < 15) return [5,6,7];
+		}
+
+		if(level.difficulty == 1) {
+			if(level.level < 5) return [3,4,5];
+			if(level.level < 10) return [4,5,6];
+			if(level.level < 15) return [5,6,7];
+		}
+
+		if(level.difficulty == 2) {
+			if(level.level < 5) return [3,4,5];
+			if(level.level < 10) return [4,5,6];
+			if(level.level < 15) return [5,6,7];
+		}
+		
+		return [];
 	}
 
 	this.calculateScore = function(game, multiplier, molecule) {

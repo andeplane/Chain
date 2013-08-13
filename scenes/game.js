@@ -18,7 +18,7 @@ goog.require('lime.fill.LinearGradient');
 
 chemistry.Game = function(width, height, difficulty) {
     lime.Scene.call(this);
-
+    
     this.setSize(width, height);
     var gridUnit = width / 40;
     this.boardEdgeY = 51 * gridUnit;
@@ -35,7 +35,7 @@ chemistry.Game = function(width, height, difficulty) {
     this.molecules = [];
 
     this.addBackground(width, height);
-    this.addTargetBoxes(width, height, this.level.numLanes);
+    this.updateTargetBoxes();
     this.addMarkerLayer(width, height);
     this.addMoleculeLayer(width, height);
     this.addHUD(width,height);
@@ -160,14 +160,25 @@ chemistry.Game.prototype.addMoleculeLayer = function(width, height) {
     this.appendChild(this.moleculeLayer);
 }
 
-chemistry.Game.prototype.addTargetBoxes = function(width, height, numLanes) {
+chemistry.Game.prototype.updateTargetBoxes = function() {
+    var width = this.getSize().width;
+    var height = this.getSize().height;
+
+    for(var i in this.targetBoxes) {
+        this.targetBoxes[i].conceal(function() {
+            // TODO UNLISTEN
+            this.removeChild(this.targetBoxes[i]);
+
+        }, this);
+    }
+
     this.targetBoxes = [];
     var gridUnit = width / 40;
     var currentX = 0;
     var spriteWidths = [14 * gridUnit, 18 * gridUnit, 15 * gridUnit];
     var spriteXs = [0, 12 * gridUnit, 25 * gridUnit];
     var spriteHeight = 9 * gridUnit;
-    for(var i=0; i<numLanes; i++) {
+    for(var i=0; i<this.level.availableChainLengths.length; i++) {
         //        var lane = new chemistry.Lane(width/numLanes, height, i);
         //        lane.setAnchorPoint(0,0);
         //        lane.setPosition(width/numLanes*i,0);
@@ -177,10 +188,10 @@ chemistry.Game.prototype.addTargetBoxes = function(width, height, numLanes) {
         //        var goldenRatioInverse = 1/1.618;
         var spriteWidth = spriteWidths[i];
         var spriteX = spriteXs[i];
-        var chainLength = i + 3;
-        var targetBox = new chemistry.TargetBox(spriteWidth, 9 * gridUnit, i, chainLength, "design/export/button" + chainLength);
+        var chainLength = this.level.availableChainLengths[i];
+        var targetBox = new chemistry.TargetBox(spriteWidth, 9 * gridUnit, i, chainLength);
         targetBox.setAnchorPoint(0,0);
-        targetBox.setPosition(spriteX, height - spriteHeight);
+        targetBox.setPosition(spriteX, height);
         this.appendChild(targetBox);
         this.targetBoxes.push(targetBox);
 
@@ -188,6 +199,7 @@ chemistry.Game.prototype.addTargetBoxes = function(width, height, numLanes) {
         //        goog.events.listen(targetBox,['mousedown','touchstart'], this.clickedTargetBox, false, this);
         goog.events.listen(targetBox, chemistry.events.TargetBoxEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
         //        goog.events.listen(lane, chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
+        targetBox.reveal(0.2*(i+0.5));
     }
 }
 
@@ -366,6 +378,7 @@ chemistry.Game.prototype.quit = function() {
 }
 
 chemistry.Game.prototype.cleanUp = function() {
+    this.unpause();
     this.removeAllMolecules();
     lime.scheduleManager.unschedule(this.tick, this);
 }

@@ -4,15 +4,16 @@ goog.require('lime.Node');
 goog.require('lime.Sprite');
 goog.require('lime.animation.Sequence');
 goog.require('lime.animation.FadeTo');
+goog.require('lime.animation.MoveBy');
 
-chemistry.TargetBox = function(width, height, number, chainLength, imageFilePrefix) {
+chemistry.TargetBox = function(width, height, number, chainLength) {
 	lime.Node.call(this);
 	this.setSize(width, height);
 	this.number = number;
     this.chainLength = chainLength;
 
 //	var colors = ["#eee", "#ddd", "#eee", "#ddd"];
-
+    var imageFilePrefix = "design/export/button"+chainLength;
     var imageFile = imageFilePrefix + ".png";
     var imageFileSuccess = imageFilePrefix + "-success.png";
     var imageFileFail = imageFilePrefix + "-fail.png";
@@ -59,4 +60,21 @@ chemistry.TargetBox.prototype.highlight = function(correctAnswer) {
     } else {
         this.buttonImageFail.runAction(fadeAnimation);
     }
+}
+
+chemistry.TargetBox.prototype.conceal = function(cb, self) {
+    var height = this.getSize().height;
+
+    var moveAnimation = new lime.animation.MoveBy(0, height); //.enableOptimizations();
+    this.runAction(moveAnimation);
+
+    goog.events.listen(moveAnimation, lime.animation.Event.STOP, cb, false, self);
+}
+
+chemistry.TargetBox.prototype.reveal = function(duration) {
+    var height = this.getSize().height;
+    console.log(duration);
+    var moveAnimation = new lime.animation.MoveBy(0, -height).setDuration(duration).setEasing(lime.animation.Easing.EASEOUT);
+
+    this.runAction(moveAnimation);
 }

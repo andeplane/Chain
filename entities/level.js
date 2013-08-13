@@ -19,13 +19,34 @@ chemistry.Level = function(difficulty, game) {
 }
 goog.inherits(chemistry.Level, goog.events.EventTarget);
 
+// attach the .compare method to Array's prototype to call it on any array
+chemistry.Level.prototype.compareArrays = function(array1, array2) {
+    // if the other array is a falsy value, return
+    if (!array1 || !array2) {
+        return false;
+    }
+
+    // compare lengths - can save a lot of time
+    if (array1.length != array2.length) {
+        return false;
+    }
+
+    for (var i = 0; i < array1.length; i++) {
+        if (array1[i] != array2[i]) {
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;
+        }
+    }
+    return true;
+}
+
 chemistry.Level.prototype.reset = function() {
     this.level  	   		= 1;
     this.numCorrect 	    = 0;
     this.numMolecules  		= 0;
     this.numLanes	   		= 3;
 
-    this.updateAvailableMoleculeData();
+    this.updateAvailableMoleculesAndButtons();
 }
 
 chemistry.Level.prototype.getVelocity = function() {
@@ -40,7 +61,14 @@ chemistry.Level.prototype.getTimeToNextMolecule = function() {
 	return config.getTimeToNextMolecule(this.game);
 }
 
-chemistry.Level.prototype.updateAvailableMoleculeData = function() {
+chemistry.Level.prototype.updateAvailableMoleculesAndButtons = function() {
+    var oldAvailableChainLengths = this.availableChainLengths;
+    this.availableChainLengths = config.getAvailableChainLengths(this);
+    if(oldAvailableChainLengths && this.compareArrays(oldAvailableChainLengths, this.availableChainLengths) === false) {
+        // We need to switch the buttons
+        this.game.updateTargetBoxes();
+    }
+
 	this.availableMoleculeData = [];
 	for(var i in this.moleculeData) {
 		var data = this.moleculeData[i];
@@ -71,6 +99,6 @@ chemistry.Level.prototype.getNextMolecule = function() {
 
 chemistry.Level.prototype.levelUp = function() {
     this.level++;
-    this.updateAvailableMoleculeData();
+    this.updateAvailableMoleculesAndButtons();
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.LEVEL_UP));
 }
