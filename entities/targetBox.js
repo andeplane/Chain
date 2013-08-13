@@ -64,15 +64,15 @@ chemistry.TargetBox.prototype.highlight = function(correctAnswer) {
 chemistry.TargetBox.prototype.conceal = function(cb, self) {
     var height = this.getSize().height;
 
-    var moveAnimation = new lime.animation.MoveBy(0, height); //.enableOptimizations();
+    var moveAnimation = new lime.animation.MoveBy(0, height).setDuration(0.3).setEasing(lime.animation.Easing.EASEIN); //.enableOptimizations();
     this.runAction(moveAnimation);
 
     goog.events.listen(moveAnimation, lime.animation.Event.STOP, cb, false, self);
 }
 
 chemistry.TargetBox.prototype.reveal = function(duration) {
+    console.log("Revealing with duration: " + duration);
     var height = this.getSize().height;
-    console.log(duration);
     var moveAnimation = new lime.animation.MoveBy(0, -height).setDuration(duration).setEasing(lime.animation.Easing.EASEOUT);
 
     this.runAction(moveAnimation);

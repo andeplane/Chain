@@ -43,9 +43,13 @@ chemistry.Molecule.prototype.calculateScore = function() {
 chemistry.Molecule.prototype.fadeOut = function() {
 	if(this.moveAction) this.moveAction.stop();
 
+    var currentScaleX = this.getScale().x;
+    var currentScaleY = this.getScale().y;
+    var targetFactor = 0.5;
+
 	var animation = new lime.animation.Spawn(
 		new lime.animation.FadeTo(0).setDuration(0.3).setEasing(lime.animation.Easing.EASEIN),
-    	new lime.animation.ScaleTo(0.5).setDuration(0.7)
+        new lime.animation.ScaleTo(currentScaleX * targetFactor, currentScaleY * targetFactor).setDuration(0.7)
 		).enableOptimizations();
 	this.runAction(animation);
 	return animation;

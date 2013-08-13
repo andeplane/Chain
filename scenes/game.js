@@ -33,6 +33,8 @@ chemistry.Game = function(width, height, difficulty) {
     this.fever = false;
 
     this.molecules = [];
+    this.targetBoxes = [];
+    this.numLeftToConceal = 0;
 
     this.addBackground(width, height);
     this.updateTargetBoxes();
@@ -165,46 +167,56 @@ chemistry.Game.prototype.addMoleculeLayer = function(width, height) {
 }
 
 chemistry.Game.prototype.updateTargetBoxes = function() {
-    var width = this.getSize().width;
-    var height = this.getSize().height;
 
-    for(var i in this.targetBoxes) {
-        this.targetBoxes[i].conceal(function() {
-            // TODO UNLISTEN
-            this.removeChild(this.targetBoxes[i]);
-
-        }, this);
+    this.numLeftToConceal = this.targetBoxes.length;
+    if(this.numLeftToConceal === 0) {
+        this.createAndRevealTargetBoxes();
+        return;
     }
 
-    this.targetBoxes = [];
+    for(var i = 0; i < this.targetBoxes.length; i++) {
+        this.concealAndRemoveTargetBox(i);
+    }
+}
+
+chemistry.Game.prototype.concealAndRemoveTargetBox = function(boxNumber) {
+    console.log("Concealing: " + boxNumber)
+    this.targetBoxes[boxNumber].conceal(function() {
+        console.log("Conceal finished for " + boxNumber);
+        goog.events.removeAll(this.targetBoxes[boxNumber]);
+        this.removeChild(this.targetBoxes[boxNumber]);
+        this.numLeftToConceal -= 1;
+        if(this.numLeftToConceal === 0) {
+            this.createAndRevealTargetBoxes();
+        }
+    }, this);
+}
+
+chemistry.Game.prototype.createAndRevealTargetBoxes = function() {
+    console.log("Create and reveal!");
+    var width = this.getSize().width;
+    var height = this.getSize().height;
     var gridUnit = width / 40;
     var currentX = 0;
     var spriteWidth = 20 * gridUnit;
     var spriteStartX = -3*gridUnit;
     var spriteIncrementX = 14 * gridUnit;
     var spriteHeight = 9 * gridUnit;
-    for(var i=0; i<this.level.availableChainLengths.length; i++) {
-        //        var lane = new chemistry.Lane(width/numLanes, height, i);
-        //        lane.setAnchorPoint(0,0);
-        //        lane.setPosition(width/numLanes*i,0);
 
-        //        this.targetBoxess.push(lane);
-        //        this.appendChild(lane);
-        //        var goldenRatioInverse = 1/1.618;
-        //        var spriteWidth = spriteWidths[i];
+    this.targetBoxes = [];
+
+    for(var i=0; i<this.level.availableChainLengths.length; i++) {
         var spriteX = spriteStartX + i * spriteIncrementX;
         var chainLength = this.level.availableChainLengths[i];
+        console.log("Creating " + i + " " + chainLength);
         var targetBox = new chemistry.TargetBox(spriteWidth, 9 * gridUnit, i, chainLength);
         targetBox.setAnchorPoint(0,0);
         targetBox.setPosition(spriteX, height);
         this.appendChild(targetBox);
         this.targetBoxes.push(targetBox);
 
-        //        var self = this;
-        //        goog.events.listen(targetBox,['mousedown','touchstart'], this.clickedTargetBox, false, this);
         goog.events.listen(targetBox, chemistry.events.TargetBoxEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
-        //        goog.events.listen(lane, chemistry.events.LaneEvent.CLICKED_TARGET_BOX, this.clickedTargetBox, false, this);
-        targetBox.reveal(0.2*(i+0.5));
+        targetBox.reveal(0.2 + 0.2*(i+0.3));
     }
 }
 
