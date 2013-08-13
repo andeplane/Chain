@@ -3,12 +3,27 @@ goog.provide('chemistry.Config');
 chemistry.Config = function() {
 	this.levelUpEveryNCorrectMolecule = 10;
 	this.getTimeToNextMolecule = function(game) {
-		// return 2000/(0.7*Math.log(2*game.level.level + Math.exp(1)));
-		return 3000/(0.7*Math.log(2*game.level.level + Math.exp(1)));
+		if(game.difficulty == 0) {
+			return 3000/(0.7*Math.log(2*game.level.level + Math.exp(1)));
+		} 
+		if(game.difficulty == 1) {
+			return 3000/(0.7*Math.log(2*game.level.level + Math.exp(1)));
+		} 
+		if(game.difficulty == 2) {
+			return 3000/(0.7*Math.log(game.level.level + Math.exp(1)));
+		} 
 	}
 
 	this.getVelocity = function(game) { 
-		return appObject.baseVelocity*Math.log(2*game.level.level + Math.exp(1)); 
+		if(game.difficulty == 0) {
+			return appObject.baseVelocity*Math.log(2*game.level.level + Math.exp(1)); 
+		} 
+		if(game.difficulty == 1) {
+			return appObject.baseVelocity*Math.log(2*game.level.level + Math.exp(1)); 
+		} 
+		if(game.difficulty == 2) {
+			return appObject.baseVelocity*Math.log(game.level.level + Math.exp(1)); 
+		} 
 	}
 
 	this.getHP = function(game, correctAnswer, multiplier) { 
