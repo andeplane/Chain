@@ -272,9 +272,6 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
     this.timeToNextMolecule -= dt;
     if(this.timeToNextMolecule < 0) {
         // We need to create another molecule, and move the current next molecule into falling mode
-
-        // Choose a random lane
-        var lane = this.targetBoxes[goog.math.randomInt(this.targetBoxes.length)];
         if(this.nextMolecule !== null) {
             // The next molecule exists, lets move that into falling mode
             var moleculeWidth = this.nextMolecule.getSize().width*this.nextMolecule.getScale().x;
@@ -288,10 +285,8 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 
             var pos = this.nextMolecule.getPosition();
             this.nextMolecule.moveTo(pos.x, this.getSize().height);
-            
-            var target = this.nextMolecule;
-            var self = this;
         }
+
         this.nextMolecule = this.level.getNextMolecule();
         this.nextMolecule.velocity = this.level.getVelocity();
         this.scaleMolecule(this.nextMolecule);
@@ -304,10 +299,10 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 
 chemistry.Game.prototype.scaleMolecule = function(molecule) {
     // Make sure the molecules aren't bigger than 1/nth of the screen width.
-    var moleculeMaxSize = Math.max(molecule.getSize().width, molecule.getSize().height);
-    var maxSize = this.getSize().width / 10.0;
-    var scale = Math.min(maxSize / moleculeMaxSize, 1.0);
-    molecule.setScale(scale,scale*molecule.flippedFactor);
+
+    var maxSize = this.getSize().width / 15.0*molecule.chainLength;
+    // var maxSize = this.getSize().width / 10.0;
+    molecule.setMaxSize(maxSize);
 }
 
 chemistry.Game.prototype.getLaneFromPosition = function(position) {
