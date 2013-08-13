@@ -24,7 +24,7 @@ chemistry.MainMenu = function(width, height) {
     var medium = new lime.Sprite().setFill("design/export/mainmenu/mediumbutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,y).setAnchorPoint(0,0);
     var mediumLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y).setAnchorPoint(0,0);
     var hard   = new lime.Sprite().setFill("design/export/mainmenu/hardbutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,y+sizeY+10).setAnchorPoint(0,0);
-    var hardLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y).setAnchorPoint(0,0);
+    var hardLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y+sizeY+10).setAnchorPoint(0,0);
 
     var fb   = new lime.Sprite().setFill("images/fb.png").setSize(100,100).setPosition(appObject.screenWidth - 70, appObject.screenHeight - 70);
 	this.appendChild(easy);
