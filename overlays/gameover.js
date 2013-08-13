@@ -13,37 +13,32 @@ chemistry.overlays.GameOver = function(width, height) {
 
     this.setSize(width, height);
 
+    var gridUnit = width / 40;
+
     this.background = new lime.Sprite();
-    this.background.setFill("#fff");
+    this.background.setFill("design/export/gameover/background.png");
     this.background.setSize(width, height);
     this.background.setPosition(0,0);
     this.background.setAnchorPoint(0,0);
-    this.background.setOpacity(0.4);
     this.appendChild(this.background);
 
-    this.gameOverLabel = new lime.Label("Game over");
-    this.gameOverLabel.setFontSize(width / 16);
-    this.gameOverLabel.setFontFamily('Sonsie One');
-    this.gameOverLabel.setFontColor('#c8d5fc');
-    this.gameOverLabel.setSize(width, width / 10);
-    this.gameOverLabel.setPosition(width/2, height/2 -  width / 6);
-    this.appendChild(this.gameOverLabel);
+//    this.gameOverLabel = new lime.Label("Game over");
+//    this.gameOverLabel.setFontSize(width / 16);
+//    this.gameOverLabel.setFontFamily('Sonsie One');
+//    this.gameOverLabel.setFontColor('#c8d5fc');
+//    this.gameOverLabel.setSize(width, width / 10);
+//    this.gameOverLabel.setPosition(width/2, height/2 -  width / 6);
+//    this.appendChild(this.gameOverLabel);
 
-    this.retryButton = new lime.GlossyButton("Retry");
-    this.retryButton.setFontSize(width / 16);
-    this.retryButton.setSize(width / 2, width / 6);
-    this.retryButton.setPosition(width/2, height/2 +  width / 6);
+    this.retryButton = new lime.Sprite().setFill("design/export/gameover/retrybutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,19*gridUnit).setAnchorPoint(0,0);
 
-    goog.events.listen(this.retryButton, ["click"], this.retryButtonClicked, false, this);
+    goog.events.listen(this.retryButton, ["mousedown", "touchstart"], this.retryButtonClicked, false, this);
 
     this.appendChild(this.retryButton);
 
-    this.endGameButton = new lime.GlossyButton("End game");
-    this.endGameButton.setFontSize(width / 16);
-    this.endGameButton.setSize(width / 2, width / 6);
-    this.endGameButton.setPosition(width/2, height/2 + 2* width / 6);
+    this.endGameButton = new lime.Sprite().setFill("design/export/gameover/endgamebutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,25*gridUnit).setAnchorPoint(0,0);
 
-    goog.events.listen(this.endGameButton, ["click"], this.endGameButtonClicked, false, this);
+    goog.events.listen(this.endGameButton, ["mousedown", "touchstart"], this.endGameButtonClicked, false, this);
 
     this.appendChild(this.endGameButton);
 }
