@@ -17,12 +17,14 @@ chemistry.MainMenu = function(width, height) {
 	var sizeX = appObject.screenWidth/3;
 	var sizeY = appObject.screenWidth/6;
 
-	var easy   = new lime.GlossyButton("Easy").setSize(sizeX,sizeY).setFontSize(70).setPosition(x,y-sizeY-10);
-    var easyLeaderboardButton = new lime.Sprite().setFill("images/leaderboards.png").setPosition(x + sizeX / 2.0 + 80, y-sizeY-10);
-    var medium = new lime.GlossyButton("Medium").setSize(sizeX,sizeY).setFontSize(70).setPosition(x,y);
-    var mediumLeaderboardButton = new lime.Sprite().setFill("images/leaderboards.png").setPosition(x + sizeX / 2.0 + 80, y);
-    var hard   = new lime.GlossyButton("Hard").setSize(sizeX,sizeY).setFontSize(70).setPosition(x,y+sizeY+10);
-    var hardLeaderboardButton = new lime.Sprite().setFill("images/leaderboards.png").setPosition(x + sizeX / 2.0 + 80, y+sizeY+10);
+    var gridUnit = width / 40;
+
+    var easy   = new lime.Sprite().setFill("design/export/mainmenu/easybutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,y-sizeY-gridUnit).setAnchorPoint(0,0);
+    var easyLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y-sizeY-gridUnit).setAnchorPoint(0,0);
+    var medium = new lime.Sprite().setFill("design/export/mainmenu/mediumbutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,y).setAnchorPoint(0,0);
+    var mediumLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y).setAnchorPoint(0,0);
+    var hard   = new lime.Sprite().setFill("design/export/mainmenu/hardbutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,y+sizeY+10).setAnchorPoint(0,0);
+    var hardLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y).setAnchorPoint(0,0);
 
     var fb   = new lime.Sprite().setFill("images/fb.png").setSize(100,100).setPosition(appObject.screenWidth - 70, appObject.screenHeight - 70);
 	this.appendChild(easy);
@@ -58,7 +60,7 @@ chemistry.MainMenu.prototype.fb = function(e) {
 
 chemistry.MainMenu.prototype.addBackground = function(width, height) {
     this.background = new lime.Sprite();
-    this.background.setFill("design/export/background.png");
+    this.background.setFill("design/export/mainmenu/background.png");
     this.background.setAnchorPoint(0,0);
     this.background.setSize(width, height);
     this.appendChild(this.background);
