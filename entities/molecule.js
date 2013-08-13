@@ -57,6 +57,10 @@ chemistry.Molecule.prototype.fadeOut = function() {
 chemistry.Molecule.prototype.vibrate = function() {
 	if(this.moveAction) this.moveAction.stop();
 	var initialRotation = this.getRotation();
+
+    var currentScaleX = this.getScale().x;
+    var currentScaleY = this.getScale().y;
+    var targetFactor = 2;
 	
 	var animation = new lime.animation.Sequence (
         new lime.animation.RotateBy(10).setDuration(0.045),
@@ -81,7 +85,7 @@ chemistry.Molecule.prototype.vibrate = function() {
                 new lime.animation.RotateBy(-10).setDuration(0.045)
                 ),
             new lime.animation.FadeTo(0).setDuration(0.3),
-            new lime.animation.ScaleTo(2).setDuration(0.7)
+            new lime.animation.ScaleTo(currentScaleX * targetFactor, currentScaleY * targetFactor).setDuration(0.7)
             )
         ).enableOptimizations();
 	
