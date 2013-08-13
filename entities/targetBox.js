@@ -13,9 +13,9 @@ chemistry.TargetBox = function(width, height, number, chainLength, imageFilePref
 
 //	var colors = ["#eee", "#ddd", "#eee", "#ddd"];
 
-    var imageFile = imageFilePrefix + ".png";
-    var imageFileSuccess = imageFilePrefix + "-success.png";
-    var imageFileFail = imageFilePrefix + "-fail.png";
+    var imageFile = "design/export/button" + chainLength + ".png";
+    var imageFileSuccess = "design/export/highlight-success.png";
+    var imageFileFail = "design/export/highlight-fail.png";
 	
     var buttonImage = new lime.Sprite();
     buttonImage.setAnchorPoint(0,0);
