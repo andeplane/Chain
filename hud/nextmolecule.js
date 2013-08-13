@@ -44,11 +44,13 @@ chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
 	this.moleculeSprite.setHidden(false);
 	this.timeLeftBar.setHidden(false);
 	if(this.timeLeftBar.currentAnimation) this.timeLeftBar.currentAnimation.stop();
+	if(this.moleculeSprite.currentAnimation) this.moleculeSprite.currentAnimation.stop();
 
 	this.timeLeftBar.setScale(1,1);
 	var scaleAction = new lime.animation.ScaleTo(1,0).setDuration(timeToNext/1000.0).setEasing(lime.animation.Easing.EASEIN); // setDuration takes seconds as unit of time
 	this.timeLeftBar.currentAnimation = scaleAction;
 	this.timeLeftBar.runAction(scaleAction);
+
 	this.moleculeSprite.setFill(molecule.data.imageFile);
 	this.moleculeSprite.setSize(molecule.data.size[0],molecule.data.size[1]);
 	this.moleculeSprite.setRotation(molecule.getRotation());
@@ -56,6 +58,7 @@ chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
     this.moleculeSprite.setOpacity(0);
     var fadeMoleculeAction = new lime.animation.FadeTo(1).setDuration(timeToNext / (2*1000.0)).enableOptimizations();
     this.moleculeSprite.runAction(fadeMoleculeAction);
+    this.moleculeSprite.currentAnimation = fadeMoleculeAction;
 
 	var size = this.moleculeSprite.getSize();
 	var maxSize = Math.max(size.width, size.height);

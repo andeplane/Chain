@@ -36,7 +36,14 @@ chemistry.overlays.GameOver = function(width, height) {
 
     this.appendChild(this.retryButton);
 
+<<<<<<< HEAD
     this.endGameButton = new lime.Sprite().setFill("design/export/gameover/endgamebutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,25*gridUnit).setAnchorPoint(0,0);
+=======
+    this.endGameButton = new lime.GlossyButton("Main Menu");
+    this.endGameButton.setFontSize(width / 16);
+    this.endGameButton.setSize(width / 2, width / 6);
+    this.endGameButton.setPosition(width/2, height/2 + 2* width / 6);
+>>>>>>> 999c09e8247d6d1b8203d921fe6e3d8a0f6cbf04
 
     goog.events.listen(this.endGameButton, ["mousedown", "touchstart"], this.endGameButtonClicked, false, this);
 

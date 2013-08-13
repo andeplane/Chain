@@ -300,7 +300,7 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 chemistry.Game.prototype.scaleMolecule = function(molecule) {
     // Make sure the molecules aren't bigger than 1/nth of the screen width.
 
-    var maxSize = this.getSize().width / 15.0*molecule.chainLength;
+    var maxSize = this.getSize().width / 15.0*Math.min(molecule.chainLength, 6);
     // var maxSize = this.getSize().width / 10.0;
     molecule.setMaxSize(maxSize);
 }
