@@ -20,8 +20,6 @@ chemistry.Leaderboard = function(width, height, difficulty) {
 	this.appendChild(this.highscoreEntryLayer);
 	this.appendChild(this.statusLabel);
 	this.appendChild(this.backButton);
-
-	this.refresh();
 }
 goog.inherits(chemistry.Leaderboard, lime.Scene);
 
@@ -33,6 +31,10 @@ chemistry.Leaderboard.prototype.addBackground = function(width, height) {
     this.appendChild(this.background);
 }
 
+chemistry.Leaderboard.prototype.setOffline = function() {
+	this.statusLabel.setText("Not connected.");
+}
+
 chemistry.Leaderboard.prototype.refresh = function() {
 	this.statusLabel.setText("Loading ...");
 	this.highscoreEntryLayer.removeAllChildren();
@@ -42,10 +44,14 @@ chemistry.Leaderboard.prototype.refresh = function() {
 	var url = "http://kvakkefly.com/leaderboards.php?difficulty="+this.difficulty;
 	http.open("GET", url, true);
 
-	//Send the proper header information along with the request
+	// Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	http.timeout = 5000;
 	var self = this;
+	http.ontimeout = this.setOffline;
+
 	http.onreadystatechange = function() { 
+		console.log(http.readyState)
 		if(http.readyState == 4 && http.status == 200) {
 			var scores = JSON.parse(http.responseText);
 			for(var i in scores) {
@@ -73,5 +79,11 @@ chemistry.Leaderboard.prototype.refresh = function() {
 			if(scores.length == 0) self.statusLabel.setText("No scores.");
 		}
 	}
-	http.send(null);
+	console.log("Is connected: "+appObject.isConnected);
+	if(appObject.isConnected) {
+		http.send(null);
+	} else {
+		this.setOffline();
+	}
+	
 };
