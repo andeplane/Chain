@@ -41,6 +41,15 @@ limeApp = function(body, screenWidth, screenHeight) {
     this.horizontalCenter = screenWidth/2;
     this.baseVelocity = screenHeight / 15;
     this.config = new chemistry.Config();
+    this.isConnected = true;
+    var self = this;
+    document.addEventListener("online", function() {
+        self.isConnected = true;
+    }, false);
+
+    document.addEventListener("offline", function() {
+        self.isConnected = false;
+    }, false);
     
     var scene = new lime.Scene();
     this.leaderboards = [];

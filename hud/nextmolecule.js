@@ -52,11 +52,13 @@ chemistry.NextMolecule.prototype.newMolecule = function(molecule, timeToNext) {
 	this.timeLeftBar.runAction(scaleAction);
 
 	this.moleculeSprite.setFill(molecule.data.imageFile);
-	this.moleculeSprite.setSize(molecule.data.size[0],molecule.data.size[1]);
+	var sizeX = molecule.data.size[0];
+	var sizeY = molecule.data.size[1];
+	this.moleculeSprite.setSize(sizeX,sizeY);
 	this.moleculeSprite.setRotation(molecule.getRotation());
 
     this.moleculeSprite.setOpacity(0);
-    var fadeMoleculeAction = new lime.animation.FadeTo(1).setDuration(timeToNext / (2*1000.0)).enableOptimizations();
+    var fadeMoleculeAction = new lime.animation.FadeTo(1).setDuration(timeToNext / (2*1000.0)); //.enableOptimizations();
     this.moleculeSprite.runAction(fadeMoleculeAction);
     this.moleculeSprite.currentAnimation = fadeMoleculeAction;
 
