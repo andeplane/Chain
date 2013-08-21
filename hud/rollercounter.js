@@ -15,6 +15,10 @@ goog.inherits(chemistry.RollerCounter, lime.Label);
 
 chemistry.RollerCounter.prototype.tick = function() {
 	// TODO: Update label text based on currentScore
+    if(!appObject.game || !appObject.game.score) {
+        return;
+    }
+
 	var diff = parseInt(appObject.game.score.score) - this.currentScore;
 	if(diff > 500)      { this.currentScore += 23; }
 	if(diff > 200)      { this.currentScore += 13; }
