@@ -32,12 +32,12 @@ goog.inherits(chemistry.overlays.Tutorial, lime.Layer);
 
 chemistry.overlays.Tutorial.prototype.reveal = function() {
     this.tutorialSprite.setPosition(-this.getSize().width, 0);
-    var animation = new lime.animation.MoveTo(0,0).setDuration(1.0).setEasing(lime.animation.Easing.EASEINOUT);
+    var animation = new lime.animation.MoveTo(0,0).setDuration(0.5).setEasing(lime.animation.Easing.EASEINOUT);
     this.tutorialSprite.runAction(animation);
 }
 
 chemistry.overlays.Tutorial.prototype.conceal = function(callback, nothing, self) {
-    var animation = new lime.animation.FadeTo(0);
+    var animation = new lime.animation.FadeTo(0).setDuration(0.2);
     goog.events.listen(animation, lime.animation.Event.STOP, callback, nothing, self);
     this.runAction(animation);
 }
