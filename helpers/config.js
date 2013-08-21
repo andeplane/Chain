@@ -4,10 +4,10 @@ chemistry.Config = function() {
 	this.levelUpEveryNCorrectMolecule = 10;
 	this.getTimeToNextMolecule = function(game) {
 		if(game.difficulty == 0) {
-			return 4000/(0.7*Math.log(2*game.level.level + Math.exp(1)));
+			return 4000/(0.7*Math.log(game.level.level + Math.exp(1)));
 		} 
 		if(game.difficulty == 1) {
-			return 4000/(0.7*Math.log(2*game.level.level + Math.exp(1)));
+			return 4000/(0.7*Math.log(game.level.level + Math.exp(1)));
 		} 
 		if(game.difficulty == 2) {
 			return 4000/(0.7*Math.log(game.level.level + Math.exp(1)));
@@ -16,10 +16,10 @@ chemistry.Config = function() {
 
 	this.getVelocity = function(game) { 
 		if(game.difficulty == 0) {
-			return appObject.baseVelocity*Math.log(2*game.level.level + Math.exp(1)); 
+			return appObject.baseVelocity*Math.log(game.level.level + Math.exp(1)); 
 		} 
 		if(game.difficulty == 1) {
-			return appObject.baseVelocity*Math.log(2*game.level.level + Math.exp(1)); 
+			return appObject.baseVelocity*Math.log(game.level.level + Math.exp(1)); 
 		} 
 		if(game.difficulty == 2) {
 			return appObject.baseVelocity*Math.log(game.level.level + Math.exp(1)); 
