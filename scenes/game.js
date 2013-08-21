@@ -11,9 +11,11 @@ goog.require('chemistry.events.GameEvent');
 goog.require('chemistry.events.TargetBoxEvent');
 goog.require('chemistry.MultiplierLabel');
 goog.require('chemistry.Score');
+goog.require('chemistry.overlays.Tutorial');
 
 goog.require('lime.Layer');
 goog.require('lime.animation.MoveTo');
+goog.require('lime.animation.FadeTo');
 goog.require('lime.fill.LinearGradient');
 
 chemistry.Game = function(width, height, difficulty) {
@@ -46,7 +48,8 @@ chemistry.Game = function(width, height, difficulty) {
     //    this.addFeverModeOverlay(width, height);
     this.addKeyboardEventListener();
     this.addGameOverOverlay(width, height);
-    this.restart();
+
+    this.showTutorialScreen(width, height, difficulty);
 }
 goog.inherits(chemistry.Game, lime.Scene);
 
@@ -56,6 +59,22 @@ chemistry.Game.state = {
     PAUSED: 2,
     GAME_OVER: 3
 };
+
+chemistry.Game.prototype.showTutorialScreen = function(width, height, difficulty) {
+    this.tutorialScreen = new chemistry.overlays.Tutorial(width, height, difficulty);
+    this.appendChild(this.tutorialScreen);
+    goog.events.listen(this.tutorialScreen, ['mousedown', 'touchstart'], this.hideTutorialScreen, false, this);
+    this.tutorialScreen.reveal();
+}
+
+chemistry.Game.prototype.hideTutorialScreen = function() {
+    goog.events.removeAll(this.tutorialScreen);
+    this.tutorialScreen.conceal(function() {
+        this.removeChild(this.tutorialScreen);
+        this.tutorialScreen = null;
+        this.restart();
+    }, false, this);
+}
 
 chemistry.Game.prototype.restart = function() {
     lime.scheduleManager.unschedule(this.tick, this);
@@ -494,6 +513,10 @@ chemistry.Game.prototype.processMolecules = function(dt) {
 }
 
 chemistry.Game.prototype.pause = function(ev) {
+    if(this.tutorialScreen) {
+        return;
+    }
+
     // First broadcast pause event
     goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.PAUSE));
 
