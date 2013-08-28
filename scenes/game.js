@@ -258,6 +258,8 @@ chemistry.Game.prototype.addGameOverOverlay = function(width, height) {
 chemistry.Game.prototype.levelUp = function(event) {
     this.removeAllMolecules();
     this.nextMolecule = null;
+    this.timeToNextMolecule = 0;
+    this.updateNextMolecule();
 
     this.levelUpOverlay.levelUp(this.level.level);
 }

@@ -90,7 +90,7 @@ chemistry.Facebook.prototype.init = function() {
 chemistry.Facebook.prototype.updateUserInfo = function() {
   //Fetch user's id, name, and picture
   var self = this;
-
+  
   FB.api('/me', {
   fields: 'name'
   },
