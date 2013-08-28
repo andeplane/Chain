@@ -7,7 +7,7 @@ chemistry.MultiplierLabel = function(multiplier) {
 
 	this.setFontSize(30).
         setFontFamily("Sonsie One").
-		setFontColor("#fff").
+        setFontColor("#c8d5fc").
 		setText(multiplier+"x");
 	this.currentAction = null;
 	// COLORS: [Not used, not used, bronze, silver, gold, diamond]

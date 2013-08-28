@@ -16,13 +16,14 @@ goog.require('chemistry.overlays.Tutorial');
 goog.require('lime.Layer');
 goog.require('lime.animation.MoveTo');
 goog.require('lime.animation.FadeTo');
+goog.require('lime.animation.Sequence');
 goog.require('lime.fill.LinearGradient');
 
 chemistry.Game = function(width, height, difficulty) {
     lime.Scene.call(this);
     
     this.setSize(width, height);
-    var gridUnit = width / 40;
+    var gridUnit = appObject.gridUnit;
     this.boardEdgeY = 51 * gridUnit;
 
     this.difficulty = difficulty;
@@ -39,6 +40,7 @@ chemistry.Game = function(width, height, difficulty) {
     this.numLeftToConceal = 0;
 
     this.addBackground(width, height);
+    this.addFailBox(width, height);
     this.updateTargetBoxes();
     this.addMarkerLayer(width, height);
     this.addMoleculeLayer(width, height);
@@ -65,6 +67,12 @@ chemistry.Game.prototype.showTutorialScreen = function(width, height, difficulty
     this.appendChild(this.tutorialScreen);
     goog.events.listen(this.tutorialScreen, ['mousedown', 'touchstart'], this.hideTutorialScreen, false, this);
     this.tutorialScreen.reveal();
+}
+
+chemistry.Game.prototype.addFailBox = function(width, height) {
+    this.failBox = new lime.Sprite().setFill("design/export/failbox.png").setSize(width, appObject.gridUnit * 10).setAnchorPoint(0,1).setPosition(0,height);
+    this.failBox.setOpacity(0);
+    this.appendChild(this.failBox);
 }
 
 chemistry.Game.prototype.hideTutorialScreen = function() {
@@ -121,9 +129,13 @@ chemistry.Game.prototype.addKeyboardEventListener = function() {
             obj.targetBox = this.targetBoxes[2];
             this.clickedTargetBox(obj);
             break;
-        case 81: //3
-            console.log("Woot!")
+        case 81: //q
+            console.log("Level me up, dammit!")
             this.level.levelUp();
+            break;
+        case 87: //w
+            console.log("Push new molecule NOW!")
+            this.timeToNextMolecule = 0;
             break;
         case 52: //4
             if(this.numLanes < 4) {
@@ -260,11 +272,6 @@ chemistry.Game.prototype.levelUp = function(event) {
     this.nextMolecule = null;
 
     this.levelUpOverlay.levelUp(this.level.level);
-}
-
-chemistry.Game.prototype.moleculeOutOfBounds = function(event) {
-    var molecule = event.molecule;
-    this.finalizeMolecule(molecule, null);
 }
 
 chemistry.Game.prototype.clickedTargetBox = function(event) {
@@ -500,10 +507,15 @@ chemistry.Game.prototype.processMolecules = function(dt) {
         molecule.tick(dt);
 
         if(molecule.getPosition().y + molecule.getSize().height >= this.boardEdgeY) {
+            var animation = new lime.animation.Sequence(
+                        new lime.animation.FadeTo(1).setDuration(0.1),
+                        new lime.animation.FadeTo(0).setDuration(0.5)
+                        );
+            this.failBox.runAction(animation);
             moleculesToBeRemoved.push(molecule);
 
             this.addHP( this.level.getHP(false) );
-            goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
+            // goog.events.dispatchEvent(this, new chemistry.events.GameEvent(chemistry.events.GameEvent.WRONG_ANSWER));
         }
     }
 

@@ -2311,10 +2311,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4885417"
-     inkscape:cx="248.06616"
-     inkscape:cy="516.43547"
+     inkscape:cx="123.78345"
+     inkscape:cy="462.69159"
      inkscape:document-units="px"
-     inkscape:current-layer="layer29"
+     inkscape:current-layer="layer7"
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:showpageshadow="false"
@@ -2353,7 +2353,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-92.362183)"
-     style="display:inline">
+     style="display:none">
     <rect
        style="opacity:0.6;fill:url(#radialGradient3786);fill-opacity:1;stroke:none"
        id="rect2985"
@@ -2392,7 +2392,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer33"
-     inkscape:label="leaderboards">
+     inkscape:label="leaderboards"
+     style="display:none">
     <g
        inkscape:groupmode="layer"
        id="layer35"
@@ -2403,7 +2404,7 @@
      inkscape:groupmode="layer"
      id="layer15"
      inkscape:label="buttons"
-     style="display:none">
+     style="display:inline">
     <g
        inkscape:groupmode="layer"
        id="layer30"
@@ -2779,7 +2780,7 @@
        height="112"
        x="80"
        y="400"
-       inkscape:export-filename="/home/svenni/Dropbox/projects/programming/langevin/chemistry/design/export/gameover/endgamebutton.png"
+       inkscape:export-filename="./export/gameover/endgamebutton.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect

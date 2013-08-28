@@ -14,7 +14,7 @@ chemistry.Hud = function(width, height) {
 	this.setSize(width, height);
 	this.setAnchorPoint(0,0);
 
-    var gridUnit = width * 1.0 / 40.0;
+    var gridUnit = appObject.gridUnit;
 
     this.lifebar = new chemistry.Lifebar(26 * gridUnit, 3 * gridUnit);
     this.lifebar.setAnchorPoint(0,0);

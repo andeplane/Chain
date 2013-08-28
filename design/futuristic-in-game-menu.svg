@@ -2515,6 +2515,24 @@
        is_visible="true"
        id="path-effect5210-3-9-6-5"
        effect="spiro" />
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter4683">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="16.928369"
+         id="feGaussianBlur4685" />
+    </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter4683-9">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="16.928369"
+         id="feGaussianBlur4685-1" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -2524,10 +2542,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4885417"
-     inkscape:cx="248.06616"
+     inkscape:cx="163.41956"
      inkscape:cy="516.43547"
      inkscape:document-units="px"
-     inkscape:current-layer="layer8"
+     inkscape:current-layer="layer24"
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:showpageshadow="false"
@@ -2577,9 +2595,51 @@
   </g>
   <g
      inkscape:groupmode="layer"
+     id="layer24"
+     inkscape:label="glare"
+     style="opacity:0.6;display:inline">
+    <path
+       sodipodi:type="star"
+       style="opacity:0.65;fill:#c8d5fc;fill-opacity:1;stroke:#c8d5fc;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline;filter:url(#filter4683)"
+       id="path4673"
+       sodipodi:sides="50"
+       sodipodi:cx="187.02747"
+       sodipodi:cy="186.6947"
+       sodipodi:r1="360.42828"
+       sodipodi:r2="162.19273"
+       sodipodi:arg1="0.78539816"
+       sodipodi:arg2="0.84823001"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0.02"
+       d="M 446.73509,436.27878 297.53544,313.43066 410.57386,470.39759 279.90821,316.02956 372.33623,498.13384 254.48369,330.4785 l 76.07894,189.19332 -89.83374,-176.15877 52.41439,194.19247 -70.05363,-190.09617 23.33504,201.7349 -40.53338,-193.97863 -1.99255,185.29095 -20.14389,-195.16046 -25.5002,194.9615 0.36098,-200.2511 L 105.09172,537.88233 148.35758,347.13571 66.251336,524.55905 120.74686,334.49639 25.469443,510.86227 106.30716,326.98784 -19.827265,488.80686 85.289509,312.86778 -48.949241,460.27165 68.836472,301.27325 -86.396899,429.77551 60.439875,280.06681 -114.98558,389.87385 50.334465,268.74466 -128.87481,344.31517 30.991906,246.99003 -153.40031,308.34939 24.43247,232.08247 -159.7861,261.2874 25.212094,217.31943 -173.2258,223.61388 30.704101,196.3245 -175.2272,178.05006 31.555926,173.62535 -167.46583,133.8013 33.854749,157.33366 -160.23329,79.64833 27.235137,125.48272 -148.27039,38.846521 47.934055,120.16385 -128.81668,-2.1414633 47.973315,101.84137 -92.270387,-37.811888 66.289839,81.719249 -67.151573,-61.298123 77.064556,63.803788 -39.694166,-94.285536 94.692022,48.384088 -0.91696899,-122.4741 117.42547,44.626708 43.245312,-150.33726 130.16541,32.24814 81.204468,-152.80981 151.74776,35.135495 125.23199,-168.17411 l 43.71434,197.149667 2.26503,-208.161737 22.656,208.33034 21.4485,-205.77761 -2.80003,201.685063 56.963,-186.594103 L 225.688,29.305587 311.88126,-149.66937 254.09055,33.831322 349.11571,-134.87329 267.75326,50.698924 388.31828,-106.36963 281.62152,64.842086 429.30997,-78.636577 305.98633,67.405324 451.56328,-54.794856 320.11107,90.988635 491.4032,-15.222437 323.71112,107.69663 507.91852,29.521462 329.42814,119.74135 519.35875,60.114015 349.61311,144.35882 l 189.99391,-39.5723 -190.23396,53.88303 199.98281,-2.02016 -205.99955,24.71287 208.00095,20.85095 -208.07556,-5.91451 203.78201,42.93345 -206.0959,-15.06643 196.15792,67.44103 -192.7042,-50.33647 172.05231,93.51515 L 325.88895,266.42965 490.29221,376.89433 324.71306,279.91825 471.07668,406.13813 305.61932,293.38596 z"
+       inkscape:transform-center-x="21.350591"
+       inkscape:transform-center-y="-21.35059"
+       transform="matrix(1.2253956,0,0,1.2253956,89.563506,244.75497)" />
+    <path
+       sodipodi:type="star"
+       style="opacity:0.5;fill:#ffffff;fill-opacity:1;stroke:#c8d5fc;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline;filter:url(#filter4683-9)"
+       id="path4673-2"
+       sodipodi:sides="50"
+       sodipodi:cx="187.02747"
+       sodipodi:cy="186.6947"
+       sodipodi:r1="360.42828"
+       sodipodi:r2="162.19273"
+       sodipodi:arg1="0.78539816"
+       sodipodi:arg2="0.84823001"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0.02"
+       d="M 446.73509,436.27878 297.53544,313.43066 410.57386,470.39759 279.90821,316.02956 372.33623,498.13384 254.48369,330.4785 l 76.07894,189.19332 -89.83374,-176.15877 52.41439,194.19247 -70.05363,-190.09617 23.33504,201.7349 -40.53338,-193.97863 -1.99255,185.29095 -20.14389,-195.16046 -25.5002,194.9615 0.36098,-200.2511 L 105.09172,537.88233 148.35758,347.13571 66.251336,524.55905 120.74686,334.49639 25.469443,510.86227 106.30716,326.98784 -19.827265,488.80686 85.289509,312.86778 -48.949241,460.27165 68.836472,301.27325 -86.396899,429.77551 60.439875,280.06681 -114.98558,389.87385 50.334465,268.74466 -128.87481,344.31517 30.991906,246.99003 -153.40031,308.34939 24.43247,232.08247 -159.7861,261.2874 25.212094,217.31943 -173.2258,223.61388 30.704101,196.3245 -175.2272,178.05006 31.555926,173.62535 -167.46583,133.8013 33.854749,157.33366 -160.23329,79.64833 27.235137,125.48272 -148.27039,38.846521 47.934055,120.16385 -128.81668,-2.1414633 47.973315,101.84137 -92.270387,-37.811888 66.289839,81.719249 -67.151573,-61.298123 77.064556,63.803788 -39.694166,-94.285536 94.692022,48.384088 -0.91696899,-122.4741 117.42547,44.626708 43.245312,-150.33726 130.16541,32.24814 81.204468,-152.80981 151.74776,35.135495 125.23199,-168.17411 l 43.71434,197.149667 2.26503,-208.161737 22.656,208.33034 21.4485,-205.77761 -2.80003,201.685063 56.963,-186.594103 L 225.688,29.305587 311.88126,-149.66937 254.09055,33.831322 349.11571,-134.87329 267.75326,50.698924 388.31828,-106.36963 281.62152,64.842086 429.30997,-78.636577 305.98633,67.405324 451.56328,-54.794856 320.11107,90.988635 491.4032,-15.222437 323.71112,107.69663 507.91852,29.521462 329.42814,119.74135 519.35875,60.114015 349.61311,144.35882 l 189.99391,-39.5723 -190.23396,53.88303 199.98281,-2.02016 -205.99955,24.71287 208.00095,20.85095 -208.07556,-5.91451 203.78201,42.93345 -206.0959,-15.06643 196.15792,67.44103 -192.7042,-50.33647 172.05231,93.51515 L 325.88895,266.42965 490.29221,376.89433 324.71306,279.91825 471.07668,406.13813 305.61932,293.38596 z"
+       inkscape:transform-center-x="11.997752"
+       inkscape:transform-center-y="-11.997749"
+       transform="matrix(0.68859887,0,0,0.68859887,227.11708,401.1669)" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="layer8"
-     inkscape:label="backgroundgrid"
-     style="display:inline">
+     inkscape:label="title"
+     style="display:none">
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#f2007b;fill-opacity:1;stroke:none;font-family:Sonsie One;-inkscape-font-specification:Sonsie One"
@@ -2594,18 +2654,14 @@
   </g>
   <g
      inkscape:groupmode="layer"
-     id="layer24"
-     inkscape:label="glare"
-     style="display:none" />
-  <g
-     inkscape:groupmode="layer"
      id="layer23"
      inkscape:label="markers"
      style="display:none" />
   <g
      inkscape:groupmode="layer"
      id="layer33"
-     inkscape:label="leaderboards">
+     inkscape:label="leaderboards"
+     style="display:none">
     <g
        inkscape:groupmode="layer"
        id="layer35"
@@ -2616,7 +2672,7 @@
      inkscape:groupmode="layer"
      id="layer15"
      inkscape:label="buttons"
-     style="display:inline">
+     style="display:none">
     <g
        inkscape:groupmode="layer"
        id="layer30"
@@ -2690,11 +2746,6 @@
            style="text-align:center;text-anchor:middle;fill:#fdc8e3">Main Menu</tspan></text>
     </g>
   </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer18"
-     inkscape:label="title"
-     style="display:none" />
   <g
      inkscape:groupmode="layer"
      id="layer6"
@@ -3184,20 +3235,20 @@
      inkscape:groupmode="layer"
      id="layer34"
      inkscape:label="slices-leaderboards"
-     style="display:inline" />
+     style="display:none" />
   <g
      inkscape:groupmode="layer"
      id="layer29"
      inkscape:label="slices-background"
      style="display:none">
     <rect
-       style="opacity:0.33590734;fill:#c8d5fc;fill-opacity:1;stroke:none;display:inline"
+       style="opacity:0.33590734;fill:#fdc8e3;fill-opacity:1;stroke:none;display:inline"
        id="rect3662-7-5-1-0"
        width="640"
        height="960"
        x="0"
        y="0"
-       inkscape:export-filename="./export/mainmenu/background.png"
+       inkscape:export-filename="./export/ingamemenu/background.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>

@@ -10,7 +10,7 @@ chemistry.scenes.PauseScene = function() {
 	var x = width/2.0;
 	var y = height/2.0;
 
-    var gridUnit = width / 40;
+    var gridUnit = appObject.gridUnit;
 
     this.addBackground(width, height);
 

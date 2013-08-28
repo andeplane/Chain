@@ -11,33 +11,47 @@ chemistry.Leaderboard = function(width, height, difficulty) {
 	this.addBackground(width, height);
 
 	this.difficulty = difficulty;
-	this.title = difficulty == 0 ? "Easy Leaderboards" : (difficulty == 1 ? "Medium Leaderboards" : "Hard Leaderboards");
-	this.statusLabel = new lime.Label().setPosition(appObject.screenWidth / 2.0, 20).setFontSize(30).setText("Loading ...").setFontColor("#fff");
-	this.backButton = new lime.Sprite().setFill("images/back.png").setPosition(60, 60).setSize(80,80);
+    switch(difficulty) {
+    case 0:
+        this.title = "Easy"
+        break;
+    case 1:
+        this.title = "Medium"
+        break;
+    case 2:
+        this.title = "Hard"
+        break;
+    }
+    this.titleLabel = new lime.Label().setPosition(width / 2.0, appObject.gridUnit * 4).setFontSize(appObject.gridUnit * 2).setText("Loading ...").setFontColor("#e7ecfe").setAnchorPoint(0.5, 0.5).setAlign("center").setSize(width, 0);
+    this.titleLabel2 = new lime.Label().setPosition(width / 2.0, appObject.gridUnit * 7).setFontSize(appObject.gridUnit * 2).setText("Leaderboards").setFontColor("#e7ecfe").setAlign("center").setSize(width, 0);
+    this.backButton = new lime.Sprite().setFill("design/export/backbutton.png").setSize(8 * appObject.gridUnit, 8 * appObject.gridUnit).setAnchorPoint(0,0);
 	goog.events.listen(this.backButton, ['mousedown','touchstart'], function(e) { appObject.showMainMenu(); }, false, this);
 
 	this.highscoreEntryLayer = new lime.Layer();
-	this.appendChild(this.highscoreEntryLayer);
-	this.appendChild(this.statusLabel);
+    this.appendChild(this.highscoreEntryLayer);
+    this.appendChild(this.titleLabel);
+    this.appendChild(this.titleLabel2);
 	this.appendChild(this.backButton);
 }
 goog.inherits(chemistry.Leaderboard, lime.Scene);
 
 chemistry.Leaderboard.prototype.addBackground = function(width, height) {
     this.background = new lime.Sprite();
-    this.background.setFill("design/export/background.png");
+    this.background.setFill("design/export/leaderboards/background.png");
     this.background.setAnchorPoint(0,0);
     this.background.setSize(width, height);
     this.appendChild(this.background);
 }
 
 chemistry.Leaderboard.prototype.setOffline = function() {
-	this.statusLabel.setText("Not connected.");
+    this.titleLabel.setText("Not connected.");
 }
 
 chemistry.Leaderboard.prototype.refresh = function() {
-	this.statusLabel.setText("Loading ...");
+    this.titleLabel.setText("Loading ...");
 	this.highscoreEntryLayer.removeAllChildren();
+
+    var startYPosition = appObject.gridUnit * 15;
 
 	var http = new XMLHttpRequest();
 
@@ -53,29 +67,40 @@ chemistry.Leaderboard.prototype.refresh = function() {
 	http.onreadystatechange = function() { 
 		if(http.readyState == 4 && http.status == 200) {
 			var scores = JSON.parse(http.responseText);
+            scores.length = 12;
 			for(var i in scores) {
 				var index = parseInt(i) + 1;
 				var score = scores[i];
 				var name = score.name;
-				var value = score.score;
+                var value = score.score;
 
-				// var highscoreEntry = new chemistry.HighscoreEntry(index, name, value);
-				// self.highscoreEntryLayer.appendChild(highscoreEntry);
-				// highscoreEntry.setPosition(appObject.screenWidth / 2.0, 80 + 20*i);
+                var color = "#e7ecfe";
+                if(appObject.facebook.name === name && (name !== "Anonymous" || name !== "Banana")) {
+                    color = "#ffd270";
+                }
 
-				var nameLabel = new lime.Label().setText(index+".  "+name).setFontColor("#fff").setAlign("left");
-				var scoreLabel = new lime.Label().setText(value).setFontColor("#fff").setAlign("right");
-				scoreLabel.setAnchorPoint(1,0.5);
-				nameLabel.setAnchorPoint(0,0.5);
+                var numberLabel = new lime.Label().setText("#" + index).setFontColor(color).setAlign("left").setFontSize(appObject.gridUnit * 1);
+                var nameLabel = new lime.Label().setText(name).setFontColor(color).setAlign("left").setFontFamily("Arial").setStyle("italic").setFontWeight("bold").setFontSize(appObject.gridUnit * 1);
+                var scoreLabel = new lime.Label().setText(value).setFontColor(color).setAlign("right").setFontSize(appObject.gridUnit * 1);
 
-				nameLabel.setPosition(self.getSize().width*0.2, 80 + 20*i);
-				scoreLabel.setPosition(self.getSize().width*0.75, 80 + 20*i);
-				
-				self.highscoreEntryLayer.appendChild(nameLabel);
+                numberLabel.setAnchorPoint(0,0.5);
+                nameLabel.setAnchorPoint(0,0.5);
+                scoreLabel.setAnchorPoint(1,0.5);
+
+                numberLabel.setPosition(appObject.gridUnit * 8, startYPosition + appObject.gridUnit * 2.5 * i);
+                nameLabel.setPosition(appObject.gridUnit * 11, startYPosition + appObject.gridUnit * 2.5 * i);
+                scoreLabel.setPosition(appObject.gridUnit * 32, startYPosition + appObject.gridUnit * 2.5 * i);
+
+                self.highscoreEntryLayer.appendChild(numberLabel);
+                self.highscoreEntryLayer.appendChild(nameLabel);
 				self.highscoreEntryLayer.appendChild(scoreLabel);
 			}
-			self.statusLabel.setText(self.title);
-			if(scores.length == 0) self.statusLabel.setText("No scores.");
+            self.titleLabel.setText(self.title);
+            if(scores.length === 0) {
+                var noScoresLabel = new lime.Label().setText("No scores yet...").setFontColor("#fff").setAlign("center").setFontSize(appObject.gridUnit * 2);
+                noScoresLabel.setPosition(self.getSize().width / 2, self.getSize().height / 2);
+                self.highscoreEntryLayer.appendChild(noScoresLabel);
+            }
 		}
 	}
 	if(appObject.isConnected) {

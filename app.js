@@ -40,6 +40,7 @@ limeApp = function(body, screenWidth, screenHeight) {
     this.verticalCenter = screenHeight/2;
     this.horizontalCenter = screenWidth/2;
     this.baseVelocity = screenHeight / 20;
+    this.gridUnit = screenWidth / 40;
     this.config = new chemistry.Config();
     this.isConnected = true;
     var self = this;

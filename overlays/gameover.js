@@ -13,7 +13,7 @@ chemistry.overlays.GameOver = function(width, height) {
 
     this.setSize(width, height);
 
-    var gridUnit = width / 40;
+    var gridUnit = appObject.gridUnit;
 
     this.background = new lime.Sprite();
     this.background.setFill("design/export/gameover/background.png");

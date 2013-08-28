@@ -17,7 +17,7 @@ chemistry.MainMenu = function(width, height) {
 	var sizeX = appObject.screenWidth/3;
 	var sizeY = appObject.screenWidth/6;
 
-    var gridUnit = width / 40;
+    var gridUnit = appObject.gridUnit;
 
     var easy   = new lime.Sprite().setFill("design/export/mainmenu/easybutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,y-sizeY-gridUnit).setAnchorPoint(0,0);
     var easyLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y-sizeY-gridUnit).setAnchorPoint(0,0);

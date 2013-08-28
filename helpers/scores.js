@@ -33,7 +33,7 @@ chemistry.Scores.prototype.sendUnsentScores = function() {
 			var res = JSON.parse(http.responseText);
 			if(!res.error) {
 				this.unsentScores = JSON.stringify([]);
-				localStorage.unsentScores = JSON.stringify([]);
+                localStorage.unsentScores = JSON.stringify([]);
 			}
 		}
 	}
@@ -46,7 +46,7 @@ chemistry.Scores.prototype.newScore = function() {
 	this.allScores.push(game.score);
 	this.unsentScores.push(game.score);
 	if(game.score.score > this.highscores[game.difficulty]) {
-		this.highscores[game.difficulty] = game.score;
+        this.highscores[game.difficulty] = game.score;
 	}
 
     this.sendUnsentScores();
