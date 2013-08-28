@@ -4,25 +4,25 @@ chemistry.Config = function() {
 	this.levelUpEveryNCorrectMolecule = 10;
 	this.getTimeToNextMolecule = function(game) {
 		if(game.difficulty == 0) {
-			return 4000/(0.7*Math.log(game.level.level + Math.exp(1)));
+			return 5000/(0.7*Math.log(1.5*game.level.level + Math.exp(1)));
 		} 
 		if(game.difficulty == 1) {
-			return 4000/(0.7*Math.log(game.level.level + Math.exp(1)));
+			return 5000/(0.7*Math.log(1.5*game.level.level + Math.exp(1)));
 		} 
 		if(game.difficulty == 2) {
-			return 4000/(0.7*Math.log(game.level.level + Math.exp(1)));
+			return 5000/(0.7*Math.log(1.5*game.level.level + Math.exp(1)));
 		} 
 	}
 
 	this.getVelocity = function(game) { 
 		if(game.difficulty == 0) {
-			return appObject.baseVelocity*Math.log(game.level.level + Math.exp(1)); 
+			return appObject.baseVelocity*Math.log(1.5*game.level.level + Math.exp(1)); 
 		} 
 		if(game.difficulty == 1) {
-			return appObject.baseVelocity*Math.log(game.level.level + Math.exp(1)); 
+			return appObject.baseVelocity*Math.log(1.5*game.level.level + Math.exp(1)); 
 		} 
 		if(game.difficulty == 2) {
-			return appObject.baseVelocity*Math.log(game.level.level + Math.exp(1)); 
+			return appObject.baseVelocity*Math.log(1.5*game.level.level + Math.exp(1)); 
 		} 
 	}
 
@@ -38,18 +38,18 @@ chemistry.Config = function() {
 		// Skip molecules with many functional groups for easy and medium
 		if(level.difficulty == 0) {
 			if(data.numFunctionalGroups > 0) return false;
-			if(level.level < 3 && data.numBranches > 0) return false;
+			if(level.level < 3 && data.numBranches >= 1) return false;
 			if(level.level < 5 && data.numBranches > 1) return false;
 		}
 
 		if(level.difficulty == 1) {
 			if(data.numFunctionalGroups > 1) return false;
-			if(level.level < 3 && data.numBranches > 0) return false;
+			if(level.level < 3 && data.numBranches >= 1) return false;
 			if(level.level < 5 && data.numBranches > 1) return false;
 		}
 
 		if(level.difficulty == 2) {
-			if(level.level < 3 && data.numBranches > 0) return false;
+			if(level.level < 3 && data.numBranches >= 1) return false;
 			if(level.level < 5 && data.numBranches > 1) return false;
 		}
 
