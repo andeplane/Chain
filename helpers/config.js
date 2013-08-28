@@ -26,6 +26,18 @@ chemistry.Config = function() {
 		} 
 	}
 
+	this.getRotationSpeed = function(game) { 
+		if(game.difficulty == 0) {
+			return 2*Math.PI / 20 * Math.random() * game.level.level;
+		} 
+		if(game.difficulty == 1) {
+			return 2*Math.PI / 20 * Math.random() * game.level.level;
+		} 
+		if(game.difficulty == 2) {
+			return 2*Math.PI / 20 * Math.random() * game.level.level;
+		} 
+	}
+
 	this.getHP = function(game, correctAnswer, multiplier) { 
 		if(correctAnswer) {return Math.min(4, 7-0.1*game.level.level); } 
 		else { return Math.max(-30, -10 - game.level.level) } 
