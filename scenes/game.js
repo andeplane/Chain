@@ -122,7 +122,6 @@ chemistry.Game.prototype.addKeyboardEventListener = function() {
             this.clickedTargetBox(obj);
             break;
         case 81: //3
-            console.log("Woot!")
             this.level.levelUp();
             break;
         case 52: //4
@@ -259,7 +258,7 @@ chemistry.Game.prototype.levelUp = function(event) {
     this.removeAllMolecules();
     this.nextMolecule = null;
     this.timeToNextMolecule = 0;
-    this.updateNextMolecule();
+    this.updateNextMolecule(-1); // Send -1 as dt
 
     this.levelUpOverlay.levelUp(this.level.level);
 }
@@ -307,6 +306,8 @@ chemistry.Game.prototype.updateNextMolecule = function(dt) {
 
             var pos = this.nextMolecule.getPosition();
             this.nextMolecule.moveTo(pos.x, this.getSize().height);
+            var rotationSpeed = appObject.config.getRotationSpeed(this);
+            this.nextMolecule.startRotate(rotationSpeed);
         }
 
         this.nextMolecule = this.level.getNextMolecule();

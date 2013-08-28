@@ -2,6 +2,7 @@ goog.provide('chemistry.Molecule');
 
 goog.require('lime.Sprite');
 goog.require('lime.animation.RotateBy');
+goog.require('lime.animation.Loop');
 goog.require('goog.math');
 
 chemistry.Molecule = function(data) {
@@ -111,6 +112,13 @@ chemistry.Molecule.prototype.moveTo = function(x,y) {
     this.moveAction = new lime.animation.MoveTo(x, y).setDuration(t).setEasing(lime.animation.Easing.LINEAR).enableOptimizations();
 
     this.runAction(this.moveAction);
+}
+
+chemistry.Molecule.prototype.startRotate = function(rotationSpeed) {
+    var duration = 2*Math.PI / rotationSpeed;
+    var rotation = new lime.animation.RotateBy(360).setDuration(duration);
+    var loop = new lime.animation.Loop(rotation);
+    this.runAction(loop);
 }
 
 chemistry.Molecule.prototype.setMaxSize = function(maxSize) {
