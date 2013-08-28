@@ -51,7 +51,6 @@ chemistry.Leaderboard.prototype.refresh = function() {
 	http.ontimeout = this.setOffline;
 
 	http.onreadystatechange = function() { 
-		console.log(http.readyState)
 		if(http.readyState == 4 && http.status == 200) {
 			var scores = JSON.parse(http.responseText);
 			for(var i in scores) {
@@ -79,7 +78,6 @@ chemistry.Leaderboard.prototype.refresh = function() {
 			if(scores.length == 0) self.statusLabel.setText("No scores.");
 		}
 	}
-	console.log("Is connected: "+appObject.isConnected);
 	if(appObject.isConnected) {
 		http.send(null);
 	} else {
