@@ -27,14 +27,15 @@ chemistry.Config = function() {
 	}
 
 	this.getRotationSpeed = function(game) { 
+		var direction = (Math.random() > 0.5) ? -1 : 1;
 		if(game.difficulty == 0) {
-			return 2*Math.PI / 20 * Math.random() * game.level.level;
+			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/4)*direction;
 		} 
 		if(game.difficulty == 1) {
-			return 2*Math.PI / 20 * Math.random() * game.level.level;
+			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/4)*direction;
 		} 
 		if(game.difficulty == 2) {
-			return 2*Math.PI / 20 * Math.random() * game.level.level;
+			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/4)*direction;
 		} 
 	}
 
@@ -49,13 +50,13 @@ chemistry.Config = function() {
 
 		// Skip molecules with many functional groups for easy and medium
 		if(level.difficulty == 0) {
-			if(data.numFunctionalGroups > 0) return false;
+			if(data.difficulty > 0) return false;
 			if(level.level < 3 && data.numBranches >= 1) return false;
 			if(level.level < 5 && data.numBranches > 1) return false;
 		}
 
 		if(level.difficulty == 1) {
-			if(data.numFunctionalGroups > 1) return false;
+			if(data.difficulty > 1) return false;
 			if(level.level < 3 && data.numBranches >= 1) return false;
 			if(level.level < 5 && data.numBranches > 1) return false;
 		}
