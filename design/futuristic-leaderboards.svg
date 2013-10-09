@@ -2116,9 +2116,9 @@
      inkscape:cx="172.57496"
      inkscape:cy="434.72921"
      inkscape:document-units="px"
-     inkscape:current-layer="layer29"
-     showgrid="false"
-     inkscape:snap-global="false"
+     inkscape:current-layer="layer24"
+     showgrid="true"
+     inkscape:snap-global="true"
      inkscape:showpageshadow="false"
      inkscape:window-width="1628"
      inkscape:window-height="1548"
@@ -2160,7 +2160,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -2183,7 +2183,7 @@
      inkscape:groupmode="layer"
      id="layer8"
      inkscape:label="backgroundgrid"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true" />
   <g
      inkscape:groupmode="layer"
@@ -2231,7 +2231,6 @@
      inkscape:groupmode="layer"
      id="layer25"
      inkscape:label="stars"
-     sodipodi:insensitive="true"
      style="display:inline">
     <path
        sodipodi:type="star"
@@ -2340,7 +2339,7 @@
        d="m 384,672 -96.61787,-31.42609 -72.07365,71.61005 0.0314,-101.60024 -90.37719,-46.4174 L 221.6,532.8 l 16.21748,-100.29758 59.69371,82.2148 100.40014,-15.56992 -59.74455,82.17786 z"
        inkscape:transform-center-x="0.53700238"
        inkscape:transform-center-y="1.6668357"
-       transform="matrix(0.14724251,-0.04853462,0.04853462,0.14724251,502.53354,150.7229)" />
+       transform="matrix(0.14724251,-0.04853462,0.04853462,0.14724251,316.5311,262.7229)" />
     <path
        sodipodi:type="star"
        style="fill:#0330b3;fill-opacity:1;stroke:#c8d5fc;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
@@ -2394,7 +2393,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer29"
-     inkscape:label="backbutton">
+     inkscape:label="backbutton"
+     style="display:none">
     <path
        style="fill:#0330b3;stroke:#e4ebfe;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter4243)"
        d="M 25.167537,59.919114 98.051776,23.476994 85.904406,59.919114 98.051776,96.361233 25.167537,59.919114"
@@ -2419,7 +2419,7 @@
          sodipodi:role="line"
          id="tspan4447-0"
          x="154.19342"
-         y="289.3812">Anders Hafreager</tspan></text>
+         y="289.3812">Svenn-Arne Dragly</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#e7ecfe;fill-opacity:1;stroke:none;display:inline;font-family:Sonsie One;-inkscape-font-specification:Sonsie One"
@@ -2452,7 +2452,7 @@
          sodipodi:role="line"
          id="tspan4447-0-5-2"
          x="113.04622"
-         y="337.3812">#2</tspan></text>
+         y="337.3812">#-2</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;writing-mode:lr-tb;text-anchor:end;fill:#e7ecfe;fill-opacity:1;stroke:none;display:inline;font-family:Sonsie One;-inkscape-font-specification:Sonsie One"
@@ -2463,7 +2463,7 @@
          sodipodi:role="line"
          id="tspan4447-0-4-2"
          x="526.46106"
-         y="337.3812">20,768</tspan></text>
+         y="337.3812">-2,000,000,768</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:19.14983368px;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#e7ecfe;fill-opacity:1;stroke:none;display:inline;font-family:LKLUG;-inkscape-font-specification:LKLUG Italic"
@@ -2579,7 +2579,7 @@
      inkscape:groupmode="layer"
      id="layer18"
      inkscape:label="title"
-     style="display:inline">
+     style="display:none">
     <text
        xml:space="preserve"
        style="font-size:42.55399323px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#e5ebfe;fill-opacity:1;stroke:none;display:inline;font-family:Sonsie One;-inkscape-font-specification:Sonsie One"
@@ -2599,7 +2599,18 @@
      inkscape:groupmode="layer"
      id="layer27"
      inkscape:label="slices"
-     style="display:none" />
+     style="display:none">
+    <rect
+       style="opacity:0.69111968;fill:#fd6fb7;fill-opacity:1;stroke:none;display:inline"
+       id="rect4251"
+       width="128"
+       height="128"
+       x="0"
+       y="0"
+       inkscape:export-filename="/home/svenni/Dropbox/projects/programming/langevin/chemistry/design/export/backbutton.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
   <g
      inkscape:groupmode="layer"
      id="layer28"
