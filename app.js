@@ -48,7 +48,10 @@ limeApp = function(body, screenWidth, screenHeight) {
     goog.events.listen( this.loader , goog.events.EventType.LOAD , this.imageLoaded , false , this );
     goog.events.listen( this.loader , goog.net.EventType.COMPLETE , this.imagesCompletelyLoaded , false , this );
     // First some big design images
-    this.loader.addImage("", "");
+    this.loader.addImage("images/design/background.png", "images/design/background.png");
+    this.loader.addImage("images/design/ingamemenu/background.png", "images/design/ingamemenu/background.png");
+    this.loader.addImage("images/design/leaderboards/background.png", "images/design/leaderboards/background.png");
+    this.loader.addImage("images/design/mainmenu/background.png", "images/design/mainmenu/background.png");
     // Then all molecule images
     this.nImagesToLoad = this.moleculeData.length;
     this.nLoadedImages = 0;
