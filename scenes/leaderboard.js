@@ -24,7 +24,7 @@ chemistry.Leaderboard = function(width, height, difficulty) {
     }
     this.titleLabel = new lime.Label().setPosition(width / 2.0, appObject.gridUnit * 4).setFontSize(appObject.gridUnit * 2).setText("Loading ...").setFontColor("#e7ecfe").setAnchorPoint(0.5, 0.5).setAlign("center").setSize(width, 0);
     this.titleLabel2 = new lime.Label().setPosition(width / 2.0, appObject.gridUnit * 7).setFontSize(appObject.gridUnit * 2).setText("Leaderboards").setFontColor("#e7ecfe").setAlign("center").setSize(width, 0);
-    this.backButton = new lime.Sprite().setFill("design/export/backbutton.png").setSize(8 * appObject.gridUnit, 8 * appObject.gridUnit).setAnchorPoint(0,0);
+    this.backButton = new lime.Sprite().setFill("images/design/backbutton.png").setSize(8 * appObject.gridUnit, 8 * appObject.gridUnit).setAnchorPoint(0,0);
 	goog.events.listen(this.backButton, ['mousedown','touchstart'], function(e) { appObject.showMainMenu(); }, false, this);
 
 	this.highscoreEntryLayer = new lime.Layer();
@@ -37,7 +37,7 @@ goog.inherits(chemistry.Leaderboard, lime.Scene);
 
 chemistry.Leaderboard.prototype.addBackground = function(width, height) {
     this.background = new lime.Sprite();
-    this.background.setFill("design/export/leaderboards/background.png");
+    this.background.setFill("images/design/leaderboards/background.png");
     this.background.setAnchorPoint(0,0);
     this.background.setSize(width, height);
     this.appendChild(this.background);

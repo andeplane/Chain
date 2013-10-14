@@ -12,7 +12,7 @@ chemistry.LoadingScene = function(width, height) {
     lime.Scene.call(this);
 
     this.background = new lime.Sprite();
-    this.background.setFill("design/export/mainmenu/background.png");
+    this.background.setFill("images/design/mainmenu/background.png");
     this.background.setAnchorPoint(0,0);
     this.background.setSize(width, height);
     this.appendChild(this.background);

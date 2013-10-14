@@ -25,7 +25,7 @@ chemistry.Hud = function(width, height) {
     colorLayer.setAnchorPoint(0,0);
     colorLayer.setSize(40*gridUnit, 11*gridUnit);
 //    colorLayer.setAutoResize(lime.AutoResize.WIDTH | lime.AutoResize.HEIGHT);
-    colorLayer.setFill("design/export/header.png");
+    colorLayer.setFill("images/design/header.png");
     this.appendChild(colorLayer);
 
 	this.rollerCounter = new chemistry.RollerCounter();

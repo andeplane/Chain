@@ -70,7 +70,7 @@ chemistry.Game.prototype.showTutorialScreen = function(width, height, difficulty
 }
 
 chemistry.Game.prototype.addFailBox = function(width, height) {
-    this.failBox = new lime.Sprite().setFill("design/export/failbox.png").setSize(width, appObject.gridUnit * 10).setAnchorPoint(0,1).setPosition(0,height);
+    this.failBox = new lime.Sprite().setFill("images/design/failbox.png").setSize(width, appObject.gridUnit * 10).setAnchorPoint(0,1).setPosition(0,height);
     this.failBox.setOpacity(0);
     this.appendChild(this.failBox);
 }
@@ -184,7 +184,7 @@ chemistry.Game.prototype.addMarkers = function(width, height) {
 
 chemistry.Game.prototype.addBackground = function(width, height) {
     this.background = new lime.Sprite();
-    this.background.setFill("design/export/background.png");
+    this.background.setFill("images/design/background.png");
     this.background.setAnchorPoint(0,0);
     this.background.setSize(width, height);
     this.appendChild(this.background);

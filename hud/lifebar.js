@@ -11,12 +11,12 @@ chemistry.Lifebar = function(width, height) {
 	lime.Node.call(this);
     this.setSize(width, height);
 
-    this.background = new lime.Sprite().setFill("design/export/lifebar.png");
+    this.background = new lime.Sprite().setFill("images/design/lifebar.png");
     this.background.setSize(width, height);
     this.background.setAnchorPoint(0,0);
     this.appendChild(this.background);
 
-    this.pulseBackground = new lime.Sprite().setFill("design/export/lifebar-pulsing.png");
+    this.pulseBackground = new lime.Sprite().setFill("images/design/lifebar-pulsing.png");
     this.pulseBackground.setSize(width, height);
     this.pulseBackground.setAnchorPoint(0,0);
     this.pulseBackground.setHidden(true);

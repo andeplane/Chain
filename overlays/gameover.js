@@ -16,7 +16,7 @@ chemistry.overlays.GameOver = function(width, height) {
     var gridUnit = appObject.gridUnit;
 
     this.background = new lime.Sprite();
-    this.background.setFill("design/export/gameover/background.png");
+    this.background.setFill("images/design/gameover/background.png");
     this.background.setSize(width, height);
     this.background.setPosition(0,0);
     this.background.setAnchorPoint(0,0);
@@ -30,13 +30,13 @@ chemistry.overlays.GameOver = function(width, height) {
 //    this.gameOverLabel.setPosition(width/2, height/2 -  width / 6);
 //    this.appendChild(this.gameOverLabel);
 
-    this.retryButton = new lime.Sprite().setFill("design/export/gameover/retrybutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,19*gridUnit).setAnchorPoint(0,0);
+    this.retryButton = new lime.Sprite().setFill("images/design/gameover/retrybutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,19*gridUnit).setAnchorPoint(0,0);
 
     goog.events.listen(this.retryButton, ["mousedown", "touchstart"], this.retryButtonClicked, false, this);
 
     this.appendChild(this.retryButton);
 
-    this.endGameButton = new lime.Sprite().setFill("design/export/gameover/endgamebutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,25*gridUnit).setAnchorPoint(0,0);
+    this.endGameButton = new lime.Sprite().setFill("images/design/gameover/endgamebutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,25*gridUnit).setAnchorPoint(0,0);
 
     goog.events.listen(this.endGameButton, ["mousedown", "touchstart"], this.endGameButtonClicked, false, this);
 
