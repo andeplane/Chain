@@ -15,6 +15,8 @@ goog.require('lime.Sprite');
 goog.require('lime.audio.Audio');
 goog.require('lime.transitions.Dissolve');
 
+goog.require('goog.net.ImageLoader')
+
 lime.Label.defaultFont = "Sonsie One";
 
 function s4() {
@@ -45,11 +47,13 @@ limeApp = function(body, screenWidth, screenHeight) {
     this.moleculeData = new chemistry.MoleculeData().getMoleculeData();
     goog.events.listen( this.loader , goog.events.EventType.LOAD , this.imageLoaded , false , this );
     goog.events.listen( this.loader , goog.net.EventType.COMPLETE , this.imagesCompletelyLoaded , false , this );
-    //this.loader.addImage( "tmp/hugeimage.png", 'tmp/hugeimage.png' );
+    // First some big design images
+    this.loader.addImage("", "");
+    // Then all molecule images
     this.nImagesToLoad = this.moleculeData.length;
     this.nLoadedImages = 0;
     for(var i = 0; i < this.moleculeData.length; i++) {
-        this.loader.addImage(this.moleculeData[i].imageFile,this.moleculeData[i].imageFile);
+        this.loader.addImage(this.moleculeData[i].imageFile, this.moleculeData[i].imageFile);
     }
     this.loader.start();
 };
