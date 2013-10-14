@@ -5,6 +5,7 @@ goog.provide('chemistry');
 goog.require('lime.Director');
 goog.require('lime.Scene');
 goog.require('limeApp');
+goog.require('goog.net.ImageLoader')
 
 chemistry.start = function(){
     // var thisApp = new app(document.body, 1536, 2048);
