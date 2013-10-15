@@ -13,13 +13,13 @@ chemistry.overlays.Tutorial = function(width, height, difficulty) {
     var imageFile = "";
     switch(difficulty) {
     case 0:
-        imageFile = "design/tutorials/tutorial-easy.png";
+        imageFile = "images/design/tutorials/tutorial-easy.png";
         break;
     case 1:
-        imageFile = "design/tutorials/tutorial-medium.png";
+        imageFile = "images/design/tutorials/tutorial-medium.png";
         break;
     case 2:
-        imageFile = "design/tutorials/tutorial-hard.png";
+        imageFile = "images/design/tutorials/tutorial-hard.png";
         break;
     }
 
