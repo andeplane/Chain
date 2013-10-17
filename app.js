@@ -88,7 +88,7 @@ limeApp.prototype.preloadImagesAndStart = function() {
 
 
     // Then all molecule images
-    this.nImagesToLoad = this.moleculeData.length;
+    this.nImagesToLoad = this.moleculeData.length + 40;
     this.nLoadedImages = 0;
     for(var i = 0; i < this.moleculeData.length; i++) {
         this.loader.addImage(this.moleculeData[i].imageFile, this.moleculeData[i].imageFile);
