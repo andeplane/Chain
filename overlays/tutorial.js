@@ -24,15 +24,16 @@ chemistry.overlays.Tutorial = function(width, height, difficulty) {
     }
 
     var tutorialScreenBackground = new lime.Sprite().setFill("#000").setOpacity(0.6).setSize(width, height).setAnchorPoint(0,0);
-    this.tutorialSprite = new lime.Sprite().setFill(imageFile).setSize(width, height).setAnchorPoint(0,0);
+    var imageRatio = 1.5;
+    this.tutorialSprite = new lime.Sprite().setFill(imageFile).setSize(height / imageRatio, height).setAnchorPoint(0.5,0.5);
     this.appendChild(tutorialScreenBackground);
     this.appendChild(this.tutorialSprite);
 }
 goog.inherits(chemistry.overlays.Tutorial, lime.Layer);
 
 chemistry.overlays.Tutorial.prototype.reveal = function() {
-    this.tutorialSprite.setPosition(-this.getSize().width, 0);
-    var animation = new lime.animation.MoveTo(0,0).setDuration(0.5).setEasing(lime.animation.Easing.EASEINOUT);
+    this.tutorialSprite.setPosition(-this.getSize().width + -this.getSize().width / 2, this.getSize().height / 2);
+    var animation = new lime.animation.MoveTo(this.getSize().width / 2, this.getSize().height / 2).setDuration(0.5).setEasing(lime.animation.Easing.EASEINOUT);
     this.tutorialSprite.runAction(animation);
 }
 
