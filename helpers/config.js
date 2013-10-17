@@ -51,19 +51,22 @@ chemistry.Config = function() {
 		// Skip molecules with many functional groups for easy and medium
 		if(level.difficulty == 0) {
 			if(data.difficulty > 0) return false;
-			if(level.level < 3 && data.numBranches >= 1) return false;
-			if(level.level < 5 && data.numBranches > 1) return false;
+			if(level.level < 4 && data.numBranches >= 1) return false;
+			if(level.level < 6 && data.numBranches > 1) return false;
 		}
 
 		if(level.difficulty == 1) {
+			if(data.drawType == "sf") return false;
 			if(data.difficulty > 1) return false;
-			if(level.level < 3 && data.numBranches >= 1) return false;
-			if(level.level < 5 && data.numBranches > 1) return false;
+			if(level.level < 4 && data.numBranches >= 1) return false;
+			if(level.level < 6 && data.numBranches > 1) return false;
 		}
 
 		if(level.difficulty == 2) {
-			if(level.level < 3 && data.numBranches >= 1) return false;
-			if(level.level < 5 && data.numBranches > 1) return false;
+			if(data.drawType == "sf") return false;
+			if(data.drawType == "bs") return false;
+			if(level.level < 4 && data.numBranches >= 1) return false;
+			if(level.level < 6 && data.numBranches > 1) return false;
 		}
 
 		return true;
@@ -89,11 +92,11 @@ chemistry.Config = function() {
 		}
 
 		if(level.difficulty == 2) {
-			if(level.level < 5) return [3,4,5];
-			if(level.level < 10) return [4,5,6];
-			if(level.level < 15) return [5,6,7];
+			if(level.level < 5) return [4,5,6];
+			if(level.level < 10) return [5,6,7];
+			if(level.level < 15) return [6,7,8];
 
-			return [5,6,7];
+			return [6,7,8];
 		}
 		
 		return [];
