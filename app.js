@@ -8,6 +8,7 @@ goog.require('chemistry.Leaderboard');
 goog.require('chemistry.Config');
 goog.require('chemistry.LoadingScene')
 goog.require('chemistry.MoleculeData')
+goog.require('chemistry.AboutScene')
 
 goog.require('lime.Director');
 goog.require('lime.Scene');
@@ -128,6 +129,7 @@ limeApp.prototype.setupApp = function() {
     this.facebook = new chemistry.Facebook();
     this.mainMenu = new chemistry.MainMenu(this.screenWidth, this.screenHeight);
     this.scores = new chemistry.Scores();
+    this.aboutScene = new chemistry.AboutScene(this.screenWidth, this.screenHeight);
     this.director.replaceScene(this.mainMenu);
 }
 
@@ -141,7 +143,7 @@ limeApp.prototype.newGame = function(difficulty) {
 
 limeApp.prototype.endGame = function() {
 	// this.director.replaceScene(this.mainMenu,lime.transitions.Dissolve, 0.2);
-	this.director.replaceScene(this.mainMenu);
+    this.showMainMenu();
 	this.game = null;
 	lime.updateDirtyObjects();
 }
@@ -153,6 +155,10 @@ limeApp.prototype.showLeaderboard = function(difficulty) {
 
 limeApp.prototype.showMainMenu = function() {
     this.director.replaceScene(this.mainMenu);
+}
+
+limeApp.prototype.showAbout = function() {
+    this.director.replaceScene(this.aboutScene);
 }
 
 limeApp.prototype.imageLoaded = function() {
