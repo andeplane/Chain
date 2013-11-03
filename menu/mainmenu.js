@@ -25,16 +25,17 @@ chemistry.MainMenu = function(width, height) {
     var mediumLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y).setAnchorPoint(0,0);
     var hard   = new lime.Sprite().setFill("images/design/mainmenu/hardbutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,y+sizeY+10).setAnchorPoint(0,0);
     var hardLeaderboardButton = new lime.Sprite().setSize(7*gridUnit, 7*gridUnit).setPosition(27*gridUnit, y+sizeY+10).setAnchorPoint(0,0);
-
-    var fb   = new lime.Sprite().setFill("images/fb.png").setSize(100,100).setPosition(appObject.screenWidth - 70, appObject.screenHeight - 70);
+    var aboutButton = new lime.Sprite().setFill("images/design/mainmenu/uiologo.png").setSize(7*gridUnit, 7* gridUnit).setPosition(5 * gridUnit, height - 5 * gridUnit);
+    var facebookButton   = new lime.Sprite().setFill("images/fb.png").setSize(7*gridUnit, 7* gridUnit).setPosition(width - 5*gridUnit, height - 5*gridUnit);
 	this.appendChild(easy);
     this.appendChild(easyLeaderboardButton);
     this.appendChild(medium);
     this.appendChild(mediumLeaderboardButton);
     this.appendChild(hard);
     this.appendChild(hardLeaderboardButton);
+    this.appendChild(aboutButton);
     if(appObject.facebook.isAvailable) {
-        this.appendChild(fb);
+        this.appendChild(facebookButton);
     }
 
     goog.events.listen(easy, ['mousedown','touchstart'], this.easyButtonClicked, false, this);
@@ -43,11 +44,12 @@ chemistry.MainMenu = function(width, height) {
     goog.events.listen(easyLeaderboardButton, ['mousedown','touchstart'], function(e) {appObject.showLeaderboard(0); }, false, this);
     goog.events.listen(mediumLeaderboardButton, ['mousedown','touchstart'], function(e) {appObject.showLeaderboard(1); }, false, this);
     goog.events.listen(hardLeaderboardButton, ['mousedown','touchstart'], function(e) {appObject.showLeaderboard(2); }, false, this);
-    goog.events.listen(fb, ['mousedown','touchstart'], this.fb, false, this);
+    goog.events.listen(facebookButton, ['mousedown','touchstart'], this.facebookButtonClicked, false, this);
+    goog.events.listen(aboutButton, ['mousedown','touchstart'], this.aboutButtonClicked, false, this);
 }
 goog.inherits(chemistry.MainMenu, lime.Scene);
 
-chemistry.MainMenu.prototype.fb = function(e) {
+chemistry.MainMenu.prototype.facebookButtonClicked = function(e) {
     if(appObject.facebook.isLoggedIn) {
         var r = confirm("Log out "+appObject.facebook.name+"?");
         if(r == true) {
@@ -74,4 +76,8 @@ chemistry.MainMenu.prototype.mediumButtonClicked = function(e) {
 }
 chemistry.MainMenu.prototype.hardButtonClicked = function(e) {
     appObject.newGame(2);
+}
+
+chemistry.MainMenu.prototype.aboutButtonClicked = function(e) {
+    appObject.showAbout();
 }
