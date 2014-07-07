@@ -10,15 +10,15 @@ goog.require('chemistry.scenes.PauseScene');
 // goog.require('lime.AutoResize');
 
 chemistry.Hud = function(width, height) {
-	lime.Layer.call(this);
-	this.setSize(width, height);
-	this.setAnchorPoint(0,0);
+    lime.Layer.call(this);
+    this.setSize(width, height);
+    this.setAnchorPoint(0,0);
 
     var gridUnit = appObject.gridUnit;
 
-    this.lifebar = new chemistry.Lifebar(26 * gridUnit, 3 * gridUnit);
+    this.lifebar = new chemistry.Lifebar(22 * gridUnit, 3 * gridUnit);
     this.lifebar.setAnchorPoint(0,0);
-    this.lifebar.setPosition(4 * gridUnit, 7 * gridUnit);
+    this.lifebar.setPosition(7 * gridUnit, 4 * gridUnit);
     this.appendChild(this.lifebar);
 
     var colorLayer = new lime.Sprite();
@@ -28,10 +28,10 @@ chemistry.Hud = function(width, height) {
     colorLayer.setFill("images/design/header.png");
     this.appendChild(colorLayer);
 
-	this.rollerCounter = new chemistry.RollerCounter();
-    this.rollerCounter.setPosition(17.5*gridUnit, 3.5*gridUnit);
-	this.rollerCounter.setAutoResize(lime.AutoResize.WIDTH | lime.AutoResize.HEIGHT);
-	this.appendChild(this.rollerCounter);
+    this.rollerCounter = new chemistry.RollerCounter();
+    this.rollerCounter.setPosition(17.5*gridUnit, 2.5*gridUnit);
+    this.rollerCounter.setAutoResize(lime.AutoResize.WIDTH | lime.AutoResize.HEIGHT);
+    this.appendChild(this.rollerCounter);
 
     this.nextMolecule = new chemistry.NextMolecule(height, height);
     this.nextMolecule.setAnchorPoint(1,0);
