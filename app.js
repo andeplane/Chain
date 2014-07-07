@@ -18,7 +18,7 @@ goog.require('lime.transitions.Dissolve');
 
 goog.require('goog.net.ImageLoader')
 
-lime.Label.defaultFont = "Sonsie One";
+lime.Label.defaultFont = "Audiowide";
 
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
