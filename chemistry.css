@@ -6,6 +6,10 @@
     font-family: "Sonsie One";
     src: url(assets/SonsieOne-Regular.ttf) format("truetype");
 }
+@font-face {
+    font-family: "Audiowide";
+    src: url(assets/Audiowide-Regular.ttf) format("truetype");
+}
 div {
         -webkit-transform : translateZ(0);
         -o-transform : translateZ(0);

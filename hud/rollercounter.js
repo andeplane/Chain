@@ -4,7 +4,7 @@ goog.require('lime.Label');
 chemistry.RollerCounter = function() {
 	lime.Label.call(this);
     this.setFontSize(40);
-    this.setFontFamily('Sonsie One');
+    this.setFontFamily('Audiowide');
     this.setFontColor('#c8d5fc');
 	this.setText('0');
 	this.currentScore = 0;

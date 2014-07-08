@@ -164,18 +164,19 @@ chemistry.Game.prototype.addMarkerLayer = function(width, height) {
 }
 
 chemistry.Game.prototype.addMarkers = function(width, height) {
+    var gridUnit = appObject.gridUnit;
     this.markers = [];
     for(var i=2; i<=5; i++) {
         var multiplierLabel = new chemistry.MultiplierLabel(i);
         this.markers.push(multiplierLabel);
 
         if(i < 5) {
-            multiplierLabel.setPosition(width / 15, height/6 + (5 - i)*height/6);
+            multiplierLabel.setPosition(2*gridUnit, gridUnit*8 + (5 - i)*gridUnit*9);
             this.markerLayer.appendChild(multiplierLabel);
         } else {
             var size = this.hud.nextMolecule.getSize();
 
-            multiplierLabel.setPosition(- (7.6*size.width / 10), size.width/10 );
+            multiplierLabel.setPosition(-8*gridUnit, gridUnit );
             this.hud.nextMolecule.appendChild(multiplierLabel);
         }
 

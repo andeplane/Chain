@@ -10,26 +10,36 @@ chemistry.overlays.Tutorial = function(width, height, difficulty) {
     this.setSize(width, height);
     this.setAnchorPoint(0,0);
 
-    var imageFile = "";
+    var tutorialImageFile = "";
+    var questionMarkImageFile = "images/design/tutorials/questionmark.png";
     switch(difficulty) {
     case 0:
-        imageFile = "images/design/tutorials/tutorial-easy.png";
+        tutorialImageFile = "images/design/tutorials/tutorial-easy.png";
         break;
     case 1:
-        imageFile = "images/design/tutorials/tutorial-medium.png";
+        tutorialImageFile = "images/design/tutorials/tutorial-medium.png";
         break;
     case 2:
-        imageFile = "images/design/tutorials/tutorial-hard.png";
+        tutorialImageFile = "images/design/tutorials/tutorial-hard.png";
         break;
     }
 
     var tutorialScreenBackground = new lime.Sprite().setFill("#000").setOpacity(0.6).setSize(width, height).setAnchorPoint(0,0);
     var imageRatio = 1.5;
-    this.tutorialSprite = new lime.Sprite().setFill(imageFile).setSize(height / imageRatio, height).setAnchorPoint(0.5,0.5);
+    this.tutorialSprite = new lime.Sprite().setFill(tutorialImageFile).setSize(height / imageRatio, height).setAnchorPoint(0.5,0.5);
     this.appendChild(tutorialScreenBackground);
     this.appendChild(this.tutorialSprite);
+
+    var questionMarkButton = new lime.Sprite().setFill(questionMarkImageFile).setPosition(0.0, 0.0);
+    goog.events.listen(questionMarkButton, ['mousedown','touchstart'], this.questionMarkClicked, false, this);
+    this.appendChild(questionMarkButton);
+    this.isShowingTutorialExplanation = false;
 }
 goog.inherits(chemistry.overlays.Tutorial, lime.Layer);
+
+chemistry.overlays.Tutorial.prototype.questionMarkClicked = function(e) {
+    console.log("clicked question mark")
+}
 
 chemistry.overlays.Tutorial.prototype.reveal = function() {
     this.tutorialSprite.setPosition(-this.getSize().width + -this.getSize().width / 2, this.getSize().height / 2);
