@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="aboutbuttons.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,12 +24,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4083515"
-     inkscape:cx="306.5158"
-     inkscape:cy="185.18993"
+     inkscape:zoom="0.70417575"
+     inkscape:cx="347.20737"
+     inkscape:cy="-102.2866"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="true"
+     inkscape:current-layer="layer2"
+     showgrid="false"
      inkscape:snap-global="true"
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="true"
@@ -47,9 +47,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1547"
-     inkscape:window-height="1176"
-     inkscape:window-x="53"
+     inkscape:window-width="2495"
+     inkscape:window-height="1576"
+     inkscape:window-x="1985"
      inkscape:window-y="24"
      inkscape:window-maximized="1">
     <inkscape:grid
@@ -78,9 +78,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-88.000015,-270.36218)">
+     transform="translate(-88.000015,-270.36218)"
+     style="display:inline">
     <rect
-       style="fill:#f6fafe;fill-opacity:0.87434555;stroke:#ffffff;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#ececec;fill-opacity:0.14901961;stroke:#e6e6e6;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect2987"
        width="570"
        height="100"
@@ -88,7 +89,7 @@
        y="272.36218" />
     <text
        xml:space="preserve"
-       style="font-size:39.35568619px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#000080;fill-opacity:0.87434555;stroke:none;font-family:Calibri;-inkscape-font-specification:Calibri"
+       style="font-size:39.35568619px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ececec;fill-opacity:1;stroke:none;font-family:Audiowide;-inkscape-font-specification:Audiowide"
        x="376.983"
        y="334.71298"
        id="text3757"
@@ -97,9 +98,9 @@
          id="tspan3759"
          x="376.983"
          y="334.71298"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000080;stroke:none;font-family:Sonsie One;-inkscape-font-specification:Sonsie One">How to play</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#ececec;fill-opacity:1;stroke:none;font-family:Audiowide;-inkscape-font-specification:Audiowide">How to play</tspan></text>
     <rect
-       style="fill:#f6fafe;fill-opacity:0.87434555;stroke:#ffffff;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#ececec;fill-opacity:0.14901961;stroke:#e6e6e6;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect2987-1"
        width="570"
        height="100"
@@ -107,7 +108,7 @@
        y="392.36218" />
     <text
        xml:space="preserve"
-       style="font-size:39.35568619px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#000080;fill-opacity:0.87434555;stroke:none;font-family:Calibri;-inkscape-font-specification:Calibri"
+       style="font-size:39.35568619px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ececec;fill-opacity:1;stroke:none;font-family:Audiowide;-inkscape-font-specification:Audiowide"
        x="378.51074"
        y="452.36218"
        id="text3757-0"
@@ -116,7 +117,7 @@
          id="tspan3759-0"
          x="378.51074"
          y="452.36218"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#000080;stroke:none;font-family:Sonsie One;-inkscape-font-specification:Sonsie One">Feedback</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;fill:#ececec;fill-opacity:1;stroke:none;font-family:Audiowide;-inkscape-font-specification:Audiowide">Feedback</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -131,7 +132,7 @@
        height="100"
        x="2.0000005"
        y="2.0000026"
-       inkscape:export-filename="/home/svenni/Dropbox/projects/programming/langevin/chemistry/images/design/about/howtoplay.png"
+       inkscape:export-filename="../../images/design/about/howtoplay.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -141,7 +142,7 @@
        height="100"
        x="2.0000005"
        y="122"
-       inkscape:export-filename="/home/svenni/Dropbox/projects/programming/langevin/chemistry/images/design/about/feedback.png"
+       inkscape:export-filename="../../images/design/about/feedback.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>
