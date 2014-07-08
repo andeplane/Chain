@@ -63,9 +63,8 @@ chemistry.Game.state = {
 };
 
 chemistry.Game.prototype.showTutorialScreen = function(width, height, difficulty) {
-    this.tutorialScreen = new chemistry.overlays.Tutorial(width, height, difficulty);
+    this.tutorialScreen = new chemistry.overlays.Tutorial(width, height, difficulty, this.hideTutorialScreen, this);
     this.appendChild(this.tutorialScreen);
-    goog.events.listen(this.tutorialScreen, ['mousedown', 'touchstart'], this.hideTutorialScreen, false, this);
     this.tutorialScreen.reveal();
 }
 
