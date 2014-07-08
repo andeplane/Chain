@@ -25,8 +25,8 @@ chemistry.Lifebar = function(width, height) {
     this.appendChild(this.pulseBackground);
 
 	this.sprite = new lime.Sprite().setFill("#f00");
-    this.sprite.setSize(20*gridUnit,1*gridUnit);
-    this.sprite.setPosition(1*gridUnit, 1*gridUnit);
+    this.sprite.setSize(24*gridUnit,0.8*gridUnit);
+    this.sprite.setPosition(1*gridUnit, 1.1*gridUnit);
     this.sprite.setAnchorPoint(0,0);
     this.appendChild(this.sprite);
 

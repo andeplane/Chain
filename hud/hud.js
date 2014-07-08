@@ -16,9 +16,9 @@ chemistry.Hud = function(width, height) {
 
     var gridUnit = appObject.gridUnit;
 
-    this.lifebar = new chemistry.Lifebar(22 * gridUnit, 3 * gridUnit);
+    this.lifebar = new chemistry.Lifebar(26 * gridUnit, 3 * gridUnit);
     this.lifebar.setAnchorPoint(0,0);
-    this.lifebar.setPosition(7 * gridUnit, 4 * gridUnit);
+    this.lifebar.setPosition(5 * gridUnit, 4 * gridUnit);
     this.appendChild(this.lifebar);
 
     var colorLayer = new lime.Sprite();
