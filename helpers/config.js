@@ -29,13 +29,13 @@ chemistry.Config = function() {
 	this.getRotationSpeed = function(game) { 
 		var direction = (Math.random() > 0.5) ? -1 : 1;
 		if(game.difficulty == 0) {
-			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/4)*direction;
+			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/8)*direction;
 		} 
 		if(game.difficulty == 1) {
-			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/4)*direction;
+			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/10)*direction;
 		} 
 		if(game.difficulty == 2) {
-			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/4)*direction;
+			return Math.min(2*Math.PI / 20 * Math.random() * game.level.level, 2*Math.PI/12)*direction;
 		} 
 	}
 
@@ -56,6 +56,7 @@ chemistry.Config = function() {
 		}
 
 		if(level.difficulty == 1) {
+			if(data.drawType == "x") return false;
 			if(data.drawType == "sf") return false;
 			if(data.difficulty > 1) return false;
 			if(level.level < 4 && data.numBranches >= 1) return false;
@@ -63,6 +64,7 @@ chemistry.Config = function() {
 		}
 
 		if(level.difficulty == 2) {
+			if(data.drawType == "x") return false;
 			if(data.drawType == "sf") return false;
 			if(data.drawType == "bs") return false;
 			if(level.level < 4 && data.numBranches >= 1) return false;

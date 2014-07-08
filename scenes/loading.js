@@ -16,7 +16,7 @@ chemistry.LoadingScene = function(width, height) {
     this.background.setAnchorPoint(0,0);
     this.background.setSize(width, height);
     this.appendChild(this.background);
-    this.loadingText = new lime.Label().setText("Loading...").setFontSize(height * 0.03).setFontColor("#FFFFFF").setAnchorPoint(0.5, 0.5).setPosition(width / 2, height / 2);
+    this.loadingText = new lime.Label().setFontFamily("Arial").setText("Loading...").setFontSize(height * 0.03).setFontColor("#FFFFFF").setAnchorPoint(0.5, 0.5).setPosition(width / 2, height / 2);
     this.appendChild(this.loadingText);
 }
 goog.inherits(chemistry.LoadingScene, lime.Scene);
