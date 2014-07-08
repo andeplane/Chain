@@ -15,7 +15,7 @@ chemistry.AboutScene = function(width, height) {
     this.backButton = new lime.Sprite().setFill("images/design/backbutton.png").setSize(8 * appObject.gridUnit, 8 * appObject.gridUnit).setAnchorPoint(0,0);
     goog.events.listen(this.backButton, ['mousedown','touchstart'], function(e) { appObject.showMainMenu(); }, false, this);
 
-    var textContents = "Chain is a game developed at the University of Oslo.";
+    var textContents = "Chain is a game that teaches you the counting rules for naming organic molecules. Chain has been developed as part of the CSE project at the University of Oslo, by Carl Henrik Gørbitz, Anders Hafreager and Svenn-Arne Dragly.";
 
     this.text = new lime.Label().setText(textContents).setPosition(width/2.0, height * 0.25).setFontSize(appObject.gridUnit * 1.4).setSize(width * 0.70,0).setFontColor("#FFF").setFontFamily("Arial");
 
