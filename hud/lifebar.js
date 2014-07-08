@@ -13,20 +13,20 @@ chemistry.Lifebar = function(width, height) {
 
     var gridUnit = appObject.gridUnit;
 
-    this.background = new lime.Sprite().setFill("images/design/lifebar.png");
-    this.background.setSize(width, height);
-    this.background.setAnchorPoint(0,0);
-    this.appendChild(this.background);
+//    this.background = new lime.Sprite().setFill("images/design/lifebar.png");
+//    this.background.setSize(width, height);
+//    this.background.setAnchorPoint(0,0);
+//    this.appendChild(this.background);
 
     this.pulseBackground = new lime.Sprite().setFill("images/design/lifebar-pulsing.png");
-    this.pulseBackground.setSize(width, height);
+    this.pulseBackground.setSize(25.8*gridUnit, 3.0*gridUnit);
     this.pulseBackground.setAnchorPoint(0,0);
     this.pulseBackground.setHidden(true);
     this.appendChild(this.pulseBackground);
 
 	this.sprite = new lime.Sprite().setFill("#f00");
-    this.sprite.setSize(24*gridUnit,0.8*gridUnit);
-    this.sprite.setPosition(1*gridUnit, 1.1*gridUnit);
+    this.sprite.setSize(23.8*gridUnit,0.8*gridUnit);
+    this.sprite.setPosition(1.1*gridUnit, 1.1*gridUnit);
     this.sprite.setAnchorPoint(0,0);
     this.appendChild(this.sprite);
 
@@ -46,7 +46,7 @@ chemistry.Lifebar.prototype.enterFeverMode = function(e) {
         this.currentAction.stop();
     }
     this.pulseBackground.setHidden(false);
-    this.background.setHidden(true);
+//    this.background.setHidden(true);
 
 	var blink = new lime.animation.Sequence(
 				new lime.animation.ColorTo("#0be100").setDuration(0.2),
@@ -62,7 +62,7 @@ chemistry.Lifebar.prototype.exitFeverMode = function(e) {
     }
 
     this.pulseBackground.setHidden(false);
-    this.background.setHidden(true);
+//    this.background.setHidden(true);
 
 	this.currentAction = new lime.animation.ColorTo("#f00").setDuration(0.5).enableOptimizations();
 	this.sprite.runAction(this.currentAction);

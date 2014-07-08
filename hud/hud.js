@@ -16,17 +16,17 @@ chemistry.Hud = function(width, height) {
 
     var gridUnit = appObject.gridUnit;
 
-    this.lifebar = new chemistry.Lifebar(26 * gridUnit, 3 * gridUnit);
-    this.lifebar.setAnchorPoint(0,0);
-    this.lifebar.setPosition(5 * gridUnit, 4 * gridUnit);
-    this.appendChild(this.lifebar);
-
     var colorLayer = new lime.Sprite();
     colorLayer.setAnchorPoint(0,0);
     colorLayer.setSize(40*gridUnit, 11*gridUnit);
 //    colorLayer.setAutoResize(lime.AutoResize.WIDTH | lime.AutoResize.HEIGHT);
     colorLayer.setFill("images/design/header.png");
     this.appendChild(colorLayer);
+
+    this.lifebar = new chemistry.Lifebar(26 * gridUnit, 3 * gridUnit);
+    this.lifebar.setAnchorPoint(0,0);
+    this.lifebar.setPosition(5 * gridUnit, 4 * gridUnit);
+    this.appendChild(this.lifebar);
 
     this.rollerCounter = new chemistry.RollerCounter();
     this.rollerCounter.setPosition(17.5*gridUnit, 2.5*gridUnit);
