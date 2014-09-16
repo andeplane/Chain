@@ -55,7 +55,8 @@ chemistry.Leaderboard.prototype.refresh = function() {
 
 	var http = new XMLHttpRequest();
 
-	var url = "http://kvakkefly.com/leaderboards.php?difficulty="+this.difficulty;
+	// var url = "http://kvakkefly.com/leaderboards.php?difficulty="+this.difficulty;
+    var url = "http://www.mn.uio.no/kjemi/english/research/about/infrastructure/tools/chain/leaderboards.php?difficulty="+this.difficulty;
 	http.open("GET", url, true);
 
 	// Send the proper header information along with the request
