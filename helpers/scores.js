@@ -16,14 +16,8 @@ chemistry.Scores.prototype.sendUnsentScores = function() {
 	var http = new XMLHttpRequest();
 	http.open("POST", url);
 	
-	// var data = {"fbid": appObject.facebook.fbid, 
-	// 			"name": appObject.facebook.name,
-	// 			"uuid": localStorage.uuid,
-	// 			"scores": this.unsentScores
-	// 			};
-
-	var data = {"fbid": "312315645456312", 
-				"name": "Anders Hafreager",
+	var data = {"fbid": appObject.facebook.fbid, 
+				"name": appObject.facebook.name,
 				"uuid": localStorage.uuid,
 				"scores": this.unsentScores
 				};
@@ -35,12 +29,10 @@ chemistry.Scores.prototype.sendUnsentScores = function() {
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
 	
 	http.onreadystatechange = function() { 
-		console.log("callback readystate: "+http.readyState+" status: "+http.status);
 		if(http.readyState == 4 && http.status == 200) {
-			console.log(http.responseText);
+			// console.log(http.responseText);
 			var res = JSON.parse(http.responseText);
 			if(!res.error) {
-				console.log(self);
 				self.unsentScores = [];
                 localStorage.unsentScores = JSON.stringify([]);
 			}
