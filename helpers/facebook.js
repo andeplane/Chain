@@ -25,6 +25,8 @@ chemistry.Facebook.prototype.load = function() {
 }
 
 chemistry.Facebook.prototype.refresh = function() {
+  if(typeof facebookConnectPlugin == "undefined") return;
+  
   var self = this;
   facebookConnectPlugin.getLoginStatus(function(response) {
   if (response.status === 'connected') {

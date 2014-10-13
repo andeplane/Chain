@@ -48,6 +48,9 @@ chemistry.Leaderboard.prototype.setOffline = function() {
 }
 
 chemistry.Leaderboard.prototype.refresh = function() {
+    var myHighscore = appObject.scores.highscores[this.difficulty];
+    if(myHighscore != 0) myHighscore = myHighscore.score
+    
     this.titleLabel.setText("Loading ...");
 	this.highscoreEntryLayer.removeAllChildren();
 
@@ -56,7 +59,7 @@ chemistry.Leaderboard.prototype.refresh = function() {
 	var http = new XMLHttpRequest();
 
 	// var url = "http://kvakkefly.com/leaderboards.php?difficulty="+this.difficulty;
-    var url = "http://www.mn.uio.no/kjemi/english/research/about/infrastructure/tools/chain/leaderboards.php?difficulty="+this.difficulty;
+    var url = "http://www.mn.uio.no/kjemi/english/research/about/infrastructure/tools/chain/leaderboards.php?difficulty="+this.difficulty+"&rand="+Math.random();
 	http.open("GET", url, true);
 
 	// Send the proper header information along with the request
@@ -66,9 +69,9 @@ chemistry.Leaderboard.prototype.refresh = function() {
 	http.ontimeout = this.setOffline;
 
 	http.onreadystatechange = function() { 
-		if(http.readyState == 4 && http.status == 200) {
-			var scores = JSON.parse(http.responseText);
-            scores.length = 12;
+        if(http.readyState == 4 && http.status == 200) {
+            var scores = JSON.parse(http.responseText);
+            scores.length = Math.min(scores.length, 12);
 			for(var i in scores) {
 				var index = parseInt(i) + 1;
 				var score = scores[i];
@@ -78,7 +81,10 @@ chemistry.Leaderboard.prototype.refresh = function() {
                 var color = "#e7ecfe";
                 if(appObject.facebook.name === name && (name !== "Anonymous" || name !== "Banana")) {
                     color = "#ffd270";
+                    value = Math.max(myHighscore, value);
                 }
+
+
 
                 var numberLabel = new lime.Label().setText("#" + index).setFontColor(color).setAlign("left").setFontSize(appObject.gridUnit * 1);
                 var nameLabel = new lime.Label().setText(name).setFontColor(color).setAlign("left").setFontFamily("Arial").setStyle("italic").setFontWeight("bold").setFontSize(appObject.gridUnit * 1);
@@ -98,14 +104,14 @@ chemistry.Leaderboard.prototype.refresh = function() {
 			}
             self.titleLabel.setText(self.title);
             if(scores.length === 0) {
-                var noScoresLabel = new lime.Label().setText("No scores yet...").setFontColor("#fff").setAlign("center").setFontSize(appObject.gridUnit * 2);
-                noScoresLabel.setPosition(self.getSize().width / 2, self.getSize().height / 2);
+                var noScoresLabel = new lime.Label().setText("No scores...").setFontColor("#fff").setAlign("center").setFontSize(appObject.gridUnit);
+                noScoresLabel.setPosition(self.getSize().width / 2, self.getSize().height / 4);
                 self.highscoreEntryLayer.appendChild(noScoresLabel);
             }
 		}
 	}
 	if(appObject.isConnected) {
-		http.send(null);
+        http.send(null);
 	} else {
 		this.setOffline();
 	}

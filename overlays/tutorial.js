@@ -32,15 +32,17 @@ chemistry.overlays.Tutorial = function(width, height, difficulty, onHide, game) 
 
     this.tutorialScreenBackground = new lime.Sprite().setFill("#000").setOpacity(0.6).setSize(width, height).setAnchorPoint(0,0);
     var imageRatio = 1.5;
-    this.tutorialSprite = new lime.Sprite().setFill(this.tutorialImageFile).setSize(height / imageRatio, height).setAnchorPoint(0.5,0.5);
+    this.tutorialSprite = new lime.Sprite().setFill(this.tutorialImageFile).setAnchorPoint(0.5,0.5);
     this.appendChild(this.tutorialScreenBackground);
     this.appendChild(this.tutorialSprite);
 
     goog.events.listen(this.tutorialScreenBackground, ['mousedown', 'touchstart'], this.onHide, false, game);
 
-    var questionMarkButton = new lime.Sprite().setFill(questionMarkImageFile).setPosition(7.0*gridUnit, 7.0*gridUnit).setSize(6*gridUnit, 6*gridUnit).setAnchorPoint(0,0);
+    var xpos = -this.tutorialSprite.getSize().width/2; 
+    var ypos = -this.tutorialSprite.getSize().height/2;
+    var questionMarkButton = new lime.Sprite().setPosition(xpos, ypos).setSize(10*gridUnit, 10*gridUnit).setAnchorPoint(-0.5,-0.5);
     goog.events.listen(questionMarkButton, ['mousedown','touchstart'], this.questionMarkClicked, false, this);
-    this.appendChild(questionMarkButton);
+    this.tutorialSprite.appendChild(questionMarkButton);
     
     this.isShowingTutorialText = false;
 }
