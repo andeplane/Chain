@@ -21,16 +21,17 @@ goog.require('lime.fill.LinearGradient');
 
 chemistry.Game = function(width, height, difficulty) {
     lime.Scene.call(this);
-    
+
     this.setSize(width, height);
     var gridUnit = appObject.gridUnit;
-    this.boardEdgeY = 51 * gridUnit;
+    var gridUnitH = appObject.gridUnitH;
+    this.boardEdgeY = height - 6 * gridUnit;
 
     this.difficulty = difficulty;
     this.t = -999;
     this.score = new chemistry.Score(this.difficulty);
     this.hp = -999;
-    
+
     this.level = new chemistry.Level(difficulty, this);
     goog.events.listen(this.level, chemistry.events.GameEvent.LEVEL_UP, this.levelUp, false, this);
     this.fever = false;
@@ -164,18 +165,19 @@ chemistry.Game.prototype.addMarkerLayer = function(width, height) {
 
 chemistry.Game.prototype.addMarkers = function(width, height) {
     var gridUnit = appObject.gridUnit;
+    var gridUnitH = appObject.gridUnitH;
     this.markers = [];
     for(var i=2; i<=5; i++) {
         var multiplierLabel = new chemistry.MultiplierLabel(i);
         this.markers.push(multiplierLabel);
 
         if(i < 5) {
-            multiplierLabel.setPosition(2*gridUnit, gridUnit*8 + (5 - i)*gridUnit*9);
+            multiplierLabel.setPosition(3*gridUnit, gridUnitH*13 + (4 - i)*gridUnitH*6.5);
             this.markerLayer.appendChild(multiplierLabel);
         } else {
             var size = this.hud.nextMolecule.getSize();
 
-            multiplierLabel.setPosition(-8*gridUnit, gridUnit );
+            multiplierLabel.setPosition(-7*gridUnit, 1*gridUnitH );
             this.hud.nextMolecule.appendChild(multiplierLabel);
         }
 

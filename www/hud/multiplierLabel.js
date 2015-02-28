@@ -5,7 +5,7 @@ goog.require('lime.Label');
 chemistry.MultiplierLabel = function(multiplier) {
 	lime.Label.call(this);
 
-	this.setFontSize(30).
+	this.setFontSize(25).
         setFontFamily("Audiowide").
         setFontColor("#c8d5fc").
 		setText(multiplier+"x");

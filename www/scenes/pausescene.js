@@ -11,13 +11,14 @@ chemistry.scenes.PauseScene = function() {
 	var y = height/2.0;
 
     var gridUnit = appObject.gridUnit;
+		var gridUnitH = appObject.gridUnitH;
 
     this.addBackground(width, height);
 
-    this.resumeButton = new lime.Sprite().setFill("images/design/ingamemenu/continuebutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,19*gridUnit).setAnchorPoint(0,0);
+    this.resumeButton = new lime.Sprite().setFill("images/design/ingamemenu/continuebutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,17*gridUnitH).setAnchorPoint(0,0);
 //	this.resumeButton = new lime.GlossyButton().setSize(sizeX,sizeY).setPosition(x,y - sizeY-10).setText('Resume').setColor('#00CD00').setFontSize(height/20.0);
-    this.restartButton = new lime.Sprite().setFill("images/design/ingamemenu/restartbutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,25*gridUnit).setAnchorPoint(0,0);
-    this.mainMenuButton = new lime.Sprite().setFill("images/design/ingamemenu/mainmenubutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,31*gridUnit).setAnchorPoint(0,0);
+    this.restartButton = new lime.Sprite().setFill("images/design/ingamemenu/restartbutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit,17*gridUnitH + 6*gridUnit).setAnchorPoint(0,0);
+    this.mainMenuButton = new lime.Sprite().setFill("images/design/ingamemenu/mainmenubutton.png").setSize(30*gridUnit,7*gridUnit).setPosition(5*gridUnit, 17*gridUnitH + 12*gridUnit).setAnchorPoint(0,0);
 	this.appendChild(this.resumeButton);
     this.appendChild(this.restartButton);
     this.appendChild(this.mainMenuButton);
