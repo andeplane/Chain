@@ -93,11 +93,12 @@ chemistry.Molecule.prototype.moveTo = function(x,y) {
 }
 
 chemistry.Molecule.prototype.startRotate = function(rotationSpeed) {
-    var direction = (rotationSpeed > 0) ? 1 : -1;
-    var duration = Math.abs(2*Math.PI / rotationSpeed);
-    var rotation = new lime.animation.RotateBy(direction*360).setDuration(duration).setEasing(lime.animation.Easing.LINEAR);
-    var loop = new lime.animation.Loop(rotation);
-    this.runAction(loop);
+	// On device, this doesn't work and the molecule skip-rotates when animation is finished
+    // var direction = (rotationSpeed > 0) ? 1 : -1;
+    // var duration = Math.abs(2*Math.PI / rotationSpeed);
+    // var rotation = new lime.animation.RotateBy(direction*360).setDuration(duration).setEasing(lime.animation.Easing.LINEAR);
+    // var loop = new lime.animation.Loop(rotation);
+    // this.runAction(loop);
 }
 
 chemistry.Molecule.prototype.setMaxSize = function(maxSize) {

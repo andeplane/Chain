@@ -25,7 +25,8 @@ chemistry.Game = function(width, height, difficulty) {
     this.setSize(width, height);
     var gridUnit = appObject.gridUnit;
     var gridUnitH = appObject.gridUnitH;
-    this.boardEdgeY = height - 6 * gridUnit;
+//this.boardEdgeY = height - 6 * gridUnit;
+    this.boardEdgeY = 51 * gridUnit * appObject.scaling;
 
     this.difficulty = difficulty;
     this.t = -999;
@@ -172,7 +173,8 @@ chemistry.Game.prototype.addMarkers = function(width, height) {
         this.markers.push(multiplierLabel);
 
         if(i < 5) {
-            multiplierLabel.setPosition(3*gridUnit, gridUnitH*13 + (4 - i)*gridUnitH*6.5);
+            //multiplierLabel.setPosition(3*gridUnit, gridUnitH*13 + (4 - i)*gridUnitH*6.5);
+            multiplierLabel.setPosition(2*gridUnit, (gridUnit*8 + (5 - i)*gridUnit*9)*appObject.scaling);
             this.markerLayer.appendChild(multiplierLabel);
         } else {
             var size = this.hud.nextMolecule.getSize();
@@ -409,6 +411,8 @@ chemistry.Game.prototype.removeMolecule = function(molecule) {
 chemistry.Game.prototype.removeAllMolecules = function() {
     for(var i in this.molecules) {
         var molecule = this.molecules[i];
+        if(molecule.moveAction) molecule.moveAction.stop();
+        
         goog.events.removeAll(molecule);
         this.moleculeLayer.removeChild(molecule);
     }

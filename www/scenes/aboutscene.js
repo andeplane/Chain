@@ -17,7 +17,7 @@ chemistry.AboutScene = function(width, height) {
 
     var textContents = "Chain is a game that teaches you the counting rules for naming organic molecules. Chain has been developed as part of the CSE project at the University of Oslo, by Carl Henrik Gørbitz, Anders Hafreager and Svenn-Arne Dragly.";
 
-    this.text = new lime.Label().setText(textContents).setPosition(width/2.0, height * 0.25).setFontSize(appObject.gridUnit * 1.4).setSize(width * 0.70,0).setFontColor("#FFF").setFontFamily("Arial");
+    this.text = new lime.Label().setText(textContents).setPosition(width/2.0, height * 0.25).setFontSize(appObject.gridUnit * 1.4).setSize(width * 0.70,0).setFontColor("#FFF").setFontFamily("Helvetica");
 
     this.howToPlay = new lime.Sprite().setFill("images/design/about/howtoplay.png").setSize(25 * appObject.gridUnit, 5 * appObject.gridUnit).setPosition(width / 2, height * 0.5);
     goog.events.listen(this.howToPlay, ['mousedown','touchstart'], this.howToPlayClicked, false, this);
@@ -46,7 +46,7 @@ chemistry.AboutScene.prototype.addBackground = function(width, height) {
 }
 
 chemistry.AboutScene.prototype.howToPlayClicked = function() {
-    window.open('http://www.mn.uio.no/kjemi/english/services/knowledge/chain/playing-chain.html', '_blank');
+    window.open('http://www.mn.uio.no/kjemi/english/services/knowledge/chain/playing-chain.html', '_system');
 }
 
 

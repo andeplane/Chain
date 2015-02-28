@@ -31,11 +31,13 @@ function guid() {
          s4() + '-' + s4() + s4() + s4();
 }
 
-limeApp = function(body, screenWidth, screenHeight) {
+limeApp = function(body, screenWidth, screenHeight, scaling) {
     // Store variables locally
     this.body = body
     this.screenHeight = screenHeight;
     this.screenWidth = screenWidth;
+    this.scaling = scaling;
+    
     // Setup everything else
     if(!localStorage.uuid) {
         localStorage.uuid = guid();
@@ -110,10 +112,12 @@ limeApp.prototype.setupApp = function() {
     this.isConnected = true;
     var self = this;
     document.addEventListener("online", function() {
+        alert("Online!");
         self.isConnected = true;
     }, false);
 
     document.addEventListener("offline", function() {
+        alert("Offline!");
         self.isConnected = false;
     }, false);
 

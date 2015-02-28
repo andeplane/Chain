@@ -11,28 +11,29 @@ chemistry.Scores = function(balle) {
 }
 
 chemistry.Scores.prototype.sendUnsentScores = function() {
+	var self = this;
+	var url = "http://www.mn.uio.no/kjemi/english/research/about/infrastructure/tools/chain/chemadd.php";
 	var http = new XMLHttpRequest();
-
-	var url = "http://kvakkefly.com/chemadd.php";
+	http.open("POST", url);
+	
 	var data = {"fbid": appObject.facebook.fbid, 
 				"name": appObject.facebook.name,
 				"uuid": localStorage.uuid,
 				"scores": this.unsentScores
 				};
+
 	var dataString = JSON.stringify(data);
 	var params = dataString;
 	
-	http.open("POST", url, true);
-
 	//Send the proper header information along with the request
-	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
 	
 	http.onreadystatechange = function() { 
 		if(http.readyState == 4 && http.status == 200) {
 			// console.log(http.responseText);
 			var res = JSON.parse(http.responseText);
 			if(!res.error) {
-				this.unsentScores = JSON.stringify([]);
+				self.unsentScores = [];
                 localStorage.unsentScores = JSON.stringify([]);
 			}
 		}
